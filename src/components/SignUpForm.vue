@@ -1,5 +1,6 @@
 <template>
     <div class="bg-zinc-50 h-screen pt-16">
+        <!-- @submit.prevent : 제출 이벤트가 페이지를 다시 로드 하지 않는다. -->
         <form @submit.prevent="signupSubmit" class="flex flex-col max-w-sm mx-auto pt-8 pb-7 mb-3 justify-center items-center bg-white border rounded-sm">
             <div>
                 <img class="w-44" src="../assets/images/logo.png">
