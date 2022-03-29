@@ -37,7 +37,7 @@
                             <p class="text-sm font-semibold pt-3 pb-2">좋아요 1,193개</p>
                             <!-- info : content -->
                                 <!-- line -->
-                                <div class="line-clamp-3 text-sm">
+                                <div class="line-clamp-2 text-sm">
                                     <!-- user id -->
                                     <span class="font-semibold text-sm">by.ybo</span>
                                    [📟인턴십/취업이 연계된 #해커톤: 4월 12일까지 등록 마감] 데이터 분석과 문제해결 능력으로 지속가능한 세상을 만들어갈 미래의 주역, 여러분을 위해 특별히 준비된 장벽없는코딩(#codewithoutbarriers)의 첫 해커톤! 링크는 걸스인텍 페이스북 페이지를 참고해주세요 
