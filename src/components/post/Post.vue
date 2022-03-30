@@ -95,39 +95,6 @@
                             :text="comment.text"
                             :createdt="comment.createdt"
                         ></comment>
-                        <!-- comment1: dummy data 1 -->
-                        <!-- <div class="flex space-x-4">
-                            <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
-                            <div class="flex flex-col space-y-4">
-                                <div class="leading-none">
-                                    <span class="font-semibold text-sm mr-2">{{ comment[index].userName }}</span>
-                                    <span class="text-sm">🌸💚🌷💓Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, ab culpa distinctio nemo praesentium cumque eveniet, vitae, qui quae facilis maxime autem modi. Velit nisi consequuntur minus praesentium alias enim?</span>
-                                </div>
-                                <p class="text-gray-500 text-xs">112주</p>
-                            </div>
-                        </div> -->
-                        <!-- comment2: dummy data 2 -->
-                        <!-- <div class="flex space-x-4">
-                            <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
-                            <div class="flex flex-col space-y-4">
-                                <div class="leading-none">
-                                    <span class="font-semibold text-sm mr-2">rolarola</span>
-                                    <span class="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, ab culpa distinctio nemo praesentium cumque eveniet, vitae, qui quae facilis maxime autem modi.😝😝😝</span>
-                                </div>
-                                <p class="text-gray-500 text-xs">112주</p>
-                            </div>
-                        </div> -->
-                        <!-- comment3: dummy data 3 -->
-                        <!-- <div class="flex space-x-4">
-                            <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
-                            <div class="flex flex-col space-y-4">
-                                <div class="leading-none">
-                                    <span class="font-semibold text-sm mr-2">oceanby</span>
-                                    <span class="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, ab culpa distinctio nemo praesentium cumque eveniet, vitae, qui quae facilis maxime autem modi.🤎🤎🙈</span>
-                                </div>
-                                <p class="text-gray-500 text-xs">112주</p>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="px-3 py-4 border-b">
                         <!-- action -->

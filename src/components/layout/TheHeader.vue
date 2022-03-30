@@ -87,16 +87,21 @@
                 <!-- content -->
                 <div class="flex-1">
                   <label class="hidden" for="content">댓글</label>
-                  <textarea ref="content" 
-                              name="content" id="content" rows="15" placeholder="문구 입력..."
-                              class="focus:outline-none text-sm py-2 pl-3 w-full text-left resize-none scrollbar-hide"
-                              v-model="content">
+                  <textarea
+                    @input="setLength" 
+                    ref="content" 
+                    name="content" 
+                    id="content" 
+                    rows="15" 
+                    placeholder="문구 입력..."
+                    class="focus:outline-none text-sm py-2 pl-3 w-full text-left resize-none scrollbar-hide"
+                    v-model="content">
                   </textarea>
                 </div>
                 <!-- counter -->
                 <div class="flex px-4 py-4 justify-between">
                   <svg color="#8e8e8e" fill="#8e8e8e" height="20" role="img" viewBox="0 0 24 24" width="20"><path d="M15.83 10.997a1.167 1.167 0 101.167 1.167 1.167 1.167 0 00-1.167-1.167zm-6.5 1.167a1.167 1.167 0 10-1.166 1.167 1.167 1.167 0 001.166-1.167zm5.163 3.24a3.406 3.406 0 01-4.982.007 1 1 0 10-1.557 1.256 5.397 5.397 0 008.09 0 1 1 0 00-1.55-1.263zM12 .503a11.5 11.5 0 1011.5 11.5A11.513 11.513 0 0012 .503zm0 21a9.5 9.5 0 119.5-9.5 9.51 9.51 0 01-9.5 9.5z"></path></svg>
-                  <div class="text-xs text-gray-400">0/2,200</div>
+                  <div class="text-xs text-gray-400">{{ length }}/{{ maxLength }}</div>
                 </div>
               </div>
             </div>
@@ -112,7 +117,14 @@ import BaseDialog from '../ui/BaseDialog.vue'
 export default {
   data() {
     return {
-      content: ''
+      content: '',
+      length: 0,
+      maxLength: 2000
+    }
+  },
+  methods: {
+    setLength(event) {
+      this.length = event.target.value.length
     }
   },
   components: {
