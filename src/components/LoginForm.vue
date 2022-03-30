@@ -13,8 +13,9 @@
                     <label class="hidden" for="password">비밀번호</label>
                     <input id="password" v-model.trim="password" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="비밀번호">
                 </div>
+                <p class="text-rose-600" v-if="inputFieldValidity === 'invalid'">아이디와 비밀번호를 확인해주세요.</p>  <!--0320 은민 추가-->
                 <div>
-                    <button @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">로그인</button>
+                    <button type="submit" @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">로그인</button>
                 </div>
             </div>
             <div class="mt-6">
