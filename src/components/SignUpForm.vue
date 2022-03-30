@@ -61,6 +61,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     data() {
         return {
@@ -116,7 +117,7 @@ export default {
             const loginId = this.loginId;
             console.log("loginId : " + loginId)
             const headers = {'Content-Type': 'application/json'};
-            this.axios.post("http://localhost:8090/idCheck", JSON.stringify({ loginId: loginId }), {headers}).then((res)=>{
+            axios.post("/member/idCheck", JSON.stringify({ loginId: loginId }), {headers}).then((res)=>{
                 console.log(res.data);
                 if(this.loginId === '' || LoginIdValidation === false) {
                     this.loginIdValidity = 'invalid'
