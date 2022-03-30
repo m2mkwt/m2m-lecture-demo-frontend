@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+import postsModule from './modules/posts/index.js'
 
 export const store = createStore({
     state: {
@@ -57,7 +58,7 @@ export const store = createStore({
             axios.defaults.headers.common.Authorization = 'Bearer ' + bearer
             console.log("[store_action] loginState :")
             console.log(this.loginState)
-        }
+        },
     },
     mutations: {
         LOGIN(state, { bearer }) {
@@ -72,5 +73,7 @@ export const store = createStore({
             axios.defaults.headers.common.Authorization = null
         }
     },
-    modules: {}
+    modules: {
+        posts: postsModule
+    }
 })
