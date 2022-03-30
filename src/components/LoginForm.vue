@@ -6,15 +6,8 @@
             </div>
             <div class="flex flex-col gap-2 mb-4 text-xs text-gray-400">
                 <div class="flex items-center">
-                    <label class="hidden" for="userEmailId">이메일 아이디</label>
-                    <input class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userEmailId" type="text" placeholder="이메일">
-                    <span class="px-1">@</span>
-                    <label class="hidden" for="userEmailDomain">이메일 도메인</label>
-                    <select class="bg-gray-50 border w-full rounded focus:outline-none py-2 pl-3" id="userEmailDomain" v-model="userEmailDomain">
-                        <option value="google.com">google.com</option>
-                        <option value="naver.com">naver.com</option>
-                        <option value="daum.net">daum.net</option>
-                    </select>
+                    <label class="hidden" for="userLoginName">아이디</label>
+                    <input type="text" v-model="id" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userLoginName" placeholder="아이디">
                 </div>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
@@ -40,18 +33,41 @@
     </div>
 </template>
 <script>
+import router from '../router.js'
+// import axios from 'axios'
+import { store } from '../store'
+
 export default {
-    data() {
-        return {
-            userEmailId: '',
-            password: '',
-            userEmailDomain: 'google.com'
-        }
-    },
+    name: 'Login',
+    data: () => ({
+        id: '',
+        password: '',
+        loginState: false,
+        loginToken: '',
+        msg: '',
+        memberNo: '',
+        inputFieldValidity: true
+    }),
     methods: {
-        loginSubmit() {
-            console.log('userEmailDomain: '+ this.userEmailDomain)
-            this.userEmailDomain = 'google.com'
+        loginSubmit: function () {
+            const id = this.id
+            const password = this.password
+            this.$store.dispatch('LOGIN', { id, password })
+            .then((data) => {
+                console.log(data);
+                if (data.isSuccess) {
+                    this.memberNo = data.memberNo
+                    this.redirect()
+                }
+            })
+            .catch(({ message }) => {
+                console.log(message);
+                this.msg = message
+            })
+        },
+        redirect: function () {
+            this.$emit('loginState', store.loginState)
+            router.push({ name: 'Home' })
         }
     }
 }

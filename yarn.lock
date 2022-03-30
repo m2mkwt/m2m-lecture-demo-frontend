@@ -78,6 +78,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
+"@tailwindcss/line-clamp@^0.3.1":
+  "integrity" "sha512-pNr0T8LAc3TUx/gxCfQZRe9NB2dPEo/cedPHzUGIPxqDMhgjwNm6jYxww4W5l0zAsAddxr+XfZcqttGiFDgrGg=="
+  "resolved" "https://registry.npmjs.org/@tailwindcss/line-clamp/-/line-clamp-0.3.1.tgz"
+  "version" "0.3.1"
+
 "@types/parse-json@^4.0.0":
   "integrity" "sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA=="
   "resolved" "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.0.tgz"
@@ -130,7 +135,7 @@
     "@vue/compiler-dom" "3.2.31"
     "@vue/shared" "3.2.31"
 
-"@vue/devtools-api@^6.0.0":
+"@vue/devtools-api@^6.0.0", "@vue/devtools-api@^6.0.0-beta.11":
   "integrity" "sha512-79InfO2xHv+WHIrH1bHXQUiQD/wMls9qBk6WVwGCbdwP7/3zINtvqPNMtmSHXsIKjvUAHc8L0ouOj6ZQQRmcXg=="
   "resolved" "https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-6.1.3.tgz"
   "version" "6.1.3"
@@ -1230,7 +1235,7 @@
   "resolved" "https://registry.npmjs.org/tailwind-scrollbar-hide/-/tailwind-scrollbar-hide-1.1.7.tgz"
   "version" "1.1.7"
 
-"tailwindcss@^3.0.23":
+"tailwindcss@^3.0.23", "tailwindcss@>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1":
   "integrity" "sha512-+OZOV9ubyQ6oI2BXEhzw4HrqvgcARY38xv3zKcjnWtMIZstEsXdI9xftd1iB7+RbOnj2HOEzkA0OyB5BaSxPQA=="
   "resolved" "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.0.23.tgz"
   "version" "3.0.23"
@@ -1330,7 +1335,7 @@
   dependencies:
     "@vue/devtools-api" "^6.0.0"
 
-"vue@^3.2.0", "vue@^3.2.25", "vue@3.2.31":
+"vue@^3.0.2", "vue@^3.2.0", "vue@^3.2.25", "vue@3.2.31":
   "integrity" "sha512-odT3W2tcffTiQCy57nOT93INw1auq5lYLLYtWpPYQQYQOOdHiqFct9Xhna6GJ+pJQaF67yZABraH47oywkJgFw=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.31.tgz"
   "version" "3.2.31"
@@ -1340,6 +1345,13 @@
     "@vue/runtime-dom" "3.2.31"
     "@vue/server-renderer" "3.2.31"
     "@vue/shared" "3.2.31"
+
+"vuex@^4.0.2":
+  "integrity" "sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q=="
+  "resolved" "https://registry.npmjs.org/vuex/-/vuex-4.0.2.tgz"
+  "version" "4.0.2"
+  dependencies:
+    "@vue/devtools-api" "^6.0.0-beta.11"
 
 "which@^2.0.1":
   "integrity" "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA=="
