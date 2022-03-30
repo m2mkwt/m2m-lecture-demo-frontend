@@ -14,8 +14,7 @@
                     <input @blur="validateEmailInput" v-model.trim="userEmailId" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userEmailId" type="text" placeholder="이메일">
                     <span class="px-1">@</span>
                     <label class="hidden" for="userEmailDomain">이메일 도메인</label>
-                    <select class="bg-gray-50 border w-full rounded focus:outline-none py-2 pl-3" v-model="userEmailDomain" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" id="userEmailDomain">
-                        <option disabled value="">선택</option>
+                    <select class="bg-gray-50 border w-full rounded focus:outline-none py-2 pl-3" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" id="userEmailDomain">
                         <option value="naver.com">naver.com</option>
                         <option value="gmail.com">gmail.com</option>
                         <option value="daum.net">daum.net</option>
@@ -30,10 +29,9 @@
                 <p class="text-rose-600" v-if="userNameValidity === 'invalid'">사용자 이름을 입력해주세요.</p>
                 <div>
                     <label class="hidden" for="loginId">아이디</label>
-                    <input @blur="validateLoginIdInput()" id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디">
+                    <input @blur="validateLoginNameInput" id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디">
                 </div>
                 <p class="text-rose-600" v-if="loginIdValidity === 'invalid'">아이디를 입력해주세요.</p>
-                <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다..</p><!--아이디 중복 체크-->
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
                     <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
@@ -41,11 +39,11 @@
                 <p class="text-rose-600" v-if="userPwValidity === 'invalid'">비밀번호를 확인해주세요.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호 확인</label>
-                    <input @blur="validatePwConfirmInput" id="passwordConfirm" v-model="passwordConfirm" :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호 확인">
+                    <input @blur="validatePwConfirmInput" id="password" v-model="passwordConfirm" :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호 확인">
                 </div>
                 <p class="text-rose-600" v-if="userPwConfirmValidity === 'invalid'">비밀번호를 동일하게 입력해주세요.</p>
                 <div>
-                    <button type="submit" @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">가입</button>
+                    <button @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">가입</button>
                 </div>
             </div>
         </form>  
@@ -65,7 +63,6 @@ export default {
     data() {
         return {
             userEmailId: '',
-            userEmailDomain: '',
             userName: '',
             loginId: '',
             password: '',
@@ -80,15 +77,11 @@ export default {
     },
     methods: {
         signupSubmit() {
-            // 회원가입 api 호출
-            console.log("회원가입 api 호출");
-            console.log('userEmailId: ' + this.userEmailId);
-            console.log('userEmailDomain: ' + this.userEmailDomain);
-            console.log('userName: ' + this.userName);
-            console.log('loginId: ' + this.loginId);
-            console.log('password: ' + this.password);
-            // 이메일은 userEmailId + userEmailDomain 합쳐주세요~
-
+            console.log('userName:'+ this.userName)
+            this.userName = ''
+            console.log('userEmailDomain: '+ this.userEmailDomain)
+            this.userEmailDomain = 'google.com'
+            console.log('radio')
         },
         validateEmailInput() {
             // 영어 + 숫자만 허용
@@ -107,34 +100,19 @@ export default {
                 this.userNameValidity = 'valid'
             } 
         },
-        validateLoginIdInput() {
+        validateLoginNameInput() {
             // 영어 + 숫자만 허용
-            const LoginIdCheckReg = /^[A-Za-z0-9+]*$/;
-            let LoginIdValidation = LoginIdCheckReg.test(this.loginId);
-            // 아이디 중복 체크 api 호출
-            console.log("id 중복체크 함수 실행");
-            const loginId = this.loginId;
-            console.log("loginId : " + loginId)
-            const headers = {'Content-Type': 'application/json'};
-            this.axios.post("http://localhost:8090/idCheck", JSON.stringify({ loginId: loginId }), {headers}).then((res)=>{
-                console.log(res.data);
-                if(this.loginId === '' || LoginIdValidation === false) {
-                    this.loginIdValidity = 'invalid'
-                } else {
-                    this.loginIdValidity = 'valid'
-                } 
-                if(res.data === 1){
-                    this.loginIdCheckValidity = 'invalid';
-                }else{
-                    this.loginIdCheckValidity = 'valid';
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
+            const LoginNameCheckReg = /^[A-Za-z0-9+]*$/;
+            let LoginNameValidation = LoginNameCheckReg.test(this.loginId);
+            if(this.loginId === '' || LoginNameValidation === false) {
+                this.loginIdValidity = 'invalid'
+            } else {
+                this.loginIdValidity = 'valid'
+            } 
         },
         validatePwInput() {
-            // 최소 1개의 숫자 혹은 특수문자 포함하며 8~20자 사이 체크
-            const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,20}$/;
+            // 최소 1개의 숫자 혹은 특수문자 포함하며 6~20자 사이 체크
+            const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
             let passwordValidation = passwordCheckReg.test(this.password);
             if(this.password === '' || passwordValidation === false) {
                 this.userPwValidity = 'invalid'
