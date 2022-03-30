@@ -1,6 +1,5 @@
 <template>
-    <div class="bg-zinc-50 h-screen pt-16">
-        <!-- @submit.prevent : 제출 이벤트가 페이지를 다시 로드 하지 않는다. -->
+    <div class="bg-zinc-50 pt-16 min-h-screen">
         <form @submit.prevent="signupSubmit" class="flex flex-col max-w-sm mx-auto pt-8 pb-7 mb-3 justify-center items-center bg-white border rounded-sm">
             <div>
                 <img class="w-44" src="../assets/images/logo.png">
@@ -24,37 +23,27 @@
                 </div>
                 <p class="text-rose-600" v-if="userEmailIdValidity === 'invalid'">이메일을 입력해주세요.</p>
                 <div>
-                    <label class="hidden" for="userName">성명</label>
-                    <input @blur="validateNameInput" id="userName" v-model="userName" :class="{'border-rose-600' : userNameValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="성명">
+                    <label class="hidden" for="userName">사용자 이름</label>
+                    <input @blur="validateNameInput" id="userName" v-model="userName" :class="{'border-rose-600' : userNameValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="사용자 이름">
                 </div>
-                <p class="text-rose-600" v-if="userNameValidity === 'invalid'">성명을 입력해주세요.</p>
+                <p class="text-rose-600" v-if="userNameValidity === 'invalid'">사용자 이름을 입력해주세요.</p>
                 <div>
-                    <label class="hidden" for="userNickname">닉네임</label>
-                    <input @blur="validateNicknameInput" id="userNickname" v-model="userNickname" :class="{'border-rose-600' : userNicknameValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="사용자 이름">
+                    <label class="hidden" for="loginId">아이디</label>
+                    <input @blur="validateLoginNameInput" id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디">
                 </div>
-                <p class="text-rose-600" v-if="userNicknameValidity === 'invalid'">닉네임을 입력해주세요.</p>
+                <p class="text-rose-600" v-if="loginIdValidity === 'invalid'">아이디를 입력해주세요.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
                     <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
                 </div>
-                <p class="text-rose-600" v-if="userPwValidity === 'invalid'">비밀번호를 입력해주세요.</p>
+                <p class="text-rose-600" v-if="userPwValidity === 'invalid'">비밀번호를 확인해주세요.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호 확인</label>
                     <input @blur="validatePwConfirmInput" id="password" v-model="passwordConfirm" :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호 확인">
                 </div>
-                <p class="text-rose-600" v-if="userPwConfirmValidity === 'invalid'">비밀번호를 한번 더 입력해주세요.</p>
-                <div class="flex pt-1 pb-2">
-                    <div class="mr-4 flex items-center">
-                        <input type="radio" id="male" name="userGender" value="male" v-model="userGender">
-                        <label class="ml-1" for="male">남성</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input type="radio" id="female" name="userGender" value="female" v-model="userGender">
-                        <label class="ml-1" for="female">여성</label>
-                    </div>
-                </div>
+                <p class="text-rose-600" v-if="userPwConfirmValidity === 'invalid'">비밀번호를 동일하게 입력해주세요.</p>
                 <div>
-                    <button @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">가입</button>
+                    <button @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">가입</button>
                 </div>
             </div>
         </form>  
@@ -75,13 +64,12 @@ export default {
         return {
             userEmailId: '',
             userName: '',
-            userNickname: '',
+            loginId: '',
             password: '',
             passwordConfirm: '',
-            userGender: 'male',
             userEmailIdValidity: 'pending',
             userNameValidity: 'pending',
-            userNicknameValidity: 'pending',
+            loginIdValidity: 'pending',
             userPwValidity: 'pending',
             userPwConfirmValidity: 'pending',
             inputFieldValidity: 'pending'
@@ -94,11 +82,12 @@ export default {
             console.log('userEmailDomain: '+ this.userEmailDomain)
             this.userEmailDomain = 'google.com'
             console.log('radio')
-            console.log(this.userGender)
-            this.userGender = 'male'
         },
         validateEmailInput() {
-            if (this.userEmailId === '') {
+            // 영어 + 숫자만 허용
+            const emailCheckReg = /^[A-Za-z0-9+]*$/;
+            let emailValidation = emailCheckReg.test(this.userEmailId);
+            if (this.userEmailId === '' || emailValidation === false) {
                 this.userEmailIdValidity = 'invalid'
             } else {
                 this.userEmailIdValidity = 'valid'
@@ -111,29 +100,36 @@ export default {
                 this.userNameValidity = 'valid'
             } 
         },
-        validateNicknameInput() {
-            if(this.userNickname === '') {
-                this.userNicknameValidity = 'invalid'
+        validateLoginNameInput() {
+            // 영어 + 숫자만 허용
+            const LoginNameCheckReg = /^[A-Za-z0-9+]*$/;
+            let LoginNameValidation = LoginNameCheckReg.test(this.loginId);
+            if(this.loginId === '' || LoginNameValidation === false) {
+                this.loginIdValidity = 'invalid'
             } else {
-                this.userNicknameValidity = 'valid'
+                this.loginIdValidity = 'valid'
             } 
         },
         validatePwInput() {
-            if(this.password === '') {
+            // 최소 1개의 숫자 혹은 특수문자 포함하며 6~20자 사이 체크
+            const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/;
+            let passwordValidation = passwordCheckReg.test(this.password);
+            if(this.password === '' || passwordValidation === false) {
                 this.userPwValidity = 'invalid'
             } else {
                 this.userPwValidity = 'valid'
             } 
         },
         validatePwConfirmInput() {
-            if(this.passwordConfirm === '') {
+            // 비밀번호 = 비밀번호확인 체크
+            if(this.passwordConfirm === '' || this.password !== this.passwordConfirm) {
                 this.userPwConfirmValidity = 'invalid'
             } else {
                 this.userPwConfirmValidity = 'valid'
             } 
         },
         validateInputField() {
-            if(this.userEmailId !== '' && this.userName !== '' && this.userNickname !== '' && this.password !== '' && this.passwordConfirm !== '' && this.userGender !== '') {
+            if(this.userEmailId !== '' && this.userName !== '' && this.loginId !== '' && this.password !== '' && this.passwordConfirm !== '') {
                 this.inputFieldValidity = 'valid'
             }else {
                 this.inputFieldValidity = 'invalid'
