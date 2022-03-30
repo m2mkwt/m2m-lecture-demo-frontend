@@ -11,7 +11,27 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/api/*': {
+            '/login-error': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/main': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/comment/*': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/media/*': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/post/*': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/comment/*': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
@@ -19,7 +39,15 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/deptMember/*': {
+            '/signup': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/idCheck': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/login': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             }
