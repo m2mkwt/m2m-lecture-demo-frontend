@@ -7,7 +7,7 @@
             <div class="flex flex-col gap-2 mb-4 text-xs text-gray-400 w-full px-14">
                 <div class="flex items-center">
                     <label class="hidden" for="userLoginName">아이디</label>
-                    <input type="text" v-model="userLoginName" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userLoginName" placeholder="아이디">
+                    <input type="text" v-model="id" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userLoginName" placeholder="아이디">
                 </div>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
@@ -33,21 +33,41 @@
     </div>
 </template>
 <script>
+import router from '../router.js'
+// import axios from 'axios'
+import { store } from '../store'
+
 export default {
-    data() {
-        return {
-            userLoginName: '',
-            password: '',
-            inputFieldValidity: 'pending'
-        }
-    },
+    name: 'Login',
+    data: () => ({
+        id: '',
+        password: '',
+        loginState: false,
+        loginToken: '',
+        msg: '',
+        memberNo: '',
+        inputFieldValidity: true
+    }),
     methods: {
-        validateInputField() {
-            if( this.userLoginName !== '' && this.password !== '' ) {
-                this.inputFieldValidity = 'valid'
-            }else {
-                this.inputFieldValidity = 'invalid'
-            }
+        loginSubmit: function () {
+            const id = this.id
+            const password = this.password
+            this.$store.dispatch('LOGIN', { id, password })
+            .then((data) => {
+                console.log(data);
+                if (data.isSuccess) {
+                    this.memberNo = data.memberNo
+                    this.redirect()
+                }
+            })
+            .catch(({ message }) => {
+                console.log(message);
+                this.msg = message
+            })
+        },
+        redirect: function () {
+            this.$emit('loginState', store.loginState)
+            router.push({ name: 'Home' })
         }
     }
 }
