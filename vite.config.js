@@ -39,7 +39,15 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/signup': {
+            '/member/idCheck': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/member/pwCheck': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/member/signup': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
