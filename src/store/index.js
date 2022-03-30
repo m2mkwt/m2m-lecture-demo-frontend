@@ -12,7 +12,7 @@ export const store = createStore({
     },
     actions: {
         LOGIN({ commit }, { id, password }) {
-            console.log("[store_action] LOGIN !");
+            console.log("[store_action] LOGIN Start!");
             const form = new FormData()
             form.append('id', id)
             form.append('password', password)
@@ -27,18 +27,24 @@ export const store = createStore({
                         commit('LOGIN', res.headers)
                         axios.defaults.headers.common.Authorization = 'Bearer ' + res.headers.bearer
                     } else {
+                        console.log(res.data.message)
                         alert(res.data.message)
                     }
                     return res.data
                 })
+                // .catch((res) => {
+                //     console.log("[store_action] catch res:", res);
+                //     console.log(res);
+                //     alert(res.data.message)
+                // })
         },
         LOGOUT({ commit }) {
-            console.log("[store_action] LOGOUT !");
+            console.log("[store_action] LOGOUT Start!");
             commit('LOGOUT')
             return true
         },
         INFO({ commit }) {
-            console.log("[store_action] INFO !");
+            console.log("[store_action] INFO Start!");
             this.loginState = false
             const { bearer } = sessionStorage
             console.log("[store_action] bearer :")

@@ -13,15 +13,15 @@ axios.defaults.headers.common.Accept = 'application/json'
 axios.interceptors.response.use(
     response => response,
     (error) => {
-        console.log(response);
-        console.log(error);
+        // console.log(response);
+        console.log("ERROR Data :", error.response.data);
         if (error.response.status === 401) {
             const { loginInfo } = sessionStorage
-            if (loginInfo) {
+            if (!loginInfo) {
                 alert(error.response.data.message)
             }
             sessionStorage.clear()
-            router.push({ name: 'Login' })
+            router.push({ Name: 'Login' })
             location.reload()
         }
         return Promise.reject(error)

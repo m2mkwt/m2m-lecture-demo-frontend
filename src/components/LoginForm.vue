@@ -54,13 +54,14 @@ export default {
             const password = this.password
             this.$store.dispatch('LOGIN', { id, password })
             .then((data) => {
-                console.log(data);
+                console.log("loginSubmit data :", data);
                 if (data.isSuccess) {
                     this.memberNo = data.memberNo
                     this.redirect()
                 }
             })
             .catch(({ message }) => {
+                console.log("loginSubmit catch :", message);
                 console.log(message);
                 this.msg = message
             })
