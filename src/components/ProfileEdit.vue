@@ -21,7 +21,7 @@
                             </div>
 
                             <div class="flex-1">
-                                <div class="text-xl">UserId</div>
+                                <div class="text-xl">{{userName}}</div>
                                 <div class="cursor-pointer text-blue-500 text-sm font-semibold">프로필 사진 바꾸기</div>
                             </div>
 
@@ -35,8 +35,8 @@
                             </div>
                             <div class="flex-1 flex flex-col space-y-3">
                                 <div>
-                                    <label class="hidden" for="userName">이름</label>
-                                    <input id="userName" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text" value="이름">
+                                    <label class="hidden" for="LoginId">이름</label>
+                                    <input id="LoginId" v-model="loginId" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text">
                                 </div>
                                 <div class="text-xs text-gray-400">사람들이 이름, 별명 또는 비즈니스 이름 등 회원님의 알려진 이름을 사용하여 회원님의 계정을 찾을 수 있도록 도와주세요.</div>
                                 <div class="text-xs text-gray-400">이름은 14일 안에 두 번만 변경할 수 있습니다.</div>
@@ -49,8 +49,8 @@
                             </div>
                             <div class="flex-1 flex flex-col space-y-3">
                                 <div>
-                                    <label class="hidden" for="userName">이름</label>
-                                    <input id="userName" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text" value="이름">
+                                    <label class="hidden" for="userName">사용자 이름</label>
+                                    <input id="userName" v-model="userName" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text">
                                 </div>
                                 <div class="text-xs text-gray-400">대부분의 경우 14일 이내에 사용자 이름을 다시 joo7289(으)로 변경할 수 있습니다.</div>
 
@@ -75,8 +75,8 @@
                             </div>
                             <div class="flex-1 flex flex-col space-y-3">
                                 <div>
-                                    <label class="hidden" for="userName">이름</label>
-                                    <input id="userName" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text" value="이름">
+                                    <label class="hidden" for="email">이메일</label>
+                                    <input id="email" v-model="email" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text">
                                 </div>
                         
                             </div>
@@ -100,8 +100,8 @@
                             </div>
                             <div class="flex-1 flex flex-col space-y-3">
                                 <div>
-                                    <label class="hidden" for="userName">이름</label>
-                                    <input id="userName" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text" placeholder="성별">
+                                    <label class="hidden" for="gender">성별</label>
+                                    <input id="gender" v-model="gender" class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left" type="text" placeholder="성별">
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                 
                             </div>
                             <div class="flex-1 flex justify-between items-center">
-                                <button class="bg-blue-500 rounded py-1 px-4 text-white font-semibold">제출</button>
+                                <button class="bg-blue-500 rounded py-1 px-4 text-white font-semibold" @click="updateProfile">제출</button>
                                 <a class="text-blue-500 text-sm font-semibold" href="#">
                                     계정을 일시적으로 비활성화
                                 </a>
@@ -133,6 +133,53 @@ export default {
   components: {
     TheHeader,
     TheFooter
-  },     
+  },
+  data() {
+      return {
+          memberNo: '',
+          loginId: '',
+          userName: '',
+          email: '',
+          gender: ''
+      }
+  },
+  methods: {
+        selectProfile() {
+            let url = 'http://localhost:8090/member/profile';
+            this.axios.get(url, {
+                params: {
+                    memberNo: 29
+                }
+            }).then((res)=>{
+                this.memberNo = res.data.memberNo;
+                this.loginId = res.data.loginId;
+                this.userName = res.data.userName;
+                this.email = res.data.email;
+                this.gender = res.data.gender;
+                console.log(res);            
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        updateProfile() {
+            let data =  {
+                memberNo: this.memberNo,
+                loginId: this.loginId,
+                userName: this.userName,
+                email: this.email,
+                gender: this.gender
+            }
+            let url = 'http://localhost:8090/member/updateProfile'
+            this.axios.post(url, data)
+            .then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+  },
+  mounted() {
+      this.selectProfile();
+  }
 }
 </script>
