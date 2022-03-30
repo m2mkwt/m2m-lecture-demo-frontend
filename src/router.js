@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import SignUpForm from './components/SignUpForm.vue'
-import LoginForm from './components/LoginForm.vue'
-import MyPage from './components/MyPage.vue'
-import ProfileEdit from './components/ProfileEdit.vue'
-import HomePage from './components/HomePage.vue'
-import Test from './components/Test.vue'
+import SignUpForm from './view/SignUpForm.vue'
+import LoginForm from './view/LoginForm.vue'
+import MyPage from './view/MyPage.vue'
+import ProfileEdit from './view/ProfileEdit.vue'
+import HomePage from './view/HomePage.vue'
+import Test from './view/Test.vue'
 import { store } from './store'
 
 const requireLogin = () => (to, from, next) => {

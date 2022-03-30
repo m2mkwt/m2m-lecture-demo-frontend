@@ -8,7 +8,13 @@
 </template>
 <script>
 export default {
-    props: ["modalActive"],
+    //props: ["modalActive"],
+    props: {
+        modalActive : {
+            type: Boolean,
+            required: true
+        }
+    },
     setup(props, { emit }) {
         const close = () => {
             emit("close")
