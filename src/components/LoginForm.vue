@@ -6,15 +6,16 @@
             </div>
             <div class="flex flex-col gap-2 mb-4 text-xs text-gray-400 w-full px-14">
                 <div class="flex items-center">
-                    <label class="hidden" for="userLoginName">아이디</label>
-                    <input type="text" v-model="userLoginName" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userLoginName" placeholder="아이디">
+                    <label class="hidden" for="loginId">아이디</label>
+                    <input type="text" v-model="loginId" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="loginId" placeholder="아이디">
                 </div>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
                     <input id="password" v-model.trim="password" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="비밀번호">
                 </div>
+                <p class="text-rose-600" v-if="inputFieldValidity === 'invalid'">아이디와 비밀번호를 확인해주세요.</p>  <!--0320 은민 추가-->
                 <div>
-                    <button @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">로그인</button>
+                    <button type="submit" @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">로그인</button>
                 </div>
             </div>
             <div class="mt-6">
@@ -34,20 +35,26 @@
 </template>
 <script>
 export default {
-    data() {
+    data : function()  {
         return {
-            userLoginName: '',
+            loginId: '',
             password: '',
             inputFieldValidity: 'pending'
         }
     },
     methods: {
         validateInputField() {
-            if( this.userLoginName !== '' && this.password !== '' ) {
+            if( this.loginId !== '' && this.password !== '' ) {
                 this.inputFieldValidity = 'valid'
             }else {
                 this.inputFieldValidity = 'invalid'
             }
+        },
+        // 로그인 api 호출
+        loginSubmit() {
+            console.log(this.loginId);
+            console.log(this.password);
+            console.log("로그인 api 호출");
         }
     }
 }
