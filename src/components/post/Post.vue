@@ -204,9 +204,7 @@ export default {
             dialogActive.value = !dialogActive.value
         }
         watch(dialogActive, () => {
-            //console.log("dialogActive", dialogActive.value)
             if(dialogActive.value) {
-                //console.log("dialogActive")
                 window.scrollTo(0,0)
                 document.body.style.overflow = 'hidden'
             }else{

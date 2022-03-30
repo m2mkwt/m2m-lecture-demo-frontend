@@ -158,7 +158,7 @@
     </div>
 </template>
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import TheHeader from '../components/layout/TheHeader.vue'
 import TheFooter from '../components/layout/TheFooter.vue'
 import BaseDialog from '../components/ui/BaseDialog.vue'
@@ -189,6 +189,19 @@ export default {
         const toggleModal = () => {
             modalActive.value = !modalActive.value
         }
+        watch(dialogActive, () => {
+            if(dialogActive.value) {
+                window.scrollTo(0,0)
+                document.body.style.overflow = 'hidden'
+            }else{
+                window.addEventListener("scroll", function() {
+                    let scrollX = window.scrollX
+                    let scrollY = window.scrollY
+                    window.scrollTo(scrollX, scrollY)
+                })
+                document.body.style.overflow = 'auto'
+            }
+        })
         return { dialogActive, modalActive, toggleDialog, toggleModal } 
     }    
 }
