@@ -11,14 +11,14 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/login-error': {
-                target: 'http://localhost:8090',
-                changeOrigin: true
-            },
-            '/main': {
-                target: 'http://localhost:8090',
-                changeOrigin: true
-            },
+            // '/login-error': {
+            //     target: 'http://localhost:8090',
+            //     changeOrigin: true
+            // },
+            // '/main': {
+            //     target: 'http://localhost:8090',
+            //     changeOrigin: true
+            // },
             '/comment/*': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
@@ -44,10 +44,6 @@ export default defineConfig({
                 changeOrigin: true
             },
             '/idCheck': {
-                target: 'http://localhost:8090',
-                changeOrigin: true
-            },
-            '/login': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             }
