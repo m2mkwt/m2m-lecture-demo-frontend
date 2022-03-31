@@ -33,7 +33,7 @@
                     <input @blur="validateLoginIdInput" id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디">
                 </div>
                 <p class="text-rose-600" v-if="loginIdValidity === 'invalid'">아이디를 입력해주세요.</p>
-                <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다..</p><!--아이디 중복 체크-->
+                <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
                     <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
@@ -135,8 +135,9 @@ export default {
                 } else {
                     this.loginIdValidity = 'valid'
                 } 
-                if(res.data === 1){
+                if(res.data >= 1){
                     this.loginIdCheckValidity = 'invalid';
+                    this.loginId = '';
                 }else{
                     this.loginIdCheckValidity = 'valid';
                 }
@@ -168,7 +169,8 @@ export default {
                 if(res.data === 0){
                     this.userPwCheckValidity = 'valid';
                 }else{
-                    this.userPwCheckValidity = 'invalid';
+                    this.userPwCheckValidity = 'invalid'
+                    this.password = '';
                 }
             }).catch((err) => {
                 console.log(err);
@@ -178,6 +180,7 @@ export default {
             // 비밀번호 = 비밀번호확인 체크
             if(this.passwordConfirm === '' || this.password !== this.passwordConfirm) {
                 this.userPwConfirmValidity = 'invalid'
+                this.passwordConfirm = '';
             } else {
                 this.userPwConfirmValidity = 'valid'
             } 
