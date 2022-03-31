@@ -44,10 +44,10 @@ export default {
         }
     },
     methods: {
-        async loadPosts() {
-            this.isLoading = true
+        async posts() {
+            // this.isLoading = true
             await this.$store.dispatch('posts/loadPosts')
-            this.isLoading = false
+            // this.isLoading = false
         }
     },
     computed: {
@@ -65,8 +65,8 @@ export default {
         BaseSpinner,
         Post
     },
-    created() {
-        //this.loadPosts()
+    mounted() {
+        this.posts()
     }    
 }
 </script>
