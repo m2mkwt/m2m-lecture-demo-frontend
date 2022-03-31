@@ -11,7 +11,7 @@
                     <div class="md:px-24 flex flex-col space-y-6">
                         <!-- 1st row -->
                         <div class="flex items-center space-x-5">
-                            <div class="text-3xl font-thin">userId</div>
+                            <div class="text-3xl font-thin">{{ member.userName }}</div>    <!-- 수정 필요 -->
                             <div class="border rounded md:flex items-center hidden">
                                 <router-link to="/edit" class="text-sm font-bold px-2 py-1">프로필 편집</router-link>
                             </div>
@@ -27,10 +27,11 @@
                         <div class="md:flex space-x-10 hidden">
                             <div class="flex space-x-2">
                                 <div>게시물</div>
-                                <div class="font-medium">5</div>
+                                <div class="font-medium">5</div>    <!-- 수정 필요 -->
                             </div>
+                            <!-- 팔로우 기능 안쓰니까 지워야 하지 않을까 ...? -->
                             <div class="flex space-x-2">
-                                <div>팔로워</div>
+                                <div>팔로워</div>   
                                 <div class="font-medium">0</div>
                             </div>
                             <div class="flex space-x-2">
@@ -39,6 +40,7 @@
                             </div>
                         </div>
                         <!-- 3rd row -->
+                        <!-- 소개 안쓰면 지우기 -->
                         <div class="hidden md:block">
                             <div class="font-medium">Blah blah</div>
                         </div>
@@ -54,13 +56,14 @@
                     <div class="text-gray-500 text-sm">게시물</div>
                     <div>5</div>
                 </div>
+                <!-- 팔로우 기능 안쓰니까 지워야 하지 않을까 ...? -->
                 <div class="flex flex-col flex-1 items-center">
                     <div class="text-gray-500 text-sm">팔로워</div>
                     <div>0</div>
                 </div>
                 <div class="flex flex-col flex-1 items-center">
                     <div class="text-gray-500 text-sm">팔로우</div>
-                    <div>20</div>
+                    <div>288</div>
                 </div>
             </div>
             <!-- photo area -->
@@ -79,6 +82,7 @@
         <the-footer></the-footer>
         <base-dialog @close="toggleDialog" :dialogActive = "dialogActive">
             <div class="w-full z-40 h-max px-10 max-w-6xl mx-auto">
+                <!-- 모달창 -->
                 <div class="bg-white rounded text-xl h-full">
                     <div class="flex">
                         <!-- photo -->
@@ -150,7 +154,7 @@
         <base-modal @close="toggleModal" :modalActive="modalActive">
             <div class="bg-white rounded-lg z-50 w-96">
                 <div class="flex flex-col w-ful">
-                    <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold" @click="removePost">삭제</div>
+                    <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold">삭제</div>
                     <div class="cursor-pointer py-3 w-full text-center">취소</div>
                 </div>
             </div>        
@@ -163,11 +167,13 @@ import TheHeader from '../components/layout/TheHeader.vue'
 import TheFooter from '../components/layout/TheFooter.vue'
 import BaseDialog from '../components/ui/BaseDialog.vue'
 import BaseModal from '../components/ui/BaseModal.vue'
+import { store } from '../store'
 import axios from 'axios'
 export default {
     data() {
         return {
-            comment: ''
+            comment: '',
+            member: {}
         }
     },
     components: {
@@ -180,16 +186,21 @@ export default {
         setFocus() {
             this.$refs.comment.focus()
         },
-        removePost(){
-            axios.post('/api/v1/post/removePost', { 
-                        postNo : 30
-                     }).then(result => {
-                console.log(result.data)
-            }).catch(error=>{
-                console.log(error)
-            })
-        }
-
+        getMember() {
+            console.log(store.memberNo);
+	        axios.get("/api/v1/mypage/getMember",{
+                params: {
+                    memberNo : store.memberNo
+                }
+            }).then((res)=>{
+		        console.log(res);
+                const member = res.data.data;
+                console.log(member);
+                console.log(member.userName);
+	        }).catch((err) => {
+		        console.log(err);
+	        });
+        },
     },
     setup() {
         const dialogActive = ref(false)
@@ -214,6 +225,9 @@ export default {
             }
         })
         return { dialogActive, modalActive, toggleDialog, toggleModal } 
+    },
+    mounted() {
+        this.getMember()
     }    
 }
 </script>

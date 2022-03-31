@@ -59,6 +59,10 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
+            '/api/v1/mypage/getMember': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
             '/idCheck': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
