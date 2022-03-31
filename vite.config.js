@@ -27,7 +27,7 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/post/*': {
+            '/post/list': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
