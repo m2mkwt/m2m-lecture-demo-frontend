@@ -30,7 +30,7 @@
                 <p class="text-rose-600" v-if="userNameValidity === 'invalid'">사용자 이름을 입력해주세요.</p>
                 <div>
                     <label class="hidden" for="loginId">아이디</label>
-                    <input @blur="validateLoginIdInput()" id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디">
+                    <input @blur="validateLoginIdInput" id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디">
                 </div>
                 <p class="text-rose-600" v-if="loginIdValidity === 'invalid'">아이디를 입력해주세요.</p>
                 <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다..</p><!--아이디 중복 체크-->
@@ -38,7 +38,7 @@
                     <label class="hidden" for="password">비밀번호</label>
                     <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
                 </div>
-                <p class="text-rose-600" v-if="userPwValidity === 'invalid'">비밀번호를 확인해주세요.</p>
+                <p class="text-rose-600" v-if="userPwCheckValidity === 'invalid'">특수문자와 대문자,소문자,숫자,공백을 확인해주세요.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호 확인</label>
                     <input @blur="validatePwConfirmInput" id="passwordConfirm" v-model="passwordConfirm" :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호 확인">
@@ -76,7 +76,7 @@ export default {
             loginIdValidity: 'pending',
             userPwValidity: 'pending',
             userPwConfirmValidity: 'pending',
-            inputFieldValidity: 'pending'
+            inputFieldValidity: 'pending' 
         }
     },
     methods: {
@@ -89,7 +89,18 @@ export default {
             console.log('loginId: ' + this.loginId);
             console.log('password: ' + this.password);
             // 이메일은 userEmailId + userEmailDomain 합쳐주세요~
-
+            axios.post('/member/signup', { 
+                        email: this.userEmailId+'@'+this.userEmailDomain,
+                        userName: this.userName,
+                        loginId: this.loginId,
+                        password: this.password
+                        
+                     }).then(result => {
+                console.log(result.data)
+                
+            }).catch(error=>{
+                console.log(error)
+            })
         },
         validateEmailInput() {
             // 영어 + 숫자만 허용
@@ -138,10 +149,30 @@ export default {
             const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,20}$/;
             let passwordValidation = passwordCheckReg.test(this.password);
             if(this.password === '' || passwordValidation === false) {
-                this.userPwValidity = 'invalid'
+                this.userPwCheckValidity = 'invalid'
             } else {
-                this.userPwValidity = 'valid'
+                this.userPwCheckValidity = 'valid'
             } 
+            //비밀번호 유효성 api호출
+            console.log("비밀번호 중복체크 함수 실행");
+            const password = this.password;
+            console.log("password : " + password)
+            const headers = {'Content-Type': 'application/json'};
+            axios.post("/member/pwCheck", JSON.stringify({password: password }), {headers}).then((res)=>{
+                console.log(res.data);
+                if(this.password === '' || passwordValidation === false) {
+                    this.userPwCheckValidity = 'invalid'
+                } else {
+                    this.userPwCheckValidity = 'valid'
+                } 
+                if(res.data === 0){
+                    this.userPwCheckValidity = 'valid';
+                }else{
+                    this.userPwCheckValidity = 'invalid';
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         },
         validatePwConfirmInput() {
             // 비밀번호 = 비밀번호확인 체크
