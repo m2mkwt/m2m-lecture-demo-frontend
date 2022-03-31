@@ -23,7 +23,7 @@ export const store = createStore({
                     console.log('[store_action] /login_processing RESPONSE')
                     console.log(res)
                     if (res.data.isSuccess) {
-                        this.memberNo = res.data.memberNo
+                        this.memberNo = res.data.details.memberNo
                         this.loginInfo = res.data.details.memberNo + ' ' + res.data.details.loginId + ' ' + res.data.details.userName + ' ' + res.data.details.email
                         commit('LOGIN', res.headers)
                         axios.defaults.headers.common.Authorization = 'Bearer ' + res.headers.bearer
