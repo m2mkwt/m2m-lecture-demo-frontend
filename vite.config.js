@@ -63,6 +63,14 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
+            '/api/v1/mypage/getPostCnt': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/api/v1/mypage/searchPostList': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
             '/idCheck': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
