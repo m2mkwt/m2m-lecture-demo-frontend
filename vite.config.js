@@ -31,6 +31,14 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
+            '/api/v1/post/addPost': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/api/v1/post/removePost': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
             '/api/v1/comment/selectCommentlist': {
                 target: 'http://localhost:8090',
                 changeOrigin: true

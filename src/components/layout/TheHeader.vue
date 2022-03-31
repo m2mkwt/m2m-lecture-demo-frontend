@@ -58,6 +58,7 @@
     </nav>
     <base-dialog @close="toggleDialog" :dialogActive="dialogActive">
       <div class="w-full z-40 h-max px-10 max-w-6xl mx-auto">
+        <form @submit.prevent="test">
         <div class="bg-white rounded text-xl h-full">
           <!-- top -->
           <div class="flex flex-col">
@@ -67,7 +68,7 @@
               <!-- tit -->
               <p class="text-base font-semibold">새 게시물 만들기</p>
               <!-- share -->
-              <p class="cursor-pointer text-blue-400 text-base font-semibold">공유하기</p>
+              <button class="cursor-pointer text-blue-400 text-base font-semibold">공유하기</button>
             </div>
           </div>
           <!-- content -->
@@ -107,6 +108,7 @@
             </div>
           </div>
         </div>
+      </form>
       </div>
     </base-dialog>  
 </template>
@@ -114,6 +116,7 @@
 <script>
 import { ref, watch } from 'vue'
 import BaseDialog from '../ui/BaseDialog.vue'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -125,6 +128,18 @@ export default {
   methods: {
     setLength(event) {
       this.length = event.target.value.length
+    },
+    test(){
+      console.log(this.content);
+       axios.post('/api/v1/post/addPost', { 
+                        memberNo : 1,
+                        content : this.content
+                     }).then(result => {
+                console.log(result.data)
+                this.$router.push({path: '/home'});
+            }).catch(error=>{
+                console.log(error)
+            })
     }
   },
   components: {
