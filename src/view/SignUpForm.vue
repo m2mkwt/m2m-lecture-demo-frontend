@@ -88,16 +88,14 @@ export default {
             console.log('userName: ' + this.userName);
             console.log('loginId: ' + this.loginId);
             console.log('password: ' + this.password);
-            // 이메일은 userEmailId + userEmailDomain 합쳐주세요~
             axios.post('/member/signup', { 
-                        email: this.userEmailId+'@'+this.userEmailDomain,
-                        userName: this.userName,
-                        loginId: this.loginId,
-                        password: this.password
-                        
-                     }).then(result => {
+                email: this.userEmailId+'@'+this.userEmailDomain,
+                userName: this.userName,
+                loginId: this.loginId,
+                password: this.password  
+            }).then(result => {
                 console.log(result.data)
-                
+                this.$router.push('/login');
             }).catch(error=>{
                 console.log(error)
             })
@@ -108,6 +106,7 @@ export default {
             let emailValidation = emailCheckReg.test(this.userEmailId);
             if (this.userEmailId === '' || emailValidation === false) {
                 this.userEmailIdValidity = 'invalid'
+                this.userEmailId = '';
             } else {
                 this.userEmailIdValidity = 'valid'
             }
