@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between px-4 py-3 border-b">
         <div class="flex items-center">
             <img :src="filename" class="w-8 h-8 rounded-full mr-3">
-            <p class="font-semibold text-sm">{{ userName }}</p>
+            <p class="font-semibold text-sm">{{ loginId }}</p>
         </div>
         <div class="cursor-pointer">
             <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
@@ -26,19 +26,19 @@
             </div>
         </div>
         <!-- info : like -->
-        <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{ likeCount }}개</p>
+        <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{ likeCnt }}개</p>
         <!-- info : content -->
             <!-- line -->
             <div class="line-clamp-2 text-sm">
                 <!-- user id -->
-                <span class="font-semibold text-sm">{{ userName }}</span>
+                <span class="font-semibold text-sm">{{ loginId }}</span>
                 {{ text }}                             
             </div>  
             <button class="text-gray-400 text-sm">더 보기</button>                             
     </div>
     <!-- comment : list -->
     <div class="px-3">
-        <button @click="toggleDialog(index)" class="text-gray-500 text-sm">댓글 {{ commentNo }}개 보기</button>
+        <button @click="toggleDialog(index)" class="text-gray-500 text-sm">댓글 {{ commentCnt }}개 보기</button>
     </div>
     <!-- info : created date -->
     <div class="px-3 pt-2 pb-5">
@@ -78,21 +78,31 @@
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <div class="flex items-center">
                             <img :src="filename" class="w-8 h-8 rounded-full mr-4">
-                            <p class="font-semibold text-sm">{{ userName }}</p>
+                            <p class="font-semibold text-sm">{{ loginId }}</p>
                         </div>
                         <div class="cursor-pointer" @click="toggleModal">
                             <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
                         </div> 
                     </div>
-                    <!-- content -->
+                    <!-- 글 -->
+                    <div class="flex px-4 py-3">
+                        <div class="flex items-center">
+                            <img :src="filename" class="w-8 h-8 rounded-full mr-4">
+                            <div class="flex flex-col">
+                                <p class="font-semibold text-sm">{{ loginId }}</p>
+                                <p>{{ text }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 댓글 -->
                     <div class="flex flex-col flex-1 px-4 pt-3 space-y-6 border-b overflow-y-auto">
                         <comment 
-                            v-for="(comment, index) in comments"
-                            :comment="comment"
-                            :key="comment.id"
-                            :user-name="comment.userName"
-                            :media-id="comment.mediaId"
-                            :text="comment.text"
+                            v-for="comment in commentList"
+                            :comment-no="comment.commentNo"
+                            :member-no="comment.memberNo"
+                            :post-no="comment.postNo"
+                            :content="comment.content"
+                            :deleteYn="comment.deleteYn"
                             :createdt="comment.createdt"
                         ></comment>
                     </div>
@@ -108,7 +118,7 @@
                             </div>
                         </div>
                         <!-- info : like -->
-                        <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{ likeCount }}개</p>
+                        <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{ likeCnt }}개</p>
                         <!-- info : date -->
                         <p class="text-gray-500 text-xs">{{ createdt }}</p>    
                     </div> 
@@ -141,20 +151,29 @@
 import { ref, watch } from 'vue'
 import BaseDialog from '../ui/BaseDialog.vue'
 import Comment from '../comment/Comment.vue'
+import axios from 'axios'
 export default {
     data() {
         return {
-            open: false
+            open: false,
+            commentList: []
         }
     },
     props: [
-        'userName',
+        // 'userName',
+        // 'text',
+        // 'createdt',
+        // 'commentNo',
+        // 'comments',
+        // 'filename',
+        // 'likeCount'
+        'loginId',
         'text',
         'createdt',
-        'commentNo',
-        'comments',
+        'commentCnt',
+        'postNo',
         'filename',
-        'likeCount'
+        'likeCnt'
     ],
     components: {
         BaseDialog,
@@ -164,6 +183,23 @@ export default {
         setFocus(index) {
             this.$refs.comment.focus()
         },
+        getCommentsAll() {
+            // /api/v1/comment/selectCommentlist
+            axios.get("/api/v1/comment/selectCommentlist").then((res)=>{
+                console.log(res);
+                console.log(res.data.data)
+                
+                this.commentList = res.data.data;
+                console.log(this.commentList)
+                // commit mutation 
+                //this.$store.state.posts = res.data.data;
+            }).catch((err) => {
+                console.log(err);
+            });            
+        }
+    },
+    mounted() {
+        this.getCommentsAll()
     },
     setup() {
         const dialogActive = ref(false)

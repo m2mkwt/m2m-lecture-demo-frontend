@@ -6,25 +6,25 @@
         <div class="max-w-4xl mx-auto pt-24">
             <div class="md:flex">
                 <div class="flex-1 overflow-y-auto scrollbar-hide">
-                    <div v-if="isLoading">
+                    <!-- <div v-if="isLoading">
                         <base-spinner></base-spinner>
                     </div>
-                    <div v-if="hasPosts">
+                    <div v-if="hasPosts"> -->
                         <post
-                            v-for="post in listPosts"
-                            :key="post.id"
-                            :user-name="post.userName"
+                            v-for="post in postList"
+                            :key="post.postNo"
+                            :post-no="post.postNo"
+                            :login-id="post.loginId"
                             :text="post.text"
                             :createdt="post.createdt"
-                            :comment-no="post.commentNo"
-                            :comments="post.comments"
-                            :filename="post.filename"
-                            :like-count="post.likeCount"
+                            :comment-cnt="post.commentCnt"
+                            filename="http://picsum.photos/640/640"
+                            :like-cnt="post.likeCnt"
                         ></post>
-                    </div>
+                    <!-- </div>
                     <div v-else>
                         No posts found.
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -42,18 +42,25 @@ export default {
     data() {
         return {
             isLoading: false,
+            postList: []
         }
     },
     methods: {
-        posts() {
+        // posts() {
             // this.isLoading = true
-        this.$store.dispatch('/posts/getSelectAll')
-            // this.isLoading = false
-        },
+        // this.$store.dispatch('/posts/getSelectAll')
+        //     // this.isLoading = false
+        // },
         getSelectAll() {
-                axios.get("/post/list").then((res)=>{
+                axios.get("/api/v1/post/selectPostList").then((res)=>{
                 console.log(res);
-                this.selectList = res.data.data;
+                console.log(res.data.data)
+                console.log(res.data.data.data)
+                
+                this.postList = res.data.data;
+                console.log(this.postList)
+                // commit mutation 
+                //this.$store.state.posts = res.data.data;
             }).catch((err) => {
                 console.log(err);
             });
