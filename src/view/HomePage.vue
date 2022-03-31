@@ -11,7 +11,7 @@
                     </div>
                     <div v-if="hasPosts">
                         <post
-                            v-for="(post, index) in listPosts"
+                            v-for="post in listPosts"
                             :key="post.id"
                             :user-name="post.userName"
                             :text="post.text"
@@ -37,6 +37,7 @@ import TheFooter from '../components/layout/TheFooter.vue'
 import BaseDialog from '../components/ui/BaseDialog.vue'
 import BaseSpinner from '../components/ui/BaseSpinner.vue'
 import Post from '../components/post/Post.vue'
+import axios from 'axios'
 export default {
     data() {
         return {
@@ -44,10 +45,18 @@ export default {
         }
     },
     methods: {
-        async posts() {
+        posts() {
             // this.isLoading = true
-            await this.$store.dispatch('posts/loadPosts')
+        this.$store.dispatch('/posts/getSelectAll')
             // this.isLoading = false
+        },
+        getSelectAll() {
+                axios.get("/post/list").then((res)=>{
+                console.log(res);
+                this.selectList = res.data.data;
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     },
     computed: {
@@ -66,7 +75,7 @@ export default {
         Post
     },
     mounted() {
-        this.posts()
+        this.getSelectAll()
     }    
 }
 </script>
