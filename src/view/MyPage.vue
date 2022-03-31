@@ -11,13 +11,14 @@
                     <div class="md:px-24 flex flex-col space-y-6">
                         <!-- 1st row -->
                         <div class="flex items-center space-x-5">
-                            <div class="text-3xl font-thin">{{ member.userName }}</div>    <!-- 수정 필요 -->
+                            <div class="text-3xl font-thin">{{ member.userName }}</div>
                             <div class="border rounded md:flex items-center hidden">
                                 <router-link to="/edit" class="text-sm font-bold px-2 py-1">프로필 편집</router-link>
                             </div>
-                            <div class="cursor-pointer">
+                            <!-- 설정 아이콘 안써서 주석처리 -->
+                            <!-- <div class="cursor-pointer">
                                 <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" fill="none" r="8.635" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle><path d="M14.232 3.656a1.269 1.269 0 01-.796-.66L12.93 2h-1.86l-.505.996a1.269 1.269 0 01-.796.66m-.001 16.688a1.269 1.269 0 01.796.66l.505.996h1.862l.505-.996a1.269 1.269 0 01.796-.66M3.656 9.768a1.269 1.269 0 01-.66.796L2 11.07v1.862l.996.505a1.269 1.269 0 01.66.796m16.688-.001a1.269 1.269 0 01.66-.796L22 12.93v-1.86l-.996-.505a1.269 1.269 0 01-.66-.796M7.678 4.522a1.269 1.269 0 01-1.03.096l-1.06-.348L4.27 5.587l.348 1.062a1.269 1.269 0 01-.096 1.03m11.8 11.799a1.269 1.269 0 011.03-.096l1.06.348 1.318-1.317-.348-1.062a1.269 1.269 0 01.096-1.03m-14.956.001a1.269 1.269 0 01.096 1.03l-.348 1.06 1.317 1.318 1.062-.348a1.269 1.269 0 011.03.096m11.799-11.8a1.269 1.269 0 01-.096-1.03l.348-1.06-1.317-1.318-1.062.348a1.269 1.269 0 01-1.03-.096" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- responsive1 -->
                         <div class="border rounded flex items-center justify-center md:hidden">
@@ -27,48 +28,48 @@
                         <div class="md:flex space-x-10 hidden">
                             <div class="flex space-x-2">
                                 <div>게시물</div>
-                                <div class="font-medium">5</div>    <!-- 수정 필요 -->
+                                <div class="font-medium">{{ myPostCount }}</div>    <!-- 수정 필요 -->
                             </div>
                             <!-- 팔로우 기능 안쓰니까 지워야 하지 않을까 ...? -->
-                            <div class="flex space-x-2">
+                            <!-- <div class="flex space-x-2">
                                 <div>팔로워</div>   
                                 <div class="font-medium">0</div>
                             </div>
                             <div class="flex space-x-2">
                                 <div>팔로우</div>
                                 <div class="font-medium">288</div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- 3rd row -->
                         <!-- 소개 안쓰면 지우기 -->
-                        <div class="hidden md:block">
+                        <!-- <div class="hidden md:block">
                             <div class="font-medium">Blah blah</div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
-                <div class="md:hidden pt-8">
+                <!-- <div class="md:hidden pt-8">
                     <div class="font-medium">Blah blah</div>
-                </div>
+                </div> -->
             </div>
             <!-- responsive 2 -->
             <div class="flex py-2 md:hidden justify-between border-b mb-12">
                 <div class="flex flex-col flex-1 items-center">
                     <div class="text-gray-500 text-sm">게시물</div>
-                    <div>5</div>
+                    <div>{{ myPostCount }}</div>
                 </div>
                 <!-- 팔로우 기능 안쓰니까 지워야 하지 않을까 ...? -->
-                <div class="flex flex-col flex-1 items-center">
+                <!-- <div class="flex flex-col flex-1 items-center">
                     <div class="text-gray-500 text-sm">팔로워</div>
                     <div>0</div>
                 </div>
                 <div class="flex flex-col flex-1 items-center">
                     <div class="text-gray-500 text-sm">팔로우</div>
                     <div>288</div>
-                </div>
+                </div> -->
             </div>
             <!-- photo area -->
             <div class="grid grid-cols-3 gap-7">
-                <div @click="toggleDialog" class="cursor-pointer relative" v-for="feed in 6" :key="feed">
+                <div @click="toggleDialog" class="cursor-pointer relative" v-for="myImages in myPostList" :key="myImages.postNo">
                     <img class="w-full" src="http://picsum.photos/100">
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
@@ -77,6 +78,16 @@
                         </div>
                     </div>
                 </div>
+                <!-- 원본 -->
+                <!-- <div @click="toggleDialog" class="cursor-pointer relative" v-for="feed in 6" :key="feed">
+                    <img class="w-full" src="http://picsum.photos/100">
+                    <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
+                        <div class="flex items-center justify-center">
+                            <svg class="w-5 mr-1" color="#fff" fill="#fff" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 10-3.59 3.615L22 22z" fill="#fff" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
+                            <p>23</p>
+                        </div>
+                    </div>
+                </div> -->
             </div>
         </div>
         <the-footer></the-footer>
@@ -155,6 +166,7 @@
             <div class="bg-white rounded-lg z-50 w-96">
                 <div class="flex flex-col w-ful">
                     <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold">삭제</div>
+                    <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center">수정</div>
                     <div class="cursor-pointer py-3 w-full text-center">취소</div>
                 </div>
             </div>        
@@ -173,7 +185,9 @@ export default {
     data() {
         return {
             comment: '',
-            member: {}
+            member: {},
+            myPostCount: '',
+            myPostList: []
         }
     },
     components: {
@@ -187,20 +201,48 @@ export default {
             this.$refs.comment.focus()
         },
         getMember() {
-            console.log(store.memberNo);
+            console.log('회원 정보 조회 api 호출')
+            console.log('현재 로그인한 user의 memberNo: ' + store.memberNo);
 	        axios.get("/api/v1/mypage/getMember",{
                 params: {
                     memberNo : store.memberNo
                 }
             }).then((res)=>{
 		        console.log(res);
-                const member = res.data.data;
+                this.member = res.data.data;
                 console.log(member);
-                console.log(member.userName);
 	        }).catch((err) => {
 		        console.log(err);
 	        });
         },
+        getPostCnt() {
+            console.log('내가 작성한 게시물 갯수 조회 api 호출')
+	        axios.get("/api/v1/mypage/getPostCnt",{
+                params: {
+                    memberNo : store.memberNo
+                }
+            }).then((res)=>{
+		        console.log(res);
+                this.myPostCount = res.data.count;
+                
+	        }).catch((err) => {
+		        console.log(err);
+	        });
+        },
+        searchPostList() {
+            console.log('내가 작성한 게시물 조회 api 호출')
+	        axios.get("/api/v1/mypage/searchPostList",{
+                params: {
+                    memberNo : store.memberNo
+                }
+            }).then((res)=>{
+		        console.log(res);
+                this.myPostList = res.data.data;
+                console.log(this.myPostList);
+	        }).catch((err) => {
+		        console.log(err);
+	        });            
+        }
     },
     setup() {
         const dialogActive = ref(false)
@@ -227,7 +269,9 @@ export default {
         return { dialogActive, modalActive, toggleDialog, toggleModal } 
     },
     mounted() {
-        this.getMember()
+        this.getMember(),
+        this.getPostCnt(),
+        this.searchPostList()
     }    
 }
 </script>
