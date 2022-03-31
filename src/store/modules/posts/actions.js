@@ -1,24 +1,23 @@
-import axios from 'axios'
 export default {
-    
-        getSelectAll() {
-            this.axios.get("/post/list").then((res)=>{
-                console.log(res);
-                this.selectList = res.data.data;
-            }).catch((err) => {
-                console.log(err);
-            });
-        }
-    // async loadPosts(context, payload) {
-    //     const response = await fetch('/post/list')
-    //     const responseData = await response.json()
-    //     console.log(responseData)
-    //     if (!response.ok) {
-    //         //...
+    // async loadAll(context, data) {
+    //     const postData = {
+    //         loginId: data.loginId,
+    //         text: data.text,
+    //         createdt: data.createdt,
+    //         commentCnt: data.commentCnt,
+    //         postNo: data.postNo,
+    //         filename: data.filename,
+    //         likeCnt: data.likeCnt
     //     }
-    //     // const posts = []
-    //     // for (const key in responseData) {
-    //     //     first
-    //     // }
-    // }    
+    //     const response = await fetch('/post/list', {
+    //         method: 'GET',
+    //         body: JSON.stringify(postData)
+    //     })
+
+    //     context.commit('loadAllPosts', {
+    //         ...postData,
+    //     })
+    // }
+
+
 }

@@ -27,11 +27,11 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/post/list': {
+            '/api/v1/post/selectPostList': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/comment/*': {
+            '/api/v1/comment/selectCommentlist': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
@@ -39,15 +39,15 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/member/idCheck': {
+            '/api/v1/member/registMember': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/member/pwCheck': {
+            '/api/v1/member/checkValidId': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
-            '/member/signup': {
+            '/api/v1/member/checkValidPw': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
