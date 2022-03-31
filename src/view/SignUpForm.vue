@@ -88,16 +88,19 @@ export default {
             console.log('userName: ' + this.userName);
             console.log('loginId: ' + this.loginId);
             console.log('password: ' + this.password);
-            axios.post('/member/signup', { 
+            axios.post('/api/v1/member/registMember', { 
                 email: this.userEmailId+'@'+this.userEmailDomain,
                 userName: this.userName,
                 loginId: this.loginId,
                 password: this.password 
              }).then(result => {
                 console.log(result.data)
-                this.$router.push('/login');
+                if(result.data === 'success'){
+                    this.$router.push('/login');
+                }
             }).catch(error=>{
                 console.log(error)
+                alert('입력란을 다시 확인해주세요.')
             })
         },
         validateEmailInput() {
@@ -127,7 +130,7 @@ export default {
             const loginId = this.loginId;
             console.log("loginId : " + loginId)
             const headers = {'Content-Type': 'application/json'};
-            axios.post("/member/idCheck", JSON.stringify({ loginId: loginId }), {headers}).then((res)=>{
+            axios.post("/api/v1/member/checkValidId", JSON.stringify({ loginId: loginId }), {headers}).then((res)=>{
                 console.log(res.data);
                 if(this.loginId === '' || LoginIdValidation === false) {
                     this.loginIdValidity = 'invalid'
@@ -158,7 +161,7 @@ export default {
             const password = this.password;
             console.log("password : " + password)
             const headers = {'Content-Type': 'application/json'};
-            axios.post("/member/pwCheck", JSON.stringify({password: password }), {headers}).then((res)=>{
+            axios.post("/api/v1/member/checkValidPw", JSON.stringify({password: password }), {headers}).then((res)=>{
                 console.log(res.data);
                 if(this.password === '' || passwordValidation === false) {
                     this.userPwCheckValidity = 'invalid'
