@@ -46,6 +46,10 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
+            '/api/v1/comment/likePost': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
             '/api/v1/comment/addComment': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
