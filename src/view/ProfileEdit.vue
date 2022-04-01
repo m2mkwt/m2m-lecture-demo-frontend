@@ -26,10 +26,10 @@
 
               <div class="flex-1">
                 <div class="text-xl">{{ userName }}</div>
-                <div class="cursor-pointer text-blue-500 text-sm font-semibold">
+                <div @click.prevent.self="this.$refs.uploadfile.click();" class="cursor-pointer text-blue-500 text-sm font-semibold">
                   프로필 사진 바꾸기
                 </div>
-                <input class="upload" @change="handleFileChange" type="file" />
+                <input ref="uploadfile" style="display:none;" @change="handleFileChange" type="file" />
               </div>
             </div>
 
