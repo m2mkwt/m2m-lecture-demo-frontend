@@ -50,7 +50,16 @@ export default {
             // })
         },
         submitUpdatedComment() {
-            console.log( this.contentComment+'으로 수정되었습니다')
+            axios.post ("/api/v1/comment/editComment",{
+                memberNo: store.memberNo,
+                postNo: this.postNo,
+                content: this.contentComment,
+                commentNo : this.commentNo
+            }).then(res => {
+                this.commentList = res.data.data;
+            }).catch(err => {
+                console.log(err);
+            })
         },
         deleteComment() {
             console.log("포스트 : " + this.commentNo)
