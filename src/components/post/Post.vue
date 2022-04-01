@@ -175,6 +175,7 @@ export default {
             commentList: [],
             postList: [],
             likeStatus: false,
+            commentList2: []
         }
     },
     props: [
@@ -223,8 +224,11 @@ export default {
                 memberNo: store.memberNo,
                 postNo: this.postNo,
                 content: this.createConent
-            }).then(res => {
-                this.commentList = res.data.data;
+                })
+                .then(res => {
+                this.commentList= res.data.data;
+                console.log('list',  this.commentList)
+                this.postNo = res.data.postNo;
             }).catch(err => {
                 console.log(err);
             })

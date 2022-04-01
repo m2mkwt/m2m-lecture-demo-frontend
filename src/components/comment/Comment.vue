@@ -58,6 +58,8 @@ export default {
                 commentNo : this.commentNo
             }).then(res => {
                 this.commentList = res.data.data;
+                console.log('list',  this.commentList)
+                this.postNo = res.data.postNo;
             }).catch(err => {
                 console.log(err);
             })
@@ -65,9 +67,12 @@ export default {
         deleteComment() {
             console.log("포스트 : " + this.commentNo)
             axios.post ("/api/v1/comment/removeComment",{
+                postNo: this.postNo,
                 commentNo: this.commentNo
             }).then(res => {
                 this.commentList = res.data.data;
+                console.log('list',  this.commentList)
+                this.postNo = res.data.postNo;
             }).catch(err => {
                 console.log(err);
             })
