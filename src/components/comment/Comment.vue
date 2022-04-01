@@ -4,7 +4,7 @@
     <div class="flex flex-col space-y-4">
         <div class="leading-none">
             <span class="font-semibold text-sm mr-2">{{ memberNo }}</span>
-            <span class="text-sm">{{ content }}</span>
+            <span class="text-sm">{{ contentComment }}</span>
         </div>
         <p class="text-gray-500 text-xs">{{ createdt }}</p>
     </div>
@@ -17,8 +17,8 @@ export default {
         'commentNo',
         'memberNo',
         'postNo',
-        'content',
-        'deleteYn',
+        'contentComment',
+        'deleteYN',
         'createdt'
     ]
 }

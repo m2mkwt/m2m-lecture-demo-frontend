@@ -43,6 +43,10 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
+            '/api/v1/comment/addComment': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
             '/commonCode/*': {
                 target: 'http://localhost:8090',
                 changeOrigin: true

@@ -50,7 +50,7 @@
             <div class="w-6">
                 <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M15.83 10.997a1.167 1.167 0 101.167 1.167 1.167 1.167 0 00-1.167-1.167zm-6.5 1.167a1.167 1.167 0 10-1.166 1.167 1.167 1.167 0 001.166-1.167zm5.163 3.24a3.406 3.406 0 01-4.982.007 1 1 0 10-1.557 1.256 5.397 5.397 0 008.09 0 1 1 0 00-1.55-1.263zM12 .503a11.5 11.5 0 1011.5 11.5A11.513 11.513 0 0012 .503zm0 21a9.5 9.5 0 119.5-9.5 9.51 9.51 0 01-9.5 9.5z"></path></svg>
             </div>
-            <div class="flex items-center flex-1">
+            <div class="flex items-center flex-1" >
                 <label class="hidden" for="comment">댓글</label>
                 <textarea ref="comment" 
                     name="comment" id="comment" rows="1" placeholder="댓글 달기..."
@@ -96,15 +96,16 @@
                     </div>
                     <!-- 댓글 -->
                     <div class="flex flex-col flex-1 px-4 pt-3 space-y-6 border-b overflow-y-auto">
-                        <comment> 
+                        <comment
                             v-for="comment in commentList"
+                            :key="comment.postNo"
                             :comment-no="comment.commentNo"
                             :member-no="comment.memberNo"
                             :post-no="comment.postNo"
-                            :content="comment.content"
-                            :deleteYn="comment.deleteYn"
+                            :contentComment="comment.content"
+                            :deleteYN="comment.deleteYN"
                             :createdt="comment.createdt"
-                        </comment>
+                        ></comment>
                     </div>
                     <div class="px-3 py-4 border-b">
                         <!-- action -->
@@ -129,16 +130,16 @@
                                 <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M15.83 10.997a1.167 1.167 0 101.167 1.167 1.167 1.167 0 00-1.167-1.167zm-6.5 1.167a1.167 1.167 0 10-1.166 1.167 1.167 1.167 0 001.166-1.167zm5.163 3.24a3.406 3.406 0 01-4.982.007 1 1 0 10-1.557 1.256 5.397 5.397 0 008.09 0 1 1 0 00-1.55-1.263zM12 .503a11.5 11.5 0 1011.5 11.5A11.513 11.513 0 0012 .503zm0 21a9.5 9.5 0 119.5-9.5 9.51 9.51 0 01-9.5 9.5z"></path></svg>
                             </div>
                             <div class="flex items-center flex-1">
-                                <label class="hidden" for="comment">댓글</label>
+                                <label class="hidden" for="content">댓글</label>
                                 <textarea ref="comment" 
-                                name="comment" id="comment" rows="1" placeholder="댓글 달기..."
+                                name="content" id="content" rows="1" placeholder="댓글 달기..."
                                 class="focus:outline-none text-sm py-2 pl-3 w-full text-left resize-none scrollbar-hide"
-                                v-model="comment">
+                                v-model="createConent">
                                 </textarea>
                             </div>
                         </div>
                         <div class="w-7">
-                            <button class="text-blue-500 text-sm font-semibold">게시</button>
+                            <button class="text-blue-500 text-sm font-semibold" @click="addComment">게시</button>
                         </div>
                     </div>                                                            
                 </div>               
@@ -151,10 +152,12 @@
 import { ref, watch } from 'vue'
 import BaseDialog from '../ui/BaseDialog.vue'
 import Comment from '../comment/Comment.vue'
+import { store } from '../../store'
 import axios from 'axios'
 export default {
     data() {
         return {
+            createConent: '',
             open: false,
             commentList: []
         }
@@ -174,6 +177,7 @@ export default {
         'postNo',
         'filename',
         'likeCnt'
+        
     ],
     components: {
         BaseDialog,
@@ -184,18 +188,37 @@ export default {
             this.$refs.comment.focus()
         },
         getCommentsAll() {
-            // /api/v1/comment/selectCommentlist
-            axios.get("/api/v1/comment/selectCommentlist").then((res)=>{
+            axios.get("/api/v1/comment/selectCommentlist", {
+                params: {
+                    postNo: this.postNo
+                }
+            }).then((res)=>{
                 console.log(res);
                 console.log(res.data.data)
-                
                 this.commentList = res.data.data;
                 console.log(this.commentList)
+                this.postNo = res.data.postNo;
                 // commit mutation 
                 //this.$store.state.posts = res.data.data;
             }).catch((err) => {
                 console.log(err);
             });            
+        },
+        addComment(){
+            console.log("댓글작성");
+            console.log("postNo = " + this.postNo);
+            console.log("memnberNo = " + store.memberNo);
+            console.log("comment = " + this.createConent);
+            axios.post ("/api/v1/comment/addComment",{
+                memberNo: store.memberNo,
+                postNo: this.postNo,
+                content: this.createConent
+            }).then(res => {
+                console.log(res.data.data)
+                this.commentList = res.data.data;
+            }).catch(err => {
+                console.log(err);
+            })
         }
     },
     mounted() {
