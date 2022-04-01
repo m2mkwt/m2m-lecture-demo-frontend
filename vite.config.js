@@ -98,6 +98,18 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
+            '/api/v1/profile/getProfile': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/api/v1/profile/editProfile': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/api/v1/profile/editPassword': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
             '/idCheck': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
