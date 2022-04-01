@@ -117,6 +117,7 @@
 import { ref, watch } from 'vue'
 import BaseDialog from '../ui/BaseDialog.vue'
 import axios from 'axios'
+import { store } from '../../store'
 export default {
   data() {
     return {
@@ -132,7 +133,7 @@ export default {
     test(){
       console.log(this.content);
        axios.post('/api/v1/post/addPost', { 
-                        memberNo : 1,
+                        memberNo : store.memberNo,
                         content : this.content
                      }).then(result => {
                 console.log(result.data)

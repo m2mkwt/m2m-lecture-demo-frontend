@@ -258,6 +258,16 @@ export default {
 	        }).catch((err) => {
 		        console.log(err);
 	        });            
+        },
+        updatePost() {
+	        axios.post("/api/v1/post/editPost",{
+                postNo : 40
+            }).then((res)=>{
+		        console.log(res);
+                this.$router.go();
+	        }).catch((err) => {
+		        console.log(err);
+	        });            
         }
     },
     setup() {
