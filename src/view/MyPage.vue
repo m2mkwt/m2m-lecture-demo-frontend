@@ -69,8 +69,9 @@
             </div>
             <!-- photo area -->
             <div class="grid grid-cols-3 gap-7">
-                <div @click="toggleDialog" class="cursor-pointer relative" v-for="myImages in myPostList" :key="myImages.postNo">
-                    <img class="w-full" src="http://picsum.photos/100">
+                <div @click="toggleDialog" class="cursor-pointer relative" v-for="myImages in myPostList" v-bind:key="myImages.post_no">
+                    <img class="w-full" :src="myImages.filename">
+                    <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
                             <svg class="w-5 mr-1" color="#fff" fill="#fff" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 10-3.59 3.615L22 22z" fill="#fff" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
@@ -106,7 +107,7 @@
                             <div class="flex items-center justify-between px-4 py-3 border-b">
                                 <div class="flex items-center">
                                     <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mr-4">
-                                    <p class="font-semibold text-sm">kimcoca</p>
+                                    <p class="font-semibold text-sm">{{ member.userName }}</p>
                                 </div>
                                 <div class="cursor-pointer" @click="toggleModal">
                                     <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
@@ -117,7 +118,7 @@
                                 <div class="flex space-x-4">
                                     <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full">
                                     <div class="flex flex-col">
-                                        <p class="font-semibold text-sm">kimcoca</p>
+                                        <p class="font-semibold text-sm">{{ member.userName }}</p>
                                         <p class="text-gray-500 text-xs pt-2">112주</p>
                                     </div>
                                 </div>
@@ -201,34 +202,35 @@ export default {
             this.$refs.comment.focus()
         },
         getMember() {
-            console.log('회원 정보 조회 api 호출')
-            console.log('현재 로그인한 user의 memberNo: ' + store.memberNo);
+            // console.log('회원 정보 조회 api 호출')
+            // console.log('현재 로그인한 user의 memberNo: ' + store.memberNo);
 	        axios.get("/api/v1/mypage/getMember",{
                 params: {
                     memberNo : store.memberNo
                 }
             }).then((res)=>{
-		        console.log(res);
+		        // console.log(res);
                 this.member = res.data.data;
-                console.log(member);
+                // console.log(member);
 	        }).catch((err) => {
 		        console.log(err);
 	        });
         },
-        getPostCnt() {
-            console.log('내가 작성한 게시물 갯수 조회 api 호출')
-	        axios.get("/api/v1/mypage/getPostCnt",{
-                params: {
-                    memberNo : store.memberNo
-                }
-            }).then((res)=>{
-		        console.log(res);
-                this.myPostCount = res.data.count;
-                
-	        }).catch((err) => {
-		        console.log(err);
-	        });
-        },
+        // * 쿼리 잘못되어있어 주석처리하고 erarchPostList에서 res.data.count 사용
+        // getPostCnt() {
+        //     console.log('내가 작성한 게시물 갯수 조회 api 호출')
+	    //     axios.get("/api/v1/mypage/getPostCnt",{
+        //         params: {
+        //             memberNo : store.memberNo
+        //         }
+        //     }).then((res)=>{
+		//         console.log(res);
+        //         this.myPostCount = res.data.count;
+        //         console.log('내 게시물 갯수: ' + this.myPostCount);
+	    //     }).catch((err) => {
+		//         console.log(err);
+	    //     });
+        // },
         searchPostList() {
             console.log('내가 작성한 게시물 조회 api 호출')
 	        axios.get("/api/v1/mypage/searchPostList",{
@@ -237,8 +239,8 @@ export default {
                 }
             }).then((res)=>{
 		        console.log(res);
+                this.myPostCount = res.data.count;
                 this.myPostList = res.data.data;
-                console.log(this.myPostList);
 	        }).catch((err) => {
 		        console.log(err);
 	        });            
@@ -280,7 +282,7 @@ export default {
     },
     mounted() {
         this.getMember(),
-        this.getPostCnt(),
+        // this.getPostCnt(),
         this.searchPostList()
     }    
 }
