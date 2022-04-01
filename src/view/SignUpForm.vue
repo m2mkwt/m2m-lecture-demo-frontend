@@ -38,7 +38,7 @@
                     <label class="hidden" for="password">비밀번호</label>
                     <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
                 </div>
-                <p class="text-rose-600" v-if="userPwCheckValidity === 'invalid'">특수문자와 대문자,소문자,숫자,공백을 확인해주세요.</p>
+                <p class="text-rose-600" v-if="userPwCheckValidity === 'invalid'">특수문자와 소문자,숫자,공백을 확인해주세요.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호 확인</label>
                     <input @blur="validatePwConfirmInput" id="passwordConfirm" v-model="passwordConfirm" :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호 확인">
@@ -96,6 +96,7 @@ export default {
              }).then(result => {
                 console.log(result.data)
                 if(result.data === 'success'){
+                    alert("가입을 축하드립니다.");
                     this.$router.push('/login');
                 }
             }).catch(error=>{
@@ -193,7 +194,9 @@ export default {
             }else {
                 this.inputFieldValidity = 'invalid'
             }
-        }
+        },
+        
+
     }
 }
 </script>
