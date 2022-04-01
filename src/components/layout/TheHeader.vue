@@ -41,7 +41,7 @@
                       </router-link>
                     </div>
                     <div class="px-4 py-2 flex items-center w-full border-t">
-                      <span>로그아웃</span>
+                      <span @click="logOut()">로그아웃</span>
                     </div>
                   </div>
                 </div>
@@ -203,6 +203,24 @@ export default {
       //     alert("이미지 등록이 실패 하였습니다.");
       //   });
     },    
+    logOut() {
+        this.$store.dispatch('LOGOUT')
+        .then((data) => {
+          console.log("logOut data: " + data);
+          if (data) {
+            console.log('로그아웃 성공!')
+            this.redirect()
+          }
+        })
+        .catch(({ message}) => {
+          console.log("logOut catch: " + message);
+          console.log(message);
+          // this.msg = message
+        })
+      },
+      redirect() {
+        this.$router.push('/login');
+      }
   },
   components: {
     BaseDialog
