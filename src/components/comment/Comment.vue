@@ -3,7 +3,7 @@
     <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
     <div class="flex flex-col space-y-4">
         <div class="leading-none">
-            <span class="font-semibold text-sm mr-2">{{ memberNo }}</span>
+            <span class="font-semibold text-sm mr-2">{{ loginId }}</span>
             <!-- <span class="text-sm">{{ contentComment }}</span> -->
             <label for="comment" class="hidden">댓글</label>
             <input @keyup.enter="submitUpdatedComment" v-model="contentComment" class="text-sm focus:outline-none" type="text" ref="commentCont" name="comment" id="comment">
@@ -28,6 +28,7 @@ import { store } from '../../store'
 import axios from 'axios'
 export default {
     props: [
+        'loginId',
         'commentNo',
         'memberNo',
         'postNo',

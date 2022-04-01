@@ -105,6 +105,7 @@
                         <comment
                             v-for="comment in commentList"
                             :key="comment.postNo"
+                            :loginId="comment.loginId"
                             :comment-no="comment.commentNo"
                             :member-no="comment.memberNo"
                             :post-no="comment.postNo"
