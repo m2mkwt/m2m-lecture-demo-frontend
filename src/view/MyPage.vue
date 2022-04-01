@@ -69,7 +69,7 @@
             </div>
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
-                <div @click="toggleDialog" class="cursor-pointer relative" v-for="myImages in myPostList" v-bind:key="myImages.post_no">
+                <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="myImages.post_no">
                     <img class="w-full" :src="myImages.filename">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
@@ -123,7 +123,7 @@
                                     <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full">
                                     <div class="flex flex-col">
                                         <p class="font-semibold text-sm">{{ member.userName }}</p>
-                                        <p class="text-gray-500 text-xs pt-2">112주</p>
+                                        <p class="text-gray-500 text-xs pt-2">{{myPostDetailList.content}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -139,9 +139,9 @@
                                     </div>
                                 </div>
                                 <!-- info : like -->
-                                <p class="text-sm font-semibold pt-3 pb-2">좋아요 1,193개</p>
+                                <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{myPostDetailList.likeCnt}}개</p>
                                 <!-- info : date -->
-                                <p class="text-gray-500 text-xs">2020년 2월 2월</p>    
+                                <p class="text-gray-500 text-xs">{{myPostDetailList.createdt}}</p>    
                             </div> 
                             <!-- comment : create -->
                             <div class="px-3 py-2 border-t flex justify-between items-center">
@@ -172,7 +172,7 @@
                 <div class="flex flex-col w-ful">
                     <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold" @click="removePost">삭제</div>
                     <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center" @click="updatePost">수정</div>
-                    <div class="cursor-pointer py-3 w-full text-center">취소</div>
+                    <div class="cursor-pointer py-3 w-full text-center" >취소</div>
                 </div>
             </div>        
         </base-modal>
@@ -192,7 +192,9 @@ export default {
             comment: '',
             member: {},
             myPostCount: '',
-            myPostList: []
+            myPostList: [],
+            post_no : '',
+            myPostDetailList: {}
         }
     },
     components: {
@@ -251,7 +253,7 @@ export default {
         },
         removePost() {
 	        axios.post("/api/v1/post/removePost",{
-                postNo : 40
+                postNo : this.post_no
             }).then((res)=>{
 		        console.log(res);
                 this.$router.go();
@@ -261,19 +263,34 @@ export default {
         },
         updatePost() {
 	        axios.post("/api/v1/post/editPost",{
-                postNo : 40
+                postNo : this.post_no
             }).then((res)=>{
 		        console.log(res);
-                this.$router.go();
+                //this.$router.go();
 	        }).catch((err) => {
 		        console.log(err);
 	        });            
+        },
+        getPostList(index) {
+            console.log(index)
+            axios.get("/api/v1/post/getPost" ,{
+                params: {
+                    postNo : index
+                }
+            }).then((res)=>{
+                console.log(res);
+                this.post_no = index;
+                this.myPostDetailList = res.data.data;
+                this.toggleDialog(index)
+            }).catch((err) => {
+                console.log(err);
+            });            
         }
     },
     setup() {
         const dialogActive = ref(false)
         const modalActive = ref(false)
-        const toggleDialog = () => {
+        const toggleDialog = (index) => {
             dialogActive.value = !dialogActive.value
         } 
         const toggleModal = () => {
@@ -298,6 +315,8 @@ export default {
         this.getMember(),
         // this.getPostCnt(),
         this.searchPostList()
+        
+        //this.getPostList()
     }    
 }
 </script>
