@@ -15,7 +15,7 @@
                             :key="post.postNo"
                             :post-no="post.postNo"
                             :login-id="post.loginId"
-                            :text="post.text"
+                            :content="post.content"
                             :createdt="post.createdt"
                             :comment-cnt="post.commentCnt"
                             filename="http://picsum.photos/640/640"
