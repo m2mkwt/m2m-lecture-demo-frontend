@@ -67,8 +67,8 @@
                     <div>288</div>
                 </div> -->
             </div>
-            <!-- photo area -->
-            <div class="grid grid-cols-3 gap-7">
+            <!-- photo area 게시물이 존재할 경우 -->
+            <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="toggleDialog" class="cursor-pointer relative" v-for="myImages in myPostList" v-bind:key="myImages.post_no">
                     <img class="w-full" :src="myImages.filename">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
@@ -89,6 +89,10 @@
                         </div>
                     </div>
                 </div> -->
+            </div>
+            <!-- photo area 게시물이 존재하지 않을 경우 -->
+            <div class="h-96 text-center bg-zinc-50 pt-12 pb-14 " v-show="myPostCount === 0">
+                <p class="text-center font-bold inline-block align-middle text-lg">소중한 순간을 포착하여 공유해보세요.</p>
             </div>
         </div>
         <the-footer></the-footer>
