@@ -159,7 +159,8 @@ export default {
         return {
             createConent: '',
             open: false,
-            commentList: []
+            commentList: [],
+            postList: []
         }
     },
     props: [
@@ -220,10 +221,22 @@ export default {
             }).catch(err => {
                 console.log(err);
             })
+        },
+        getPostList() {
+            axios.get("/api/v1/post/getPost" ,{
+                params: {
+                    postNo : this.postNo
+                }
+            }).then((res)=>{
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            });            
         }
     },
     mounted() {
         this.getCommentsAll()
+        this.getPostList()
     },
     setup() {
         const dialogActive = ref(false)

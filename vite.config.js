@@ -34,11 +34,19 @@ export default defineConfig({
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
+            '/api/v1/post/getList': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
             '/api/v1/post/addPost': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
             '/api/v1/post/removePost': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '/api/v1/post/editPost': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             },
