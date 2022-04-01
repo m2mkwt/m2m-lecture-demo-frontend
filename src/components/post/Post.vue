@@ -96,7 +96,7 @@
                     </div>
                     <!-- 댓글 -->
                     <div class="flex flex-col flex-1 px-4 pt-3 space-y-6 border-b overflow-y-auto">
-                        <comment 
+                        <comment> 
                             v-for="comment in commentList"
                             :comment-no="comment.commentNo"
                             :member-no="comment.memberNo"
@@ -104,7 +104,7 @@
                             :content="comment.content"
                             :deleteYn="comment.deleteYn"
                             :createdt="comment.createdt"
-                        ></comment>
+                        </comment>
                     </div>
                     <div class="px-3 py-4 border-b">
                         <!-- action -->
