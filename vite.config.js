@@ -3,7 +3,10 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [vue({
+        reactivityTransform: true
+    })],
+    base: './',
     server: {
         // port: 3000,
         proxy: {
@@ -72,6 +75,10 @@ export default defineConfig({
                 changeOrigin: true
             },
             '/idCheck': {
+                target: 'http://localhost:8090',
+                changeOrigin: true
+            },
+            '^/api/v1/*': {
                 target: 'http://localhost:8090',
                 changeOrigin: true
             }
