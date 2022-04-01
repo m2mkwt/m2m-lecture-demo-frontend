@@ -136,7 +136,7 @@ export default {
                         content : this.content
                      }).then(result => {
                 console.log(result.data)
-                this.$router.push({path: '/home'});
+                this.$router.go();
             }).catch(error=>{
                 console.log(error)
             })
