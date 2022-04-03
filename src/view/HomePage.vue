@@ -20,6 +20,7 @@
                             :comment-cnt="post.commentCnt"
                             filename="http://picsum.photos/640/640"
                             :like-cnt="post.likeCnt"
+                            :member-no="post.memberNo"
                         ></post>
                     <!-- </div>
                     <div v-else>
@@ -58,7 +59,7 @@ export default {
                 console.log(res.data.data.data)
                 
                 this.postList = res.data.data;
-                console.log(this.postList)
+                console.log('postList: ' + this.postList);
                 // commit mutation 
                 //this.$store.state.posts = res.data.data;
             }).catch((err) => {
