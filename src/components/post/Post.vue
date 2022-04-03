@@ -6,7 +6,7 @@
             <img :src="filename" class="w-8 h-8 rounded-full mr-3">
             <p class="font-semibold text-sm">{{ loginId }}</p>
         </div>
-        <div class="cursor-pointer">
+        <div class="cursor-pointer" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
             <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
         </div> 
     </div>
@@ -158,11 +158,20 @@
             </div>
         </div>
     </div>
-</base-dialog>  
+</base-dialog>
+<!-- <base-modal @close="toggleModal" :modalActive="modalActive">
+        <div class="bg-white rounded-lg z-50 w-96">
+            <div class="flex flex-col w-ful">
+                <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold">삭제</div>
+                <div class="cursor-pointer py-3 w-full text-center" >취소</div>
+            </div>
+        </div>        
+</base-modal>   -->
 </template>
 <script>
 import { ref, watch } from 'vue'
 import BaseDialog from '../ui/BaseDialog.vue'
+import BaseModal from '../ui/BaseModal.vue'
 import Comment from '../comment/Comment.vue'
 import { store } from '../../store'
 import axios from 'axios'
@@ -184,7 +193,8 @@ export default {
         'commentCnt',
         'postNo',
         'filename',
-        'likeCnt'
+        'likeCnt',
+        'memberNo'
         
     ],
     components: {
@@ -247,11 +257,16 @@ export default {
     mounted() {
         this.getCommentsAll()
         this.getPostList()
+
     },
     setup() {
         const dialogActive = ref(false)
+        const modalActive = ref(false)
         const toggleDialog = (index) => {
             dialogActive.value = !dialogActive.value
+        }
+        const toggleModal = () => {
+            modalActive.value = !modalActive.value
         }
         watch(dialogActive, () => {
             if(dialogActive.value) {
@@ -266,8 +281,8 @@ export default {
                 document.body.style.overflow = 'auto'
             }
         })
-        return { dialogActive, toggleDialog }         
-    }  
+        return { dialogActive, modalActive, toggleDialog, toggleModal }         
+    },
 }
 </script>
 
