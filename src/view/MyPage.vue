@@ -171,7 +171,6 @@
             <div class="bg-white rounded-lg z-50 w-96">
                 <div class="flex flex-col w-ful">
                     <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold" @click="removePost">삭제</div>
-                    <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center" @click="updatePost">수정</div>
                     <div class="cursor-pointer py-3 w-full text-center" >취소</div>
                 </div>
             </div>        
