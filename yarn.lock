@@ -800,6 +800,11 @@
   "resolved" "https://registry.npmjs.org/imurmurhash/-/imurmurhash-0.1.4.tgz"
   "version" "0.1.4"
 
+"infinite-loading-vue3@^1.0.1":
+  "integrity" "sha512-3akMDvIMUv2Vsyt/HY+peLGVg3R/vozrLEv8Hz3EmoB/GQX2fdjzTmMKUPKrytBizAbA36UKI0yRJ2Ej3w8Ebw=="
+  "resolved" "https://registry.npmjs.org/infinite-loading-vue3/-/infinite-loading-vue3-1.0.1.tgz"
+  "version" "1.0.1"
+
 "inflight@^1.0.4":
   "integrity" "sha1-Sb1jMdfQLQwJvJEKEHW6gWW1bfk="
   "resolved" "https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz"
@@ -1328,6 +1333,11 @@
     "lodash" "^4.17.21"
     "semver" "^7.3.5"
 
+"vue-infinite-loading@^2.4.5":
+  "integrity" "sha512-xhq95Mxun060bRnsOoLE2Be6BR7jYwuC89kDe18+GmCLVrRA/dU0jrGb12Xu6NjmKs+iTW0AA6saSEmEW4cR7g=="
+  "resolved" "https://registry.npmjs.org/vue-infinite-loading/-/vue-infinite-loading-2.4.5.tgz"
+  "version" "2.4.5"
+
 "vue-router@^4.0.13":
   "integrity" "sha512-wAO6zF9zxA3u+7AkMPqw9LjoUCjSxfFvINQj3E/DceTt6uEz1XZLraDhdg2EYmvVwTBSGlLYsUw8bDmx0754Mw=="
   "resolved" "https://registry.npmjs.org/vue-router/-/vue-router-4.0.14.tgz"
@@ -1335,7 +1345,7 @@
   dependencies:
     "@vue/devtools-api" "^6.0.0"
 
-"vue@^3.0.2", "vue@^3.2.0", "vue@^3.2.25", "vue@3.2.31":
+"vue@^2.6.10", "vue@^3.0.2", "vue@^3.0.5", "vue@^3.2.0", "vue@^3.2.25", "vue@3.2.31":
   "integrity" "sha512-odT3W2tcffTiQCy57nOT93INw1auq5lYLLYtWpPYQQYQOOdHiqFct9Xhna6GJ+pJQaF67yZABraH47oywkJgFw=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.31.tgz"
   "version" "3.2.31"
