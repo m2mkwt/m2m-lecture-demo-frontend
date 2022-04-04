@@ -69,13 +69,13 @@
             </div>
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
-                <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="myImages.post_no">
+                <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="post_no">
                     <img class="w-full" :src="myImages.filename">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
                             <svg class="w-5 mr-1" color="#fff" fill="#fff" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 10-3.59 3.615L22 22z" fill="#fff" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
-                            <p>23</p>
+                                <p>{{myImages.cntComment}}</p>
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,8 @@ export default {
             myPostCount: '',
             myPostList: [],
             post_no : '',
-            myPostDetailList: {}
+            myPostDetailList: {},
+            cntComment: ''
         }
     },
     components: {
@@ -241,9 +242,11 @@ export default {
 	        axios.get("/api/v1/mypage/searchPostList",{
                 params: {
                     memberNo : store.memberNo
+                    
                 }
             }).then((res)=>{
 		        console.log(res);
+                
                 this.myPostCount = res.data.count;
                 this.myPostList = res.data.data;
 	        }).catch((err) => {

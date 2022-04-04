@@ -36,7 +36,7 @@
                 <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
-                    <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
+                    <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwCheckValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
                 </div>
                 <p class="text-rose-600" v-if="userPwCheckValidity === 'invalid'">특수문자와 소문자,숫자,공백을 확인해주세요.</p>
                 <div>
@@ -76,7 +76,12 @@ export default {
             loginIdValidity: 'pending',
             userPwValidity: 'pending',
             userPwConfirmValidity: 'pending',
-            inputFieldValidity: 'pending' 
+            inputFieldValidity: 'pending' ,
+            //패스워드 수정
+            userPwCheckValidity: 'pending',
+            //아이디 수정
+            loginIdCheckValidity: 'pending',
+            loginIdValidity: 'pending'
         }
     },
     methods: {
@@ -89,16 +94,22 @@ export default {
             console.log('loginId: ' + this.loginId);
             console.log('password: ' + this.password);
             axios.post('/api/v1/member/registMember', { 
+                
                 email: this.userEmailId+'@'+this.userEmailDomain,
                 userName: this.userName,
                 loginId: this.loginId,
                 password: this.password 
              }).then(result => {
                 console.log(result.data)
-                if(result.data === 'success'){
-                    alert("가입을 축하드립니다.");
+                //이메일의 도메인 유효성 체크
+                if (this.userEmailDomain==="") {
+                    alert("이메일의 도메인을 확인해주세요")
+                    this.$router.push('/signup');
+                } else {
+                     alert("가입을 축하드립니다.");
                     this.$router.push('/login');
                 }
+                
             }).catch(error=>{
                 console.log(error)
                 alert('입력란을 다시 확인해주세요.')
@@ -123,9 +134,7 @@ export default {
             } 
         },
         validateLoginIdInput() {
-            // 영어 + 숫자만 허용
-            const LoginIdCheckReg = /^[A-Za-z0-9+]*$/;
-            let LoginIdValidation = LoginIdCheckReg.test(this.loginId);
+           
             // 아이디 중복 체크 api 호출
             console.log("id 중복체크 함수 실행");
             const loginId = this.loginId;
@@ -147,16 +156,12 @@ export default {
             }).catch((err) => {
                 console.log(err);
             });
+            // 영어 + 숫자만 허용
+            const LoginIdCheckReg = /^[A-Za-z0-9+]*$/;
+            let LoginIdValidation = LoginIdCheckReg.test(this.loginId);
         },
         validatePwInput() {
-            // 최소 1개의 숫자 혹은 특수문자 포함하며 8~20자 사이 체크
-            const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,20}$/;
-            let passwordValidation = passwordCheckReg.test(this.password);
-            if(this.password === '' || passwordValidation === false) {
-                this.userPwCheckValidity = 'invalid'
-            } else {
-                this.userPwCheckValidity = 'valid'
-            } 
+           
             //비밀번호 유효성 api호출
             console.log("비밀번호 중복체크 함수 실행");
             const password = this.password;
@@ -170,7 +175,7 @@ export default {
                     this.userPwCheckValidity = 'valid'
                 } 
                 if(res.data === 0){
-                    this.userPwCheckValidity = 'valid';
+                    this.userPwCheckValidity = 'valid'
                 }else{
                     this.userPwCheckValidity = 'invalid'
                     this.password = '';
@@ -178,6 +183,15 @@ export default {
             }).catch((err) => {
                 console.log(err);
             });
+              // 최소 1개의 숫자 혹은 특수문자 포함하며 8~20자 사이 체크
+            console.log('패스워드 테스트' )
+            const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,20}$/;
+            let passwordValidation = passwordCheckReg.test(this.password);
+            if(this.password === '' || passwordValidation === false) {
+                this.userPwCheckValidity = 'invalid'
+            } else {
+                this.userPwCheckValidity = 'valid'
+            } 
         },
         validatePwConfirmInput() {
             // 비밀번호 = 비밀번호확인 체크
@@ -195,7 +209,7 @@ export default {
                 this.inputFieldValidity = 'invalid'
             }
         },
-        
+       
 
     }
 }
