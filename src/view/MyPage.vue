@@ -6,7 +6,7 @@
             <div class="flex flex-col md:flex md:items-center px-4 pb-8 mb-0 md:mb-12 lg:px-12 lg:space-x-0 border-b">
                 <div class="flex space-x-6 md:space-x-0">
                     <div class="cursor-pointer">
-                        <img class="rounded-full w-20 md:w-32 lg:w-40" src="../assets/images/avatar_lg.jpg">
+                        <img class="rounded-full w-20 md:w-32 lg:w-40" src="../assets/images/avatar_lg.jpg" @error="replaceByDefaultProfile"> 
                     </div>
                     <div class="md:px-24 flex flex-col space-y-6">
                         <!-- 1st row -->
@@ -70,7 +70,7 @@
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="myImages.post_no">
-                    <img class="w-full" :src="myImages.filename">
+                    <img class="w-full" :src="myImages.filename" @error="replaceByDefault">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
@@ -103,7 +103,7 @@
                     <div class="flex">
                         <!-- photo -->
                         <div class="w-7/12">
-                            <img class="h-full w-full" src="http://picsum.photos/100">
+                            <img class="h-full w-full" src="http://picsum.photos/100" @error="replaceByDefault">
                         </div>
                         <!-- content -->
                         <div class="flex-1 flex flex-col">
@@ -184,6 +184,8 @@ import TheFooter from '../components/layout/TheFooter.vue'
 import BaseDialog from '../components/ui/BaseDialog.vue'
 import BaseModal from '../components/ui/BaseModal.vue'
 import { store } from '../store'
+import img from '../assets/images/errorImage.png'
+import profileImg from '../assets/images/avatar.jpg'
 import axios from 'axios'
 export default {
     data() {
@@ -203,6 +205,12 @@ export default {
         BaseModal
     },
     methods: {
+        replaceByDefault(e) {
+            e.target.src = img
+        },
+        replaceByDefaultProfile(e) {
+            e.target.src = profileImg
+        },
         setFocus() {
             this.$refs.comment.focus()
         },
