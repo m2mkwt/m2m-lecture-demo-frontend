@@ -171,7 +171,7 @@
             <div class="bg-white rounded-lg z-50 w-96">
                 <div class="flex flex-col w-ful">
                     <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold" @click="removePost">삭제</div>
-                    <div class="cursor-pointer py-3 w-full text-center" >취소</div>
+                    <div class="cursor-pointer py-3 w-full text-center">취소</div>
                 </div>
             </div>        
         </base-modal>
@@ -271,15 +271,16 @@ export default {
 	        });            
         },
         getPostList(index) {
-            console.log(index)
+            let post_no = this.myPostList[index].post_no;
             axios.get("/api/v1/post/getPost" ,{
                 params: {
-                    postNo : index
+                    postNo : post_no
                 }
             }).then((res)=>{
                 console.log(res);
-                this.post_no = index;
+                this.post_no = post_no ;
                 this.myPostDetailList = res.data.data;
+                this.searchPostList();
                 this.toggleDialog(index)
             }).catch((err) => {
                 console.log(err);
