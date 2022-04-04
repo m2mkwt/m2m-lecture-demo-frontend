@@ -171,7 +171,7 @@
             <div class="bg-white rounded-lg z-50 w-96">
                 <div class="flex flex-col w-ful">
                     <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold" @click="removePost">삭제</div>
-                    <div class="cursor-pointer py-3 w-full text-center">취소</div>
+                    <div class="cursor-pointer py-3 w-full text-center" @click="toggleModal" :modalActive="false">취소</div>
                 </div>
             </div>        
         </base-modal>
@@ -298,6 +298,19 @@ export default {
         }
         watch(dialogActive, () => {
             if(dialogActive.value) {
+                window.scrollTo(0,0)
+                document.body.style.overflow = 'hidden'
+            }else{
+                window.addEventListener("scroll", function() {
+                    let scrollX = window.scrollX
+                    let scrollY = window.scrollY
+                    window.scrollTo(scrollX, scrollY)
+                })
+                document.body.style.overflow = 'auto'
+            }
+        })
+        watch(modalActive, () => {
+            if(modalActive.value) {
                 window.scrollTo(0,0)
                 document.body.style.overflow = 'hidden'
             }else{
