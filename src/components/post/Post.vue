@@ -47,7 +47,7 @@
     </div>
     <!-- info : created date -->
     <div class="px-3 pt-2 pb-5">
-        <p class="text-xs text-gray-500">{{ dateFormat }}</p>
+        <p class="text-xs text-gray-500">{{ createdt }}</p>
     </div>
     <!-- comment : create -->
     <div class="px-3 py-2 border-t flex justify-between items-center">
@@ -70,7 +70,7 @@
     </div>
 </div>
 <base-dialog @close="toggleDialog" :dialogActive = "dialogActive">
-    <div class="w-full z-40 h-max px-10 max-w-6wl mx-auto">
+    <div class="w-full z-40 h-auto my-auto px-10 max-w-6wl mx-auto">
         <div class="bg-white rounded text-xl h-full">
             <div class="flex">
                 <!-- photo -->
@@ -133,7 +133,7 @@
                         <!-- info : like -->
                         <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{ likeCnt }}개</p>
                         <!-- info : date -->
-                        <p class="text-gray-500 text-xs">{{ dateFormat }}</p>    
+                        <p class="text-gray-500 text-xs">{{ createdt }}</p>    
                     </div> 
                     <!-- comment : create -->
                     <div class="px-3 py-2 border-t flex justify-between items-center">
@@ -159,14 +159,13 @@
         </div>
     </div>
 </base-dialog>
-<!-- <base-modal @close="toggleModal" :modalActive="modalActive">
+<base-modal @close="toggleModal" :modalActive="modalActive">
         <div class="bg-white rounded-lg z-50 w-96">
             <div class="flex flex-col w-ful">
-                <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold">삭제</div>
-                <div class="cursor-pointer py-3 w-full text-center" >취소</div>
+                <div class="cursor-pointer py-3 w-full text-center text-red-500 font-semibold">삭제</div>
             </div>
         </div>        
-</base-modal>   -->
+</base-modal>  
 </template>
 <script>
 import { ref, watch } from 'vue'
@@ -199,7 +198,8 @@ export default {
     ],
     components: {
         BaseDialog,
-        Comment
+        Comment,
+        BaseModal
     },
     methods: {
         setFocus(index) {
