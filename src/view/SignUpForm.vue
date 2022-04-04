@@ -36,7 +36,7 @@
                 <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
-                    <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
+                    <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwCheckValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
                 </div>
                 <p class="text-rose-600" v-if="userPwCheckValidity === 'invalid'">특수문자와 소문자,숫자,공백을 확인해주세요.</p>
                 <div>
@@ -76,7 +76,12 @@ export default {
             loginIdValidity: 'pending',
             userPwValidity: 'pending',
             userPwConfirmValidity: 'pending',
-            inputFieldValidity: 'pending' 
+            inputFieldValidity: 'pending', 
+            //패스워드 수정
+            userPwCheckValidity: 'pending',
+            //아이디 수정
+            loginIdCheckValidity: 'pending',
+            loginIdValidity: 'pending'
         }
     },
     methods: {
@@ -95,8 +100,12 @@ export default {
                 password: this.password 
              }).then(result => {
                 console.log(result.data)
-                if(result.data === 'success'){
-                    alert("가입을 축하드립니다.");
+                 //이메일의 도메인 유효성 체크
+                if (this.userEmailDomain==="") {
+                    alert("이메일의 도메인을 확인해주세요")
+                    this.$router.push('/signup');
+                } else {
+                     alert("가입을 축하드립니다.");
                     this.$router.push('/login');
                 }
             }).catch(error=>{
