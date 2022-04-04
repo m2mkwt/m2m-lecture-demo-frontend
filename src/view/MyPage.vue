@@ -6,7 +6,7 @@
             <div class="flex flex-col md:flex md:items-center px-4 pb-8 mb-0 md:mb-12 lg:px-12 lg:space-x-0 border-b">
                 <div class="flex space-x-6 md:space-x-0">
                     <div class="cursor-pointer">
-                        <img class="rounded-full w-20 md:w-32 lg:w-40" src="../assets/images/avatar_lg.jpg" @error="replaceByProfileDefault">
+                        <img class="rounded-full w-20 md:w-32 lg:w-40" src="../assets/images/avatar_lg.jpg">
                     </div>
                     <div class="md:px-24 flex flex-col space-y-6">
                         <!-- 1st row -->
@@ -28,9 +28,9 @@
                         <div class="md:flex space-x-10 hidden">
                             <div class="flex space-x-2">
                                 <div>게시물</div>
-                                <div class="font-medium">{{ myPostCount }}</div>
+                                <div class="font-medium">{{ myPostCount }}</div>    <!-- 수정 필요 -->
                             </div>
-                            <!-- 팔로우 기능 안써서 주석처리 -->
+                            <!-- 팔로우 기능 안쓰니까 지워야 하지 않을까 ...? -->
                             <!-- <div class="flex space-x-2">
                                 <div>팔로워</div>   
                                 <div class="font-medium">0</div>
@@ -41,7 +41,7 @@
                             </div> -->
                         </div>
                         <!-- 3rd row -->
-                        <!-- 소개 안써서 주석처리 -->
+                        <!-- 소개 안쓰면 지우기 -->
                         <!-- <div class="hidden md:block">
                             <div class="font-medium">Blah blah</div>
                         </div> -->
@@ -70,7 +70,7 @@
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="myImages.post_no">
-                    <img class="w-full" :src="myImages.filename" @error="replaceByDefault">
+                    <img class="w-full" :src="myImages.filename">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
@@ -103,14 +103,14 @@
                     <div class="flex">
                         <!-- photo -->
                         <div class="w-7/12">
-                            <img class="h-full w-full" src="http://picsum.photos/100" @error="replaceByDefault">
+                            <img class="h-full w-full" src="http://picsum.photos/100">
                         </div>
                         <!-- content -->
                         <div class="flex-1 flex flex-col">
                             <!-- top -->
                             <div class="flex items-center justify-between px-4 py-3 border-b">
                                 <div class="flex items-center">
-                                    <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mr-4" @error="replaceByDefault">
+                                    <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mr-4">
                                     <p class="font-semibold text-sm">{{ member.userName }}</p>
                                 </div>
                                 <div class="cursor-pointer" @click="toggleModal">
@@ -120,7 +120,7 @@
                             <!-- content -->
                             <div class="flex flex-1 px-4 pt-3 border-b">
                                 <div class="flex space-x-4">
-                                    <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full" @error="replaceByDefault">
+                                    <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full">
                                     <div class="flex flex-col">
                                         <p class="font-semibold text-sm">{{ member.userName }}</p>
                                         <p class="text-gray-500 text-xs pt-2">{{myPostDetailList.content}}</p>
@@ -184,8 +184,6 @@ import TheFooter from '../components/layout/TheFooter.vue'
 import BaseDialog from '../components/ui/BaseDialog.vue'
 import BaseModal from '../components/ui/BaseModal.vue'
 import { store } from '../store'
-import img from '../assets/images/errorImage.png'
-import avatarImg from '../assets/images/avatar.jpg'
 import axios from 'axios'
 export default {
     data() {
@@ -205,12 +203,6 @@ export default {
         BaseModal
     },
     methods: {
-        replaceByDefault(e) {
-            e.target.src = img
-        },
-        replaceByProfileDefault(e) {
-            e.target.src = avatarImg
-        },
         setFocus() {
             this.$refs.comment.focus()
         },
