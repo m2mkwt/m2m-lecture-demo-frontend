@@ -31,7 +31,7 @@
                 <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="6.545" x2="17.455" y1="12.001" y2="12.001"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12.003" x2="12.003" y1="6.545" y2="17.455"></line></svg>
               </div>
               <div class="relative cursor-pointer">
-                <img class="w-6" src="../assets/images/avatar.jpg" @click="toggleMenu()" @error="replaceByDefault">
+                <img class="w-6 rounded-full" :src="imgName" @click="toggleMenu()" @error="replaceByDefault">
                 <div v-show="menuDisplayed" class="absolute right-0 top-full w-52 bg-white shadow-md rounded">
                   <div class="text-left text-sm w-full">
                     <div class="w-full h-full px-4">
@@ -212,7 +212,23 @@ export default {
         .catch((error) => {
           alert("이미지 등록이 실패 하였습니다.");
         });
-    },    
+    },
+    getMember() {
+      console.log('getMember api 호출');
+      axios.get("/api/v1/mypage/getMember",{
+        params: {
+          memberNo : store.memberNo
+        }
+      }).then((res)=>{
+        console.log(res);
+        this.member = res.data.data.mvo;
+        if (this.member.mediaNo > 0)
+          this.imgName = res.data.data.imgName;
+            console.log('imgName : ' + this.imgName);
+      }).catch((err) => {
+        console.log(err);
+      });
+     },
     logOut() {
         this.$store.dispatch('LOGOUT')
         .then((data) => {
@@ -255,6 +271,9 @@ export default {
       }
     })
     return { dialogActive, toggleDialog }     
+  },
+  mounted() {
+    this.getMember()
   }
 }
 </script>
