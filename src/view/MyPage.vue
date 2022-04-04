@@ -225,7 +225,8 @@ export default {
             }).then((res)=>{
 		        console.log(res);
                 this.member = res.data.data.mvo;
-                this.imgName = res.data.data.imgName;
+                if (this.member.mediaNo > 0)
+                    this.imgName = res.data.data.imgName;
                 // console.log(member);
 	        }).catch((err) => {
 		        console.log(err);
