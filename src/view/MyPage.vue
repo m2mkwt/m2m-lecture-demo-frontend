@@ -5,8 +5,8 @@
             <!-- upper -->
             <div class="flex flex-col md:flex md:items-center px-4 pb-8 mb-0 md:mb-12 lg:px-12 lg:space-x-0 border-b">
                 <div class="flex space-x-6 md:space-x-0">
-                    <div class="cursor-pointer">
-                        <img class="rounded-full w-20 md:w-32 lg:w-40" :src="imgName" @error="replaceByDefaultProfile"> 
+                    <div class="cursor-pointer w-36 h-36">
+                        <img class="rounded-full w-full h-full" :src="imgName" @error="replaceByDefaultProfile"> 
                     </div>
                     <div class="md:px-24 flex flex-col space-y-6">
                         <!-- 1st row -->
@@ -70,7 +70,7 @@
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="post_no">
-                    <img class="w-full" :src="myImages.filename">
+                    <img class="w-full" :src="myImages.filename" @error="replaceByDefault">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">

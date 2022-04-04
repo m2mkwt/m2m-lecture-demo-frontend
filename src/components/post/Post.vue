@@ -202,17 +202,17 @@ export default {
         Comment,
         BaseModal
     },
-    computed: {
-        dateFormat : function() {
-            let charArr = ['년','월','일']
-            let postDate = ''
-            for(let i=0;i < charArr.length;i++) {
-                postDate += (((this.createdt.substr(0,16)).split('T')[0]).split('-'))[i]+charArr[i] + ' ' 
-            }
-            postDate += (this.createdt.substr(0,16).split('T')[1]).split(':')[0] + '시' + ' ' + (this.createdt.substr(0,16).split('T')[1]).split(':')[1] + '분'
-            return postDate
-        }
-    },
+    // computed: {
+    //     dateFormat : function() {
+    //         let charArr = ['년','월','일']
+    //         let postDate = ''
+    //         for(let i=0;i < charArr.length;i++) {
+    //             postDate += (((this.createdt.substr(0,16)).split('T')[0]).split('-'))[i]+charArr[i] + ' ' 
+    //         }
+    //         postDate += (this.createdt.substr(0,16).split('T')[1]).split(':')[0] + '시' + ' ' + (this.createdt.substr(0,16).split('T')[1]).split(':')[1] + '분'
+    //         return postDate
+    //     }
+    // },
     methods: {
         replaceByDefault(e) {
             e.target.src = img
@@ -285,6 +285,19 @@ export default {
         }
         watch(dialogActive, () => {
             if(dialogActive.value) {
+                window.scrollTo(0,0)
+                document.body.style.overflow = 'hidden'
+            }else{
+                window.addEventListener("scroll", function() {
+                    let scrollX = window.scrollX
+                    let scrollY = window.scrollY
+                    window.scrollTo(scrollX, scrollY)
+                })
+                document.body.style.overflow = 'auto'
+            }
+        })
+        watch(modalActive, () => {
+            if(modalActive.value) {
                 window.scrollTo(0,0)
                 document.body.style.overflow = 'hidden'
             }else{
