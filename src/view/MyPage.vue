@@ -6,7 +6,7 @@
             <div class="flex flex-col md:flex md:items-center px-4 pb-8 mb-0 md:mb-12 lg:px-12 lg:space-x-0 border-b">
                 <div class="flex space-x-6 md:space-x-0">
                     <div class="cursor-pointer">
-                        <img class="rounded-full w-20 md:w-32 lg:w-40" src="../assets/images/avatar_lg.jpg" @error="replaceByDefaultProfile"> 
+                        <img class="rounded-full w-20 md:w-32 lg:w-40" :src="imgName" @error="replaceByDefaultProfile"> 
                     </div>
                     <div class="md:px-24 flex flex-col space-y-6">
                         <!-- 1st row -->
@@ -195,7 +195,8 @@ export default {
             myPostCount: '',
             myPostList: [],
             post_no : '',
-            myPostDetailList: {}
+            myPostDetailList: {},
+            imgName: "/src/assets/images/avatar_lg.jpg"
         }
     },
     components: {
@@ -222,8 +223,9 @@ export default {
                     memberNo : store.memberNo
                 }
             }).then((res)=>{
-		        // console.log(res);
-                this.member = res.data.data;
+		        console.log(res);
+                this.member = res.data.data.mvo;
+                this.imgName = res.data.data.imgName;
                 // console.log(member);
 	        }).catch((err) => {
 		        console.log(err);

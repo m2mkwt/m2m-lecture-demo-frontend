@@ -131,6 +131,7 @@
                 <div>
                   <label class="hidden" for="oldPassword">기존비밀번호</label>
                   <input
+                    v-model="oldPassword"
                     id="oldPassword"
                     class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
                     type="password"
@@ -215,13 +216,14 @@ export default {
   },
   data() {
     return {
-      memberNo: "",
+      memberNo: store.memberNo,
+      mediaNo: "",
       loginId: "",
       userName: "",
       email: "",
       gender: "",
 
-      imgName: "/avatar.jpg",
+      imgName: "/src/assets/images/avatar.jpg",
       imgs: [],
       imgData: {
         accept: "image/gif, image/jpeg, image/png, image/jpg",
@@ -245,12 +247,16 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          let member = res.data;
+          let member = res.data.mvo;
           this.memberNo = member.memberNo;
+          this.mediaNo = member.mediaNo;
           this.loginId = member.loginId;
           this.userName = member.userName;
           this.email = member.email;
           let gender = member.gender;
+          if (res.data.filename!="") {
+            this.imgName = res.data.filename;
+          }
           if (gender == "F")
               this.gender = "여성";
           else
@@ -294,6 +300,9 @@ export default {
       }
       let form = new FormData();
       form.append("fileList", img1, img1.name);
+      form.append("memberNo", this.memberNo);
+      form.append("mediaNo", this.mediaNo);
+      form.append("uploadType", "profile");
       axios
         .post("/api/v1/common/uploadImg", form, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -365,6 +374,7 @@ export default {
         newPassword: this.newPassword,
         memberNo: store.memberNo
       }
+      console.log(data);
       let url = "/api/v1/profile/editPassword";
       axios
         .post(url, data)
