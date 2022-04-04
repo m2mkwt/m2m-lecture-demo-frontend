@@ -165,8 +165,7 @@ export default {
       console.log(this.content);
        axios.post('/api/v1/post/addPost', { 
                         memberNo : store.memberNo,
-                        content : this.content,
-                        mediaNo : this.mediaNo
+                        content : this.content
                      }).then(result => {
                 console.log(result.data)
                 this.$router.go();
