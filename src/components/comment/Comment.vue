@@ -2,22 +2,23 @@
     <div class="flex space-x-4">
     <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
     <div class="flex flex-col space-y-4">
-        <div class="leading-none">
+        <div class="leading-none" >
             <span class="font-semibold text-sm mr-2">{{ loginId }}</span>
             <!-- <span class="text-sm">{{ contentComment }}</span> -->
             <label for="comment" class="hidden">댓글</label>
             <input @keyup.enter="submitUpdatedComment" v-model="contentComment" class="text-sm focus:outline-none" type="text" ref="commentCont" name="comment" id="comment">
         <button
             class="bg-blue-100 rounded py-1 px-1 text-white font-semibold"
-            @click="updateComment">
+            @click="updateComment"  v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
             수정
         </button>
         <button
             class="bg-blue-100 rounded py-1 px-1 text-white font-semibold"
-            @click="deleteComment">
+            @click="deleteComment" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
             삭제
         </button>
-        </div>
+        </div>    
+
         <p class="text-gray-500 text-xs">{{ createdt }}</p>
     </div>
 </div>   
@@ -72,7 +73,6 @@ export default {
             }).then(res => {
                 this.commentList = res.data.data;
                 console.log('list',  this.commentList)
-                this.postNo = res.data.postNo;
             }).catch(err => {
                 console.log(err);
             })
