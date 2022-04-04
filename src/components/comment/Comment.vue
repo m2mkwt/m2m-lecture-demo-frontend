@@ -1,24 +1,28 @@
 <template>
-    <div class="flex space-x-4">
+    <div class="flex space-x-4 w-full">
     <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
-    <div class="flex flex-col space-y-4">
-        <div class="leading-none" >
-            <span class="font-semibold text-sm mr-2">{{ loginId }}</span>
-            <!-- <span class="text-sm">{{ contentComment }}</span> -->
-            <label for="comment" class="hidden">댓글</label>
-            <input @keyup.enter="submitUpdatedComment" v-model="contentComment" class="text-sm focus:outline-none" type="text" ref="commentCont" name="comment" id="comment">
-        <button
-            class="bg-blue-100 rounded py-1 px-1 text-white font-semibold"
-            @click="updateComment"  v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
-            수정
-        </button>
-        <button
-            class="bg-blue-100 rounded py-1 px-1 text-white font-semibold"
-            @click="deleteComment" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
-            삭제
-        </button>
+    <div class="flex flex-col flex-1 space-y-4">
+        <div class="leading-none flex-1 flex items-start">
+            <div class="w-20">
+                <span class="font-semibold text-sm mr-2">{{ loginId }}</span>
+                <label for="comment" class="hidden">댓글</label>
+            </div>
+            <div class="flex-1">
+                <textarea rows="3" @keyup.enter="submitUpdatedComment" v-model="contentComment" class="w-full text-sm focus:outline-none resize-none scrollbar-hide" type="text" ref="commentCont" name="comment" id="comment" />
+            </div>  
         </div>    
-
+        <div class="space-x-2 flex justify-end">
+            <button
+                class="border border-gray-300 text-xs text-gray-500 rounded py-1 px-1"
+                @click="updateComment"  v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
+                수정
+            </button>
+            <button
+                class="border border-gray-300 text-xs text-gray-500 rounded py-1 px-1"
+                @click="deleteComment" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
+                삭제
+            </button>
+        </div>
         <p class="text-gray-500 text-xs">{{ createdt }}</p>
     </div>
 </div>   
