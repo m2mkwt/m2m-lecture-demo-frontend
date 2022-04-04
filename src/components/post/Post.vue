@@ -12,7 +12,7 @@
     </div>
     <!-- photo -->
     <div class="w-full cursor-pointer" @click="toggleDialog(index)">
-        <img class="w-full" :src="filename">
+        <img class="w-full" :src="filename" @error="replaceByDefault">
     </div>
     <div class="px-3 pt-3 pb-1">
         <!-- action -->
@@ -70,52 +70,49 @@
     </div>
 </div>
 <base-dialog @close="toggleDialog" :dialogActive = "dialogActive">
-    <div class="w-full z-40 h-5/6 my-auto px-10 max-w-6wl mx-auto flex justify-center items-center">
-        <div class="bg-white rounded text-xl my-5">
+    <div class="w-full z-40 h-auto my-auto px-10 max-w-6wl mx-auto">
+        <div class="bg-white rounded text-xl h-full">
             <div class="flex">
                 <!-- photo -->
                 <div class="w-7/12">
-                    <img class="h-full w-full" :src="filename">
+                    <img class="h-full w-full" :src="filename" @error="replaceByDefault">
                 </div>   
                 <!-- content -->
-                <div class="flex-1 flex flex-col justify-between bg-white">
+                <div class="flex-1 flex flex-col">
                     <!-- top -->
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <div class="flex items-center">
                             <img :src="filename" class="w-8 h-8 rounded-full mr-4">
                             <p class="font-semibold text-sm">{{ loginId }}</p>
                         </div>
-                        <div class="cursor-pointer" @click="toggleModal">
+                        <div class="cursor-pointer" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
                             <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
                         </div> 
                     </div>
-                    <div class="overflow-y-auto overflow-x-hidden scrollbar-hide">
-                        <!-- 글 -->
-                        <div class="flex px-4 py-3">
-                            <div class="flex items-center">
-                                <img :src="filename" class="w-8 h-8 rounded-full mr-4">
-                                <div class="flex flex-col">
-                                    <p class="font-semibold text-sm">{{ loginId }}</p>
-                                    <p>{{ content }}</p>
-                                </div>
+                    <!-- 글 -->
+                    <div class="flex px-4 py-3">
+                        <div class="flex items-center">
+                            <img :src="filename" class="w-8 h-8 rounded-full mr-4">
+                            <div class="flex flex-col">
+                                <p class="font-semibold text-sm">{{ loginId }}</p>
+                                <p>{{ content }}</p>
                             </div>
                         </div>
-                        <!-- 댓글 -->
-                        <div class="flex flex-col h-64 px-4 pt-3 space-y-6 border-b">
-                            <comment
-                                v-for="comment in commentList"
-                                :key="comment.postNo"
-                                :loginId="comment.loginId"
-                                :comment-no="comment.commentNo"
-                                :member-no="comment.memberNo"
-                                :post-no="comment.postNo"
-                                :contentComment="comment.content"
-                                :deleteYN="comment.deleteYN"
-                                :createdt="comment.createdt"
-                            ></comment>
-                        </div>
                     </div>
-
+                    <!-- 댓글 -->
+                    <div class="flex flex-col flex-1 px-4 pt-3 space-y-6 border-b overflow-y-auto">
+                        <comment
+                            v-for="comment in commentList"
+                            :key="comment.postNo"
+                            :loginId="comment.loginId"
+                            :comment-no="comment.commentNo"
+                            :member-no="comment.memberNo"
+                            :post-no="comment.postNo"
+                            :contentComment="comment.content"
+                            :deleteYN="comment.deleteYN"
+                            :createdt="comment.createdt"
+                        ></comment>
+                    </div>
                     <div class="px-3 py-4 border-b">
                         <!-- action -->
                         <div class="flex justify-between">
@@ -165,7 +162,8 @@
 <base-modal @close="toggleModal" :modalActive="modalActive">
         <div class="bg-white rounded-lg z-50 w-96">
             <div class="flex flex-col w-ful">
-                <div class="cursor-pointer py-3 w-full text-center text-red-500 font-semibold ">삭제</div>
+                <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold ">삭제</div>
+                <div class="cursor-pointer py-3 w-full text-center" @click="toggleModal" :modalActive="false">취소</div>
             </div>
         </div>        
 </base-modal>  
@@ -176,6 +174,7 @@ import BaseDialog from '../ui/BaseDialog.vue'
 import BaseModal from '../ui/BaseModal.vue'
 import Comment from '../comment/Comment.vue'
 import { store } from '../../store'
+import img from '../../assets/images/errorImage.png'
 import axios from 'axios'
 export default {
     data() {
@@ -205,6 +204,9 @@ export default {
         BaseModal
     },
     methods: {
+        replaceByDefault(e) {
+            e.target.src = img
+        },
         setFocus(index) {
             this.$refs.comment.focus()
         },
@@ -273,6 +275,19 @@ export default {
         }
         watch(dialogActive, () => {
             if(dialogActive.value) {
+                window.scrollTo(0,0)
+                document.body.style.overflow = 'hidden'
+            }else{
+                window.addEventListener("scroll", function() {
+                    let scrollX = window.scrollX
+                    let scrollY = window.scrollY
+                    window.scrollTo(scrollX, scrollY)
+                })
+                document.body.style.overflow = 'auto'
+            }
+        })
+        watch(modalActive, () => {
+            if(modalActive.value) {
                 window.scrollTo(0,0)
                 document.body.style.overflow = 'hidden'
             }else{
