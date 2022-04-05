@@ -166,6 +166,7 @@
                 </div>               
             </div>
         </div>
+    </div>
 </base-dialog>
 <base-modal @close="toggleModal" :modalActive="modalActive">
         <div class="bg-white rounded-lg z-50 w-96">
