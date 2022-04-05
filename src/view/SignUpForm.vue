@@ -93,6 +93,13 @@ export default {
             console.log('userName: ' + this.userName);
             console.log('loginId: ' + this.loginId);
             console.log('password: ' + this.password);
+            if (this.userEmailDomain==="") {
+                    alert("이메일의 도메인을 확인해주세요")
+                    this.$router.signupSubmit();
+                    //this.$router.replace('/signup');
+                    
+            }
+
             axios.post('/api/v1/member/registMember', { 
                 email: this.userEmailId+'@'+this.userEmailDomain,
                 userName: this.userName,
@@ -100,14 +107,9 @@ export default {
                 password: this.password 
              }).then(result => {
                 console.log(result.data)
-                 //이메일의 도메인 유효성 체크
-                if (this.userEmailDomain==="") {
-                    alert("이메일의 도메인을 확인해주세요")
-                    this.$router.push('/signup');
-                } else {
-                     alert("가입을 축하드립니다.");
-                    this.$router.push('/login');
-                }
+                 alert("가입을 축하드립니다.");
+                this.$router.push('/login');
+                
             }).catch(error=>{
                 console.log(error)
                 alert('입력란을 다시 확인해주세요.')
