@@ -70,7 +70,7 @@
     </div>
 </div>
 <base-dialog @close="toggleDialog" :dialogActive = "dialogActive">
-    <div class="w-full z-40 h-5/6 my-auto px-10 max-w-6wl mx-auto justify-center items-center">
+    <div class="w-full z-40 h-5/6 my-auto px-10 max-w-6wl mx-auto flex justify-center items-center min-h-screen">
         <div class="bg-white rounded text-xl my-5">
             <div class="flex">
                 <!-- photo -->
@@ -89,15 +89,24 @@
                             <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
                         </div> 
                     </div>
-                    <div class="overflow-y-auto overflow-x-hidden scrollbar-hide">
+                    <div class="overflow-y-auto overflow-x-hidden scrollbar-hide" ref="messages">
                         <!-- 글 -->
-                        <div class="flex px-4 py-3">
-                            <div class="flex items-center">
-                                <img :src="filename" class="w-8 h-8 rounded-full mr-4">
-                                <div class="flex flex-col">
-                                    <p class="font-semibold text-sm">{{ loginId }}</p>
-                                    <p>{{ content }}</p>
+                        <div class="flex px-4 py-3 w-full">
+                            <div class="flex w-full items-start">
+                                <div class="w-8 h-8 mr-4">
+                                    <img :src="filename" class="w-full h-full rounded-full">
                                 </div>
+                                <div class="flex-1 flex flex-col">
+                                    <span class="inline font-semibold text-sm">{{ loginId }}</span>
+                                    <textarea
+                                        @keydown.enter.exact.prevent @keyup.enter.exact="submitUpdatedPost" 
+                                        ref="checkClamp"
+                                        v-model="content"
+                                        class="focus:outline-none inline line-clamp-2 text-sm resize-none"></textarea>
+                                      
+                                </div>
+                                <!-- <div v-if="isTextClamped">
+                                        더보기</div>   -->
                             </div>
                         </div>
                         <!-- 댓글 -->
@@ -112,6 +121,7 @@
                                 :contentComment="comment.content"
                                 :deleteYN="comment.deleteYN"
                                 :createdt="comment.createdt"
+                                @removeComment="removeCommentData"
                             ></comment>
                         </div>
                     </div>
@@ -142,7 +152,7 @@
                             </div>
                             <div class="flex items-center flex-1">
                                 <label class="hidden" for="content">댓글</label>
-                                <textarea ref="comment" 
+                                <textarea ref="modalComment" 
                                 name="content" id="content" rows="1" placeholder="댓글 달기..."
                                 class="focus:outline-none text-sm py-2 pl-3 w-full text-left resize-none scrollbar-hide"
                                 v-model="createConent">
@@ -156,12 +166,12 @@
                 </div>               
             </div>
         </div>
-    </div>
 </base-dialog>
 <base-modal @close="toggleModal" :modalActive="modalActive">
         <div class="bg-white rounded-lg z-50 w-96">
             <div class="flex flex-col w-ful">
                 <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold " @click="removePost">삭제</div>
+                <div class="cursor-pointer py-3 w-full text-center" @click="updatePost">수정</div>
                 <div class="cursor-pointer py-3 w-full text-center" @click="toggleModal" :modalActive="false">취소</div>
             </div>
         </div>        
@@ -183,7 +193,9 @@ export default {
             commentList: [],
             postList: [],
             likeStatus: false,
-            commentList2: []
+            commentList2: [],
+            dateFormat: '',
+            scrollHeight: 0
         }
     },
     props: [
@@ -218,7 +230,7 @@ export default {
             e.target.src = img
         },
         setFocus(index) {
-            this.$refs.comment.focus()
+            this.$refs.modalComment.focus()
         },
         likesUP() {
             this.likeStatus = !this.likeStatus
@@ -252,7 +264,7 @@ export default {
                 .then(res => {
                 this.commentList= res.data.data;
                 console.log('list',  this.commentList)
-                this.postNo = res.data.postNo;
+                //this.postNo = res.data.postNo;
             }).catch(err => {
                 console.log(err);
             })
@@ -277,12 +289,43 @@ export default {
 	        }).catch((err) => {
 		        console.log(err);
 	        });            
+        },
+        updatePost() {
+            this.$refs.clamp.focus()
+        },
+        submitUpdatedPost() {
+            // API 500 Error
+	        axios.post("/api/v1/post/editPost",{
+                memberNo: store.memberNo,
+                postNo : this.postNo,
+                content: this.content
+            }).then((res)=>{
+		        console.log(res);
+                alert('게시물이 정상적으로 수정되었습니다.')
+                this.$refs.clamp.blur()
+                this.postList = res.data.data
+                //this.$router.go();
+	        }).catch((err) => {
+		        console.log(err);
+	        });              
+        },
+        removeCommentData(commentNo) {
+            alert(commentNo)
+            this.commentList.splice(commentNo, 1)
         }
     },
     mounted() {
         this.getCommentsAll()
         this.getPostList()
 
+    },
+        watch: {
+        commentList() {
+            this.$nextTick(()=> {
+                let commentList = this.$refs.messages
+                commentList.scrollTo({top: commentList.scrollHeight, behavior: 'smooth'})
+            })
+        },
     },
     setup() {
         const dialogActive = ref(false)
