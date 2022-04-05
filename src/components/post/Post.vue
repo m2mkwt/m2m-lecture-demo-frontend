@@ -3,7 +3,7 @@
     <!-- top -->
     <div class="flex items-center justify-between px-4 py-3 border-b">
         <div class="flex items-center">
-            <img :src="filename" class="w-8 h-8 rounded-full mr-3">
+            <img :src="mfilename" class="w-8 h-8 rounded-full mr-3">
             <p class="font-semibold text-sm">{{ loginId }}</p>
         </div>
         <div class="cursor-pointer" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
@@ -11,8 +11,8 @@
         </div> 
     </div>
     <!-- photo -->
-    <div class="w-full cursor-pointer" @click="toggleDialog(index)">
-        <img class="w-full" :src="filename" @error="replaceByDefault">
+    <div class="w-full cursor-pointer" @click="getPostList()">
+        <img class="w-full" :src="pfilename" @error="replaceByDefault">
     </div>
     <div class="px-3 pt-3 pb-1">
         <!-- action -->
@@ -75,14 +75,14 @@
             <div class="flex">
                 <!-- photo -->
                 <div class="w-7/12 border-r">
-                    <img class="h-full w-full" :src="filename" @error="replaceByDefault">
+                    <img class="h-full w-full" :src="postDetail.pfilename" @error="replaceByDefault">
                 </div>   
                 <!-- content -->
                 <div class="flex-1 flex flex-col justify-between bg-white rounded-r">
                     <!-- top -->
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <div class="flex items-center">
-                            <img :src="filename" class="w-8 h-8 rounded-full mr-4">
+                            <img :src="postDetail.mfilename" class="w-8 h-8 rounded-full mr-4">
                             <p class="font-semibold text-sm">{{postDetail.loginId}}</p>
                         </div>
                         <div class="cursor-pointer" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
@@ -94,14 +94,14 @@
                         <div class="flex px-4 py-3 w-full">
                             <div class="flex w-full items-start">
                                 <div class="w-8 h-8 mr-4">
-                                    <img :src="filename" class="w-full h-full rounded-full">
+                                    <img :src="postDetail.mfilename" class="w-full h-full rounded-full">
                                 </div>
                                 <div class="flex-1 flex flex-col">
                                     <span class="inline font-semibold text-sm">{{postDetail.loginId}}</span>
                                     <textarea
                                         @keydown.enter.exact.prevent @keyup.enter.exact="submitUpdatedPost" 
                                         ref="checkClamp"
-                                        v-model="this.content"
+                                        v-model="this.contentDetail"
                                         class="focus:outline-none inline line-clamp-2 text-sm resize-none"></textarea>
                                       
                                 </div>
@@ -198,7 +198,7 @@ export default {
             commentList2: [],
             dateFormat: '',
             scrollHeight: 0,
-            content:'',
+            contentDetail:'',
             postDetail:[]
         }
     },
@@ -208,7 +208,8 @@ export default {
         'createdt',
         'commentCnt',
         'postNo',
-        'filename',
+        'pfilename',
+        'mfilename',
         'likeCnt',
         'memberNo'
         
@@ -277,13 +278,14 @@ export default {
         getPostList() {
             axios.get("/api/v1/post/getPost" ,{
                 params: {
+                    memberNo: store.memberNo,
                     postNo : this.postNo
                 }
             }).then((res)=>{
                 console.log("상세페이지")
                 console.log(res);
                 this.postDetail=res.data.data;
-                this.content=this.postDetail.content
+                this.contentDetail=this.postDetail.content
                 this.toggleDialog(this.postNo);
             }).catch((err) => {
                 console.log(err);
@@ -337,11 +339,10 @@ export default {
                 console.log('list',  this.commentList)
             })
         }
+        
     },
     mounted() {
         this.getCommentsAll()
-        //this.getPostList()
-
     },
         watch: {
         commentList() {
