@@ -311,8 +311,13 @@ export default {
 	        });              
         },
         removeCommentData(commentNo) {
-            alert(commentNo)
-            this.commentList.splice(commentNo, 1)
+            axios.post ("/api/v1/comment/removeComment",{
+                postNo: this.postNo,
+                commentNo
+            }).then(res => {
+                this.commentList = res.data.data;
+                console.log('list',  this.commentList)
+            })
         }
     },
     mounted() {
