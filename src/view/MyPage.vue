@@ -43,7 +43,7 @@
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="post_no">
-                    <img class="w-full h-full drop-shadow-lg" :src="myImages.filename" @error="replaceByDefault">
+                    <img class="w-full h-full drop-shadow-lg" :src="myImages.p_filename" @error="replaceByDefault">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
@@ -76,14 +76,14 @@
                     <div class="flex">
                         <!-- photo -->
                         <div class="w-7/12 border-r">
-                            <img class="h-full w-full" :src="this.img" @error="replaceByDefault">
+                            <img class="h-full w-full" :src="myPostDetailList.pfilename" @error="replaceByDefault">
                         </div>
                         <!-- content -->
                         <div class="flex-1 flex flex-col">
                             <!-- top -->
                             <div class="flex items-center justify-between px-4 py-3 border-b">
                                 <div class="flex items-center">
-                                    <img :src="this.img" class="w-8 h-8 rounded-full mr-4">
+                                    <img :src="myPostDetailList.mfilename" class="w-8 h-8 rounded-full mr-4">
                                     <p class="font-semibold text-sm">{{ member.userName }}</p>
                                 </div>
                                 <div class="cursor-pointer" @click="toggleModal">
@@ -105,7 +105,7 @@
                                 <div class="flex px-4 py-3 w-full">
                                     <div class="flex w-full items-start">
                                         <div class="w-8 h-8 mr-4">
-                                            <img :src="this.img" class="w-full h-full rounded-full">
+                                            <img :src="myPostDetailList.mfilename" class="w-full h-full rounded-full">
                                         </div>
                                         <div class="flex-1 flex flex-col">
                                             <span class="inline font-semibold text-sm">{{ member.userName }}</span>
@@ -308,6 +308,7 @@ export default {
 	        });            
         },
         removePost() {
+            console.log(this.post_no)
 	        axios.post("/api/v1/post/removePost",{
                 postNo : this.post_no
             }).then((res)=>{
@@ -333,14 +334,14 @@ export default {
             this.getCommentsAll(post_no);
             axios.get("/api/v1/post/getPost" ,{
                 params: {
+                    memberNo: store.memberNo,
                     postNo : post_no
                 }
             }).then((res)=>{
+                console.log("상세페이지")
                 console.log(res);
                 this.post_no = post_no ;
                 this.myPostDetailList = res.data.data;
-                console.log("경로 :"+this.myPostDetailList.filename)
-                this.img = this.myPostDetailList.filename
                 this.toggleDialog(index)
             }).catch((err) => {
                 console.log(err);
