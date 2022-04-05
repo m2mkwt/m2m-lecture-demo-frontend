@@ -26,6 +26,7 @@
                                 :filename="post.filename"
                                 :like-cnt="post.likeCnt"
                                 :member-no="post.memberNo"
+                                @getPostList="getPostListData"
                             ></post>
                 </infinite-scroll>
                         <!-- </div>
@@ -133,6 +134,19 @@ export default {
             }).catch(err => {
                 console.error(err);
             })
+        },
+        getPostListData(postNo){
+            axios.get("/api/v1/post/getPost" ,{
+                params: {
+                     postNo
+                }
+            }).then((res)=>{
+                console.log("emit성공")
+                console.log(res);
+                this.postList=res.data.data;
+            }).catch((err) => {
+                console.log(err);
+            }); 
         }
     },
     computed: {
