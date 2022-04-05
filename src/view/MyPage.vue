@@ -70,7 +70,7 @@
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="post_no">
-                    <img class="w-full" :src="myImages.filename" @error="replaceByDefault">
+                    <img class="w-full h-full" :src="myImages.filename" @error="replaceByDefault">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
