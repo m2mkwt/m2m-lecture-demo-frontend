@@ -23,10 +23,11 @@
                                 :content="post.content"
                                 :createdt="post.createdt"
                                 :comment-cnt="post.commentCnt"
-                                :pfilename="post.pfilename"
-                                :mfilename="post.mfilename"
+                                :filename="post.filename"
                                 :like-cnt="post.likeCnt"
+                                :like-status="post.likeStatus"
                                 :member-no="post.memberNo"
+                                @childLikeEvent="changeLike"
                             ></post>
                 </infinite-scroll>
                         <!-- </div>
@@ -87,6 +88,21 @@ export default {
         //     });
         // },
 
+        changeLike(postNo, delYn, likeCnt) {
+            console.log('postNo :', postNo)
+            console.log('delYn :', delYn)
+            console.log('likeCnt :', likeCnt)
+            this.postList.forEach(function(item,index) {
+                const likeStatus = (delYn === 'N') ? true:false
+                console.log('item.postNo :', item.postNo)
+
+                if (item.postNo == postNo) {
+                    item.likeCnt = likeCnt
+                    item.likeStatus = likeStatus
+                }
+            })
+        },
+
         infiniteHandler() {
             const params = {
                 page : this.page,
@@ -109,6 +125,11 @@ export default {
                     if (res.data.data) {
                         let _data = res.data.data;
                         if(_data.length) {
+                            _data.forEach(function(item,index) {
+                                item.likeStatus = (item.likeFlag === 'Y') ? true:false
+                                console.log(item)
+                            })
+
                             this.postList = this.postList.concat(_data)
                             // $state.loaded()
                             this.page = this.page + 1
