@@ -266,6 +266,7 @@ export default {
                 postNo : this.post_no
             }).then((res)=>{
 		        console.log(res);
+                this.searchPostList();
                 this.$router.go();
 	        }).catch((err) => {
 		        console.log(err);
@@ -291,7 +292,6 @@ export default {
                 console.log(res);
                 this.post_no = post_no ;
                 this.myPostDetailList = res.data.data;
-                this.searchPostList();
                 this.toggleDialog(index)
             }).catch((err) => {
                 console.log(err);

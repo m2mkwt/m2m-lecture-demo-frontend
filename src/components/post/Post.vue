@@ -161,7 +161,7 @@
 <base-modal @close="toggleModal" :modalActive="modalActive">
         <div class="bg-white rounded-lg z-50 w-96">
             <div class="flex flex-col w-ful">
-                <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold ">삭제</div>
+                <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold " @click="removePost">삭제</div>
                 <div class="cursor-pointer py-3 w-full text-center" @click="toggleModal" :modalActive="false">취소</div>
             </div>
         </div>        
@@ -267,6 +267,16 @@ export default {
             }).catch((err) => {
                 console.log(err);
             });            
+        },
+        removePost() {
+	        axios.post("/api/v1/post/removePost",{
+                postNo : this.postNo
+            }).then((res)=>{
+		        console.log(res);
+                this.$router.go();
+	        }).catch((err) => {
+		        console.log(err);
+	        });            
         }
     },
     mounted() {
