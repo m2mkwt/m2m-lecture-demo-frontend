@@ -40,12 +40,17 @@
                 <div>
                   <label class="hidden" for="LoginId">아이디</label>
                   <input
+                    @blur="validateLoginIdInput"
                     id="LoginId"
                     v-model="loginId"
-                    class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
+                    :class="{'border-rose-600' : loginIdValidity === 'invalid'}"
+                    class="rounded focus:outline-none py-2 pl-3 w-full border text-left"
                     type="text"
+                    placeholder="아이디"
                   />
                 </div>
+                <p class="text-rose-600" v-if="loginIdValidity === 'invalid'">아이디를 입력해주세요.</p>
+                <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다.</p>
               </div>
             </div>
             <!-- 3rd row -->
@@ -57,12 +62,15 @@
                 <div>
                   <label class="hidden" for="userName">사용자 이름</label>
                   <input
+                    @blur="validateNameInput"
                     id="userName"
                     v-model="userName"
-                    class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
+                    :class="{'border-rose-600' : userNameValidity === 'invalid'}"
+                    class="rounded focus:outline-none py-2 pl-3 w-full border text-left"
                     type="text"
                   />
                 </div>
+                <p class="text-rose-600" v-if="userNameValidity === 'invalid'">사용자 이름을 입력해주세요.</p>
               </div>
             </div>
             <!-- 4th row -->
@@ -73,14 +81,31 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="email">이메일</label>
+                  <!-- <label class="hidden" for="email">이메일</label>
                   <input
                     id="email"
                     v-model="email"
                     class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
                     type="text"
-                  />
+                  /> -->
+                  <label class="hidden" for="userEmailId">이메일 아이디</label>
+                  <input
+                    @blur="validateEmailInput"
+                    v-model.trim="userEmailId"
+                    :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}"
+                    class="w-40 border rounded py-2 pl-3 focus:outline-none"
+                    id="userEmailId" type="text" placeholder="이메일">
+                  <span class="px-1">@</span>
+                  <label class="hidden" for="userEmailDomain">이메일 도메인</label>
+                  <select class="border w-40 rounded focus:outline-none py-2 pl-3" v-model="userEmailDomain" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" id="userEmailDomain">
+                        <option disabled value="">선택</option>
+                        <option value="naver.com">naver.com</option>
+                        <option value="gmail.com">gmail.com</option>
+                        <option value="daum.net">daum.net</option>
+                        <option value="nate.com">nate.com</option>
+                    </select>
                 </div>
+                <p class="text-rose-600" v-if="userEmailIdValidity === 'invalid'">이메일을 입력해주세요.</p>
               </div>
             </div>
             <!-- 성별 -->
@@ -218,10 +243,14 @@ export default {
     return {
       memberNo: store.memberNo,
       mediaNo: "",
+      oldLoginId: "",
       loginId: "",
       userName: "",
       email: "",
       gender: "",
+      userEmailId: '',
+      userEmailDomain: '',
+
 
       imgName: "/src/assets/images/avatar.jpg",
       imgs: [],
@@ -232,8 +261,14 @@ export default {
       oldPassword: '',
       newPassword: '',
       passwordConfirm: '',
+      userEmailIdValidity: 'pending',
+      userNameValidity: 'pending',
+      loginIdValidity: 'pending',
       userPwValidity: 'pending',
       userPwConfirmValidity: 'pending',
+      inputFieldValidity: 'pending',
+      userPwCheckValidity: 'pending',
+      loginIdCheckValidity: 'pending',
     };
   },
   methods: {
@@ -250,10 +285,12 @@ export default {
           let member = res.data.mvo;
           this.memberNo = member.memberNo;
           this.mediaNo = member.mediaNo;
-          this.loginId = member.loginId;
+          this.oldLoginId = this.loginId = member.loginId;
           this.userName = member.userName;
-          this.email = member.email;
+          this.userEmailId = member.email.split('@')[0];
+          this.userEmailDomain = member.email.split('@')[1];
           let gender = member.gender;
+          userEmailDomain.value = member.email.split('@')[1];
           if (res.data.filename!="") {
             this.imgName = res.data.filename;
           }
@@ -270,6 +307,7 @@ export default {
       let temp = "";
       if (this.gender == "남성") temp = "M";
       else temp = "F";
+      this.email = this.userEmailId+'@'+this.userEmailDomain;
       let data =  {
         memberNo: this.memberNo,
         loginId: this.loginId,
@@ -323,6 +361,52 @@ export default {
           alert("이미지 등록이 실패 하였습니다.");
         });
     },
+    validateEmailInput() {
+      // 영어 + 숫자만 허용
+      const emailCheckReg = /^[A-Za-z0-9+]*$/;
+      let emailValidation = emailCheckReg.test(this.userEmailId);
+      if (this.userEmailId === '' || emailValidation === false) {
+          this.userEmailIdValidity = 'invalid'
+          this.userEmailId = '';
+      } else {
+          this.userEmailIdValidity = 'valid'
+      }
+    },
+    validateNameInput() {
+      if(this.userName === '') {
+        this.userNameValidity = 'invalid'
+      } else {
+        this.userNameValidity = 'valid'
+      } 
+    },
+    validateLoginIdInput() {
+      // 영어 + 숫자만 허용
+      const LoginIdCheckReg = /^[A-Za-z0-9+]*$/;
+      let LoginIdValidation = LoginIdCheckReg.test(this.loginId);
+      // 아이디 중복 체크 api 호출
+      console.log("id 중복체크 함수 실행");
+      const loginId = this.loginId;
+      console.log("loginId : " + loginId)
+      const headers = {'Content-Type': 'application/json'};
+      axios.post("/api/v1/member/checkValidId", JSON.stringify({ loginId: loginId }), {headers}).then((res)=>{
+          console.log(res.data);
+          if(this.loginId === '' || LoginIdValidation === false) {
+            this.loginIdValidity = 'invalid'
+          } else {
+            this.loginIdValidity = 'valid'
+          } 
+          if (this.oldLoginId === this.loginId) {
+            this.loginIdCheckValidity = 'valid';
+          } else if(res.data >= 1){
+            this.loginIdCheckValidity = 'invalid';
+            this.loginId = '';
+          }else{
+            this.loginIdCheckValidity = 'valid';
+          }
+        }).catch((err) => {
+            console.log(err);
+        });
+    },
     validatePwInput() {
       // 최소 1개의 숫자 혹은 특수문자 포함하며 8~20자 사이 체크
       const passwordCheckReg = /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{8,20}$/;
@@ -367,6 +451,13 @@ export default {
       } else {
         this.userPwConfirmValidity = 'valid'
       } 
+    },
+    validateInputField() {
+      if(this.userEmailId !== '' && this.userName !== '' && this.loginId !== '' && this.password !== '' && this.passwordConfirm !== '') {
+        this.inputFieldValidity = 'valid'
+      }else {
+        this.inputFieldValidity = 'invalid'
+      }
     },
     editPassword() {
       let data =  {
