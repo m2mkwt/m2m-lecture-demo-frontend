@@ -169,7 +169,7 @@ export default {
                 this.userPwCheckValidity = 'valid'
             } 
             //비밀번호 유효성 api호출
-            console.log("비밀번호 중복체크 함수 실행");
+            console.log("비밀번호 확인 함수 실행");
             const password = this.password;
             console.log("password : " + password)
             const headers = {'Content-Type': 'application/json'};
