@@ -8,7 +8,16 @@
 
             <div class="flex-1">
                 <label for="comment" class="hidden">댓글</label>
-                <textarea rows="2" @keydown.enter.exact.prevent @keyup.enter.exact="submitUpdatedComment" @keydown.enter.shift.exact="newline" v-model="contentComment" class="inline w-full text-sm focus:outline-none resize-none scrollbar-hide" type="text" ref="commentCont" name="comment" id="comment" />
+                <textarea 
+                    rows="2" 
+                    @keydown.enter.exact.prevent 
+                    @keyup.enter.exact="submitUpdatedComment" 
+                    @keydown.enter.shift.exact="newline" 
+                    v-model="contentComment" 
+                    class="inline w-full text-sm focus:outline-none resize-none scrollbar-hide" 
+                    ref="commentCont" 
+                    name="comment" 
+                    id="comment" />
             </div>  
         </div>    
         <p class="text-gray-500 text-xs">{{ dateFormat }}</p>
@@ -34,7 +43,8 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            commentList: []
+            commentList: [],
+            // dateFormat: ''
         }
     },
     props: [
@@ -59,6 +69,11 @@ export default {
             return postDate
         }
     },
+    // watch: {
+    //     contentComment() {
+
+    //     }
+    // },
     methods: {
         newline() {
             this.contentComment = `${this.contentComment}\n`;
@@ -86,6 +101,7 @@ export default {
                 alert('댓글이 정상적으로 수정되었습니다.')
                 this.$refs.commentCont.blur()
                 this.commentList = res.data.data;
+                this.contentComment = ''
                 console.log('list',  this.commentList)
                 this.postNo = res.data.postNo;
                 
@@ -96,8 +112,10 @@ export default {
         },
         deleteComment() {
             // this.$emit('remove', this.index)
-            console.log("포스트 : " + this.commentNo)
-            console.log("코멘트:" + comment)
+            //console.log("포스트 : " + this.commentNo)
+            console.log("코멘트 리스트 : "+ this.commentList)
+            //console.log("코멘트:" + comment)
+            this.$emit('remove-comment', this.commentNo)
             // axios.post ("/api/v1/comment/removeComment",{
             //     postNo: this.postNo,
             //     commentNo: this.commentNo
@@ -109,19 +127,20 @@ export default {
             // }).catch(err => {=> {}
             //     console.log(err);
             // })
-            axios.post('/api/v1/comment/removeComment',{
-                // id: id,
-                postNo: this.postNo,
-                commentNo: this.commentNo
-            }).then(res=> {
-                //console.log("id: "+ id)
-                console.log("댓글 리스트: "+this.commentList)
-                alert('댓글이 정상적으로 삭제 되었습니다!')
-                location.reload()
-                // const index = this.commentList.findIndex(comment => comment.commentNo === id)
-                // if(~index)
-                //     this.commentCont.splice(index, 1)
-            }) 
+            // axios.post('/api/v1/comment/removeComment',{
+            //     // id: id,
+            //     postNo: this.postNo,
+            //     commentNo: this.commentNo
+            // }).then(res=> {
+            //     //console.log("id: "+ id)
+                
+            //     console.log("댓글 리스트: "+this.commentList)
+            //     alert('댓글이 정상적으로 삭제 되었습니다!')
+            //     location.reload()
+            //     // const index = this.commentList.findIndex(comment => comment.commentNo === id)
+            //     // if(~index)
+            //     //     this.commentCont.splice(index, 1)
+            // }) 
         },
     }
 }
