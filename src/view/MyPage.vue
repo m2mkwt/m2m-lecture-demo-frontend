@@ -103,14 +103,14 @@
                     <div class="flex">
                         <!-- photo -->
                         <div class="w-7/12">
-                            <img class="h-full w-full" src="http://picsum.photos/100" @error="replaceByDefault">
+                            <img class="h-full w-full" :src="this.img" @error="replaceByDefault">
                         </div>
                         <!-- content -->
                         <div class="flex-1 flex flex-col">
                             <!-- top -->
                             <div class="flex items-center justify-between px-4 py-3 border-b">
                                 <div class="flex items-center">
-                                    <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mr-4">
+                                    <img :src="this.img" class="w-8 h-8 rounded-full mr-4">
                                     <p class="font-semibold text-sm">{{ member.userName }}</p>
                                 </div>
                                 <div class="cursor-pointer" @click="toggleModal">
@@ -120,7 +120,7 @@
                             <!-- content -->
                             <div class="flex flex-1 px-4 pt-3 border-b">
                                 <div class="flex space-x-4">
-                                    <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full">
+                                    <img :src="this.img" class="w-8 h-8 rounded-full">
                                     <div class="flex flex-col">
                                         <p class="font-semibold text-sm">{{ member.userName }}</p>
                                         <p class="text-gray-500 text-xs pt-2">{{myPostDetailList.content}}</p>
@@ -196,6 +196,7 @@ export default {
             myPostList: [],
             post_no : '',
             myPostDetailList: {},
+            img:'',
             imgName: "/src/assets/images/avatar_lg.jpg"
         }
     },
@@ -292,6 +293,8 @@ export default {
                 console.log(res);
                 this.post_no = post_no ;
                 this.myPostDetailList = res.data.data;
+                console.log("경로 :"+this.myPostDetailList.filename)
+                this.img = this.myPostDetailList.filename
                 this.toggleDialog(index)
             }).catch((err) => {
                 console.log(err);

@@ -23,7 +23,7 @@
                                 :content="post.content"
                                 :createdt="post.createdt"
                                 :comment-cnt="post.commentCnt"
-                                filename="http://picsum.photos/640/640"
+                                :filename="post.filename"
                                 :like-cnt="post.likeCnt"
                                 :member-no="post.memberNo"
                             ></post>
