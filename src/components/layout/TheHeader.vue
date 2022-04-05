@@ -162,13 +162,16 @@ export default {
       this.length = event.target.value.length
     },
      addPost(){
-      // const contentReg = /^(\S{1,}\s?){5,}$/ 
-      // let contentValidation = contentReg.test(this.content);
-      // if(this.content === '' || contentValidation === false) {
-      //   this.contentValidity = 'invalid'
-      //   alert("5글자 이상 입력하세요.")
-      // } else {
-      //   this.contentValidity = 'valid'
+      const contentReg = /^(\S{1,}\s?){5,}$/ 
+      let contentValidation = contentReg.test(this.content);
+      if(this.content === '' || contentValidation === false) {
+        this.contentValidity = 'invalid'
+        alert("5글자 이상 입력하세요.")
+      } else {
+        this.contentValidity = 'valid'
+        if(this.imgs.length==0){
+          alert("사진을 첨부해 주세요.")
+        }
         axios.post('/api/v1/post/addPost', { 
                         memberNo : store.memberNo,
                         content : this.content,
@@ -179,6 +182,7 @@ export default {
             }).catch(error=>{
                 console.log(error)
             })
+    }
     },
     toggleMenu() {
       this.menuDisplayed = !this.menuDisplayed
