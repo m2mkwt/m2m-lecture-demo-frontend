@@ -292,23 +292,33 @@ export default {
 	        });            
         },
         updatePost() {
-            this.$refs.clamp.focus()
+            this.$refs.checkClamp.focus()
         },
         submitUpdatedPost() {
             // API 500 Error
-	        axios.post("/api/v1/post/editPost",{
+            const contentReg = /^(\S{1,}\s?){5,}$/ 
+            let contentValidation = contentReg.test(this.content);
+            if(this.content === '' || contentValidation === false) {
+                this.contentValidity = 'invalid'
+                alert("5글자 이상 입력하세요.")
+                this.$refs.content.focus()
+            } else {
+                this.contentValidity = 'valid'
+	            axios.post("/api/v1/post/editPost",{
                 memberNo: store.memberNo,
                 postNo : this.postNo,
                 content: this.content
-            }).then((res)=>{
-		        console.log(res);
-                alert('게시물이 정상적으로 수정되었습니다.')
-                this.$refs.clamp.blur()
-                this.postList = res.data.data
-                //this.$router.go();
-	        }).catch((err) => {
-		        console.log(err);
-	        });              
+                }).then((res)=>{
+                    console.log(res);
+                    alert('게시물이 정상적으로 수정되었습니다.')
+                    this.$refs.checkClamp.blur()
+                    this.postList = res.data.data
+                    //this.$router.go();
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+                      
         },
         removeCommentData(commentNo) {
             axios.post ("/api/v1/comment/removeComment",{
