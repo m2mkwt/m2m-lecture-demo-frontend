@@ -43,7 +43,7 @@
     </div>
     <!-- comment : list -->
     <div class="px-3">
-        <button v-if="commentCnt" @click="toggleDialog(index)" class="text-gray-500 text-sm">댓글 {{ commentCnt }}개 보기</button>
+        <button v-if="commentCnt" @click="getPostList()" class="text-gray-500 text-sm">댓글 {{ commentCnt }}개 보기</button>
     </div>
     <!-- info : created date -->
     <div class="px-3 pt-2 pb-5">
@@ -273,15 +273,18 @@ export default {
             })
         },
         getPostList() {
-            axios.get("/api/v1/post/getPost" ,{
-                params: {
-                    postNo : this.postNo
-                }
-            }).then((res)=>{
-                console.log(res);
-            }).catch((err) => {
-                console.log(err);
-            });            
+                this.$emit('getPostList', this.postNo)
+                this.toggleDialog(this.postNo);
+            // axios.get("/api/v1/post/getPost" ,{
+            //     params: {
+            //         postNo : this.postNo
+            //     }
+            // }).then((res)=>{
+            //     console.log(res);
+            //     this.toggleDialog(this.postNo);
+            // }).catch((err) => {
+            //     console.log(err);
+            // });            
         },
         removePost() {
 	        axios.post("/api/v1/post/removePost",{
@@ -334,7 +337,7 @@ export default {
     },
     mounted() {
         this.getCommentsAll()
-        this.getPostList()
+        //this.getPostList()
 
     },
         watch: {
