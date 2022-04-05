@@ -109,6 +109,7 @@
                                         </div>
                                         <div class="flex-1 flex flex-col">
                                             <span class="inline font-semibold text-sm">{{ member.userName }}</span>
+                                            <!-- eslint-disable -->
                                             <textarea 
                                                 class="focus:outline-none inline line-clamp-2 text-sm resize-none"
                                             >{{myPostDetailList.content}}</textarea>
