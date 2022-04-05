@@ -100,8 +100,8 @@
                 <!-- top -->
                 <div class="flex items-center px-4 py-3">
                   <div class="flex items-center">
-                      <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mr-4">
-                      <p class="font-semibold text-sm">kimcoca</p>
+                      <img :src="imgName" class="w-8 h-8 rounded-full mr-4">
+                      <p class="font-semibold text-sm">{{this.member.loginId}}</p>
                   </div>
                 </div>
                 <!-- content -->
@@ -151,7 +151,8 @@ export default {
       },
       menuDisplayed: false,
       mediaNo: 0,
-      memberNo: store.memberNo
+      memberNo: store.memberNo,
+      member : {}
     }
   },
   methods: {
