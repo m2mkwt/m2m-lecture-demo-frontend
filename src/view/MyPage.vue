@@ -15,10 +15,6 @@
                             <div class="border rounded md:flex items-center hidden">
                                 <router-link to="/edit" class="text-sm font-bold px-2 py-1">프로필 편집</router-link>
                             </div>
-                            <!-- 설정 아이콘 안써서 주석처리 -->
-                            <!-- <div class="cursor-pointer">
-                                <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" fill="none" r="8.635" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle><path d="M14.232 3.656a1.269 1.269 0 01-.796-.66L12.93 2h-1.86l-.505.996a1.269 1.269 0 01-.796.66m-.001 16.688a1.269 1.269 0 01.796.66l.505.996h1.862l.505-.996a1.269 1.269 0 01.796-.66M3.656 9.768a1.269 1.269 0 01-.66.796L2 11.07v1.862l.996.505a1.269 1.269 0 01.66.796m16.688-.001a1.269 1.269 0 01.66-.796L22 12.93v-1.86l-.996-.505a1.269 1.269 0 01-.66-.796M7.678 4.522a1.269 1.269 0 01-1.03.096l-1.06-.348L4.27 5.587l.348 1.062a1.269 1.269 0 01-.096 1.03m11.8 11.799a1.269 1.269 0 011.03-.096l1.06.348 1.318-1.317-.348-1.062a1.269 1.269 0 01.096-1.03m-14.956.001a1.269 1.269 0 01.096 1.03l-.348 1.06 1.317 1.318 1.062-.348a1.269 1.269 0 011.03.096m11.799-11.8a1.269 1.269 0 01-.096-1.03l.348-1.06-1.317-1.318-1.062.348a1.269 1.269 0 01-1.03-.096" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
-                            </div> -->
                         </div>
                         <!-- responsive1 -->
                         <div class="border rounded flex items-center justify-center md:hidden">
@@ -30,21 +26,7 @@
                                 <div>게시물</div>
                                 <div class="font-medium">{{ myPostCount }}</div>    <!-- 수정 필요 -->
                             </div>
-                            <!-- 팔로우 기능 안쓰니까 지워야 하지 않을까 ...? -->
-                            <!-- <div class="flex space-x-2">
-                                <div>팔로워</div>   
-                                <div class="font-medium">0</div>
-                            </div>
-                            <div class="flex space-x-2">
-                                <div>팔로우</div>
-                                <div class="font-medium">288</div>
-                            </div> -->
                         </div>
-                        <!-- 3rd row -->
-                        <!-- 소개 안쓰면 지우기 -->
-                        <!-- <div class="hidden md:block">
-                            <div class="font-medium">Blah blah</div>
-                        </div> -->
                     </div>
                 </div>
                 <!-- <div class="md:hidden pt-8">
@@ -57,20 +39,11 @@
                     <div class="text-gray-500 text-sm">게시물</div>
                     <div>{{ myPostCount }}</div>
                 </div>
-                <!-- 팔로우 기능 안쓰니까 지워야 하지 않을까 ...? -->
-                <!-- <div class="flex flex-col flex-1 items-center">
-                    <div class="text-gray-500 text-sm">팔로워</div>
-                    <div>0</div>
-                </div>
-                <div class="flex flex-col flex-1 items-center">
-                    <div class="text-gray-500 text-sm">팔로우</div>
-                    <div>288</div>
-                </div> -->
             </div>
             <!-- photo area 게시물이 존재할 경우 -->
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="post_no">
-                    <img class="w-full h-full" :src="myImages.filename" @error="replaceByDefault">
+                    <img class="w-full h-full drop-shadow-lg" :src="myImages.filename" @error="replaceByDefault">
                     <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
@@ -97,12 +70,12 @@
         </div>
         <the-footer></the-footer>
         <base-dialog @close="toggleDialog" :dialogActive = "dialogActive">
-            <div class="w-full z-40 h-max px-10 max-w-6xl mx-auto">
+            <div class="w-full z-40 h-5/6 my-auto px-10 max-w-6xl mx-auto flex justify-center items-center min-h-screen">
                 <!-- 모달창 -->
-                <div class="bg-white rounded text-xl h-full">
+                <div class="bg-white rounded text-xl my-5">
                     <div class="flex">
                         <!-- photo -->
-                        <div class="w-7/12">
+                        <div class="w-7/12 border-r">
                             <img class="h-full w-full" :src="this.img" @error="replaceByDefault">
                         </div>
                         <!-- content -->
@@ -118,16 +91,67 @@
                                 </div> 
                             </div>
                             <!-- content -->
-                            <div class="flex flex-1 px-4 pt-3 border-b">
-                                <div class="flex space-x-4">
-                                    <img :src="this.img" class="w-8 h-8 rounded-full">
-                                    <div class="flex flex-col">
-                                        <p class="font-semibold text-sm">{{ member.userName }}</p>
-                                        <p class="text-gray-500 text-xs pt-2">{{myPostDetailList.content}}</p>
+                            <div class="overflow-y-auto overflow-x-hidden scrollbar-hide">
+                                <!-- 글 -->
+                                <!-- <div class="flex flex-1 px-4 pt-3 border-b">
+                                    <div class="flex space-x-4">
+                                        <img :src="this.img" class="w-8 h-8 rounded-full">
+                                        <div class="flex flex-col">
+                                            <p class="font-semibold text-sm">{{ member.userName }}</p>
+                                            <p class="text-gray-500 text-xs pt-2">{{myPostDetailList.content}}</p>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="flex px-4 py-3 w-full">
+                                    <div class="flex w-full items-start">
+                                        <div class="w-8 h-8 mr-4">
+                                            <img :src="this.img" class="w-full h-full rounded-full">
+                                        </div>
+                                        <div class="flex-1 flex flex-col">
+                                            <span class="inline font-semibold text-sm">{{ member.userName }}</span>
+                                            <textarea 
+                                                class="focus:outline-none inline line-clamp-2 text-sm resize-none"
+                                            >{{myPostDetailList.content}}</textarea>
+                                        </div>
                                     </div>
                                 </div>
+
+
+                                <!-- 댓글 -->
+                                <div class="flex flex-col h-64 px-4 pt-3 space-y-6">
+                                    <div v-for="comment in commentList" class="flex space-x-4 w-full items-start">
+                                        <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
+                                        <div class="flex flex-col space-y-4">
+                                            <div class="leading-none h-7 inline-flex">
+                                                <span class="inline w-20 font-semibold text-sm mr-2">{{ comment.loginId }}</span>
+                                                <div class="flex-1">
+                                                    <label for="comment" class="hidden">댓글</label>
+                                                    <textarea 
+                                                        rows="2"
+                                                        v-model="comment.content" 
+                                                        class="inline w-full text-sm focus:outline-none resize-none scrollbar-hide"  />
+                                                </div>  
+                                            </div>    
+                                            <p class="text-gray-500 text-xs">{{ (comment.createdt.substr(0,16)).split(
+                                                'T').join(" ") }}</p>
+                                        </div>
+                                        <div v-if="(memberNo != this.$store.memberNo)===false" class="space-x-2 flex justify-end">
+                                            <button
+                                                class="text-xs text-gray-500 rounded py-1 px-1"
+                                                @click="updateComment">
+                                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 0 48 48" width="48"><path d="M6 34.5v7.5h7.5l22.13-22.13-7.5-7.5-22.13 22.13zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>
+                                            </button>
+                                            <button
+                                                class="text-xs text-gray-500 rounded py-1 px-1"
+                                                @click="deleteComment">
+                                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="enable-background:new 0 0 24 24;" version="1.1" viewBox="0 0 24 24" xml:space="preserve"><g id="info"/><g id="icons"><path d="M14.8,12l3.6-3.6c0.8-0.8,0.8-2,0-2.8c-0.8-0.8-2-0.8-2.8,0L12,9.2L8.4,5.6c-0.8-0.8-2-0.8-2.8,0   c-0.8,0.8-0.8,2,0,2.8L9.2,12l-3.6,3.6c-0.8,0.8-0.8,2,0,2.8C6,18.8,6.5,19,7,19s1-0.2,1.4-0.6l3.6-3.6l3.6,3.6   C16,18.8,16.5,19,17,19s1-0.2,1.4-0.6c0.8-0.8,0.8-2,0-2.8L14.8,12z" id="exit"/></g></svg>
+                                            </button>
+                                        </div>
+                                    </div>                                 
+                                </div>
                             </div>
-                            <div class="px-3 py-4 border-b">
+
+                            <div class="px-3 py-4 border-t">
                                 <!-- action -->
                                 <div class="flex justify-between">
                                     <div class="flex space-x-3 items-center">
@@ -141,7 +165,7 @@
                                 <!-- info : like -->
                                 <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{myPostDetailList.likeCnt}}개</p>
                                 <!-- info : date -->
-                                <p class="text-gray-500 text-xs">{{myPostDetailList.createdt}}</p>    
+                                <p class="text-gray-500 text-xs">{{ myPostDetailList.createdt }}</p>    
                             </div> 
                             <!-- comment : create -->
                             <div class="px-3 py-2 border-t flex justify-between items-center">
@@ -159,7 +183,7 @@
                                     </div>
                                 </div>
                                 <div class="w-7">
-                                    <button class="text-blue-500 text-sm font-semibold">게시</button>
+                                    <button @click="addComment" class="text-blue-500 text-sm font-semibold">게시</button>
                                 </div>
                             </div>                                                            
                         </div>
@@ -198,7 +222,8 @@ export default {
             post_no : '',
             myPostDetailList: {},
             img:'',
-            imgName: "/src/assets/images/avatar_lg.jpg"
+            imgName: "/src/assets/images/avatar_lg.jpg",
+            createdt: ''
         }
     },
     components: {
@@ -233,6 +258,21 @@ export default {
 	        }).catch((err) => {
 		        console.log(err);
 	        });
+        },
+        addComment() {
+            axios.post ("/api/v1/comment/addComment",{
+                memberNo: store.memberNo,
+                postNo: this.postNo,
+                content: this.createConent
+                })
+                .then(res => {
+                this.commentList= res.data.data;
+                this.createConent = ''
+                console.log('list',  this.commentList)
+                //this.postNo = res.data.postNo;
+            }).catch(err => {
+                console.log(err);
+            })
         },
         // * 쿼리 잘못되어있어 주석처리하고 erarchPostList에서 res.data.count 사용
         // getPostCnt() {
