@@ -121,6 +121,7 @@
                                 :contentComment="comment.content"
                                 :deleteYN="comment.deleteYN"
                                 :createdt="comment.createdt"
+                                :filename="comment.filename"
                                 @removeComment="removeCommentData"
                             ></comment>
                         </div>
