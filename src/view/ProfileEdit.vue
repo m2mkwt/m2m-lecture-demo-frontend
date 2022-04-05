@@ -131,8 +131,10 @@
               <div class="w-40"></div>
               <div class="flex-1 flex justify-between items-center">
                 <button
+                  @focus="validateProfileEditInputField"
+                  :class="{'bg-opacity-100' : profileEditInputFieldValidity === 'valid'}"
                   class="bg-blue-500 rounded py-1 px-4 text-white font-semibold"
-                  @click="updateProfile"
+                  @click="editProfile"
                 >
                   제출
                 </button>
@@ -210,6 +212,8 @@
               <div class="w-40"></div>
               <div class="flex-1 flex justify-between items-center">
                 <button
+                  @focus="validatePwEditInputField"
+                  :class="{'bg-opacity-100' : pwEditInputFieldValidity === 'valid'}"
                   class="bg-blue-500 rounded py-1 px-4 text-white font-semibold"
                   @click="editPassword"
                 >
@@ -266,9 +270,10 @@ export default {
       loginIdValidity: 'pending',
       userPwValidity: 'pending',
       userPwConfirmValidity: 'pending',
-      inputFieldValidity: 'pending',
       userPwCheckValidity: 'pending',
       loginIdCheckValidity: 'pending',
+      profileEditInputFieldValidity: 'pending',
+      pwEditInputFieldValidity: 'pending'
     };
   },
   methods: {
@@ -313,8 +318,9 @@ export default {
         loginId: this.loginId,
         userName: this.userName,
         email: this.email,
-        gender: temp
+        gender: temp,
       }
+      console.log(data.token);
       let url = "/api/v1/profile/editProfile";
       axios
         .post(url, data)
@@ -452,11 +458,18 @@ export default {
         this.userPwConfirmValidity = 'valid'
       } 
     },
-    validateInputField() {
-      if(this.userEmailId !== '' && this.userName !== '' && this.loginId !== '' && this.password !== '' && this.passwordConfirm !== '') {
-        this.inputFieldValidity = 'valid'
+    validateProfileEditInputField() {
+      if(this.userEmailId !== '' && this.userName !== '' && this.loginId !== '') {
+        this.profileEditInputFieldValidity = 'valid'
       }else {
-        this.inputFieldValidity = 'invalid'
+        this.profileEditInputFieldValidity = 'invalid'
+      }
+    },
+    validatePwEditInputField() {
+      if(this.password !== '' && this.passwordConfirm !== '') {
+        this.pwEditInputFieldValidity = 'valid'
+      }else {
+        this.pwEditInputFieldValidity = 'invalid'
       }
     },
     editPassword() {
