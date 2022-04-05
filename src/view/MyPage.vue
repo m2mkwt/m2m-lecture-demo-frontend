@@ -191,6 +191,7 @@ export default {
     data() {
         return {
             comment: '',
+            commentList: [],
             member: {},
             myPostCount: '',
             myPostList: [],
@@ -284,6 +285,7 @@ export default {
         },
         getPostList(index) {
             let post_no = this.myPostList[index].post_no;
+            this.getCommentsAll(post_no);
             axios.get("/api/v1/post/getPost" ,{
                 params: {
                     postNo : post_no
@@ -293,6 +295,19 @@ export default {
                 this.post_no = post_no ;
                 this.myPostDetailList = res.data.data;
                 this.toggleDialog(index)
+            }).catch((err) => {
+                console.log(err);
+            });            
+        },
+        getCommentsAll(mypostNo) {
+            axios.get("/api/v1/comment/selectCommentlist", {
+                params: {
+                    postNo: mypostNo
+                }
+            }).then((res)=>{
+                this.commentList = res.data.data;
+                console.log('댓글목록',this.commentList);
+                this.post_no = res.data.postNo;
             }).catch((err) => {
                 console.log(err);
             });            
