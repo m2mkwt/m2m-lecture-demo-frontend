@@ -63,7 +63,7 @@
     </nav>
     <base-dialog @close="toggleDialog" :dialogActive="dialogActive">
       <div class="w-full z-40 h-max px-10 max-w-6xl mx-auto">
-        <form @submit.prevent="test">
+        <form @submit.prevent="addPost">
         <div class="bg-white rounded text-xl h-full">
           <!-- top -->
           <div class="flex flex-col">
@@ -161,9 +161,18 @@ export default {
     setLength(event) {
       this.length = event.target.value.length
     },
-    test(){
-      console.log(this.content);
-       axios.post('/api/v1/post/addPost', { 
+     addPost(){
+      const contentReg = /^(\S{1,}\s?){5,}$/ 
+      let contentValidation = contentReg.test(this.content);
+      if(this.content === '' || contentValidation === false) {
+        this.contentValidity = 'invalid'
+        alert("5글자 이상 입력하세요.")
+      } else {
+        this.contentValidity = 'valid'
+        if(this.imgs.length==0){
+          alert("사진을 첨부해 주세요.")
+        }
+        axios.post('/api/v1/post/addPost', { 
                         memberNo : store.memberNo,
                         content : this.content,
                         mediaNo : this.mediaNo
@@ -173,6 +182,7 @@ export default {
             }).catch(error=>{
                 console.log(error)
             })
+    }
     },
     toggleMenu() {
       this.menuDisplayed = !this.menuDisplayed
