@@ -19,8 +19,8 @@
             <!-- 1st row -->
             <div class="flex space-x-6 items-center">
               <div class="w-40 flex justify-end">
-                <div class="cursor-pointer w-10">
-                  <img :src="imgName" />
+                <div class="cursor-pointer w-10 h-10">
+                  <img class="rounded-full w-full h-full" :src="imgName" />
                 </div>
               </div>
               <div class="flex-1">
