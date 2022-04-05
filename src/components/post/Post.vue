@@ -102,7 +102,7 @@
                                         @keydown.enter.exact.prevent @keyup.enter.exact="submitUpdatedPost" 
                                         ref="checkClamp"
                                         v-model="this.contentDetail"
-                                        class="focus:outline-none inline line-clamp-2 text-sm resize-none"></textarea>
+                                        class="focus:outline-none inline text-sm resize-none scrollbar-hide"></textarea>
                                       
                                 </div>
                                 <!-- <div v-if="isTextClamped">
@@ -255,7 +255,7 @@ export default {
                 }
             }).then((res)=>{
                 this.commentList = res.data.data;
-                this.postNo = res.data.postNo;
+                //this.postNo = res.data.postNo;
             }).catch((err) => {
                 console.log(err);
             });            
