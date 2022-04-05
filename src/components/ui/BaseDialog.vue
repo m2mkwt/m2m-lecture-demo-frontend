@@ -14,6 +14,7 @@
 <script>
 export default {
     props: ["dialogActive"],
+    emits: ['close'],
     setup(props, { emit }) {
         const close = () => {
             emit("close")

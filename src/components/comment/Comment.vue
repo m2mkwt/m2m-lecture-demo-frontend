@@ -104,7 +104,7 @@ export default {
                 this.commentList = res.data.data;
                 this.contentComment = ''
                 console.log('list',  this.commentList)
-                this.postNo = res.data.postNo;
+                //this.postNo = res.data.postNo;
                 
 
             }).catch(err => {
