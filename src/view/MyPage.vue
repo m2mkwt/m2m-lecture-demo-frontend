@@ -178,7 +178,7 @@
                                         <textarea ref="comment" 
                                         name="comment" id="comment" rows="1" placeholder="댓글 달기..."
                                         class="focus:outline-none text-sm py-2 pl-3 w-full text-left resize-none scrollbar-hide"
-                                        v-model="comment">
+                                        v-model="createConent">
                                         </textarea>
                                     </div>
                                 </div>
@@ -260,9 +260,13 @@ export default {
 	        });
         },
         addComment() {
+                console.log('뭘보내주나요?' + 
+                store.memberNo,
+                this.post_no,
+                this.createConent);
             axios.post ("/api/v1/comment/addComment",{
                 memberNo: store.memberNo,
-                postNo: this.postNo,
+                postNo: this.post_no,
                 content: this.createConent
                 })
                 .then(res => {
