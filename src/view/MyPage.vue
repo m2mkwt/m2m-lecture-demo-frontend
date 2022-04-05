@@ -120,7 +120,7 @@
                                 <!-- 댓글 -->
                                 <div class="flex flex-col h-64 px-4 pt-3 space-y-6">
                                     <div v-for="comment in commentList" class="flex space-x-4 w-full items-start">
-                                        <img src="http://picsum.photos/100" class="w-8 h-8 rounded-full mt-1">
+                                        <img :src="comment.filename" class="w-8 h-8 rounded-full mt-1">
                                         <div class="flex flex-col space-y-4">
                                             <div class="leading-none h-7 inline-flex">
                                                 <span class="inline w-20 font-semibold text-sm mr-2">{{ comment.loginId }}</span>

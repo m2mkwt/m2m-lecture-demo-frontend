@@ -1,6 +1,6 @@
 <template>
     <div class="flex space-x-4 w-full items-start">
-    <img src="filename" class="w-8 h-8 rounded-full mt-1">
+    <img :src="filename" class="w-8 h-8 rounded-full mt-1">
     <div class="flex flex-col space-y-4">
         <div class="leading-none h-7 inline-flex">
 
