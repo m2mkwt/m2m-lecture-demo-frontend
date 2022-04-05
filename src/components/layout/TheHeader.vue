@@ -167,12 +167,13 @@ export default {
       if(this.content === '' || contentValidation === false) {
         this.contentValidity = 'invalid'
         alert("5글자 이상 입력하세요.")
+        this.$refs.content.focus()
       } else {
         this.contentValidity = 'valid'
         if(this.imgs.length==0){
           alert("사진을 첨부해 주세요.")
-        }
-        axios.post('/api/v1/post/addPost', { 
+        }else{
+          axios.post('/api/v1/post/addPost', { 
                         memberNo : store.memberNo,
                         content : this.content,
                         mediaNo : this.mediaNo
@@ -182,6 +183,7 @@ export default {
             }).catch(error=>{
                 console.log(error)
             })
+        }
     }
     },
     toggleMenu() {
