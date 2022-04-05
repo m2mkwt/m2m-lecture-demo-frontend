@@ -74,7 +74,7 @@
         <div class="bg-white rounded text-xl my-5">
             <div class="flex">
                 <!-- photo -->
-                <div class="w-7/12">
+                <div class="w-7/12 border-r">
                     <img class="h-full w-full" :src="filename" @error="replaceByDefault">
                 </div>   
                 <!-- content -->
@@ -173,7 +173,7 @@
         <div class="bg-white rounded-lg z-50 w-96">
             <div class="flex flex-col w-ful">
                 <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center text-red-500 font-semibold " @click="removePost">삭제</div>
-                <div class="cursor-pointer py-3 w-full text-center" @click="[updatePost(), toggleModal()]">수정</div>
+                <div class="cursor-pointer border-b border-gray-300 py-3 w-full text-center" @click="[updatePost(), toggleModal()]">수정</div>
                 <div class="cursor-pointer py-3 w-full text-center" @click="toggleModal">취소</div>
             </div>
         </div>        
