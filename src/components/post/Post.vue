@@ -83,7 +83,7 @@
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <div class="flex items-center">
                             <img :src="filename" class="w-8 h-8 rounded-full mr-4">
-                            <p class="font-semibold text-sm">{{ loginId }}</p>
+                            <p class="font-semibold text-sm">{{postDetail.loginId}}</p>
                         </div>
                         <div class="cursor-pointer" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
                             <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
@@ -97,11 +97,11 @@
                                     <img :src="filename" class="w-full h-full rounded-full">
                                 </div>
                                 <div class="flex-1 flex flex-col">
-                                    <span class="inline font-semibold text-sm">{{ loginId }}</span>
+                                    <span class="inline font-semibold text-sm">{{postDetail.loginId}}</span>
                                     <textarea
                                         @keydown.enter.exact.prevent @keyup.enter.exact="submitUpdatedPost" 
                                         ref="checkClamp"
-                                        v-model="content"
+                                        v-model="this.content"
                                         class="focus:outline-none inline line-clamp-2 text-sm resize-none"></textarea>
                                       
                                 </div>
@@ -141,9 +141,9 @@
                             </div>
                         </div>
                         <!-- info : like -->
-                        <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{ likeCnt }}개</p>
+                        <p class="text-sm font-semibold pt-3 pb-2">좋아요 {{ postDetail.likeCnt }}개</p>
                         <!-- info : date -->
-                        <p class="text-gray-500 text-xs">{{ dateFormat }}</p>    
+                        <p class="text-gray-500 text-xs">{{ postList.dateFormat }}</p>    
                     </div> 
                     <!-- comment : create -->
                     <div class="px-3 py-2 border-t flex justify-between items-center">
@@ -197,7 +197,9 @@ export default {
             likeStatus: false,
             commentList2: [],
             dateFormat: '',
-            scrollHeight: 0
+            scrollHeight: 0,
+            content:'',
+            postDetail:[]
         }
     },
     props: [
@@ -273,18 +275,19 @@ export default {
             })
         },
         getPostList() {
-                this.$emit('getPostList', this.postNo)
+            axios.get("/api/v1/post/getPost" ,{
+                params: {
+                    postNo : this.postNo
+                }
+            }).then((res)=>{
+                console.log("상세페이지")
+                console.log(res);
+                this.postDetail=res.data.data;
+                this.content=this.postDetail.content
                 this.toggleDialog(this.postNo);
-            // axios.get("/api/v1/post/getPost" ,{
-            //     params: {
-            //         postNo : this.postNo
-            //     }
-            // }).then((res)=>{
-            //     console.log(res);
-            //     this.toggleDialog(this.postNo);
-            // }).catch((err) => {
-            //     console.log(err);
-            // });            
+            }).catch((err) => {
+                console.log(err);
+            });            
         },
         removePost() {
 	        axios.post("/api/v1/post/removePost",{
