@@ -309,7 +309,7 @@ export default {
                 console.log(res);
                 if (res.data.data) {
                     const _data = res.data.data;
-                    _data.likeStatus = (_data.likeFlag === 'Y') ? true:false
+                    _data.likeStatus = (_data.likeFlag === 'N') ? true:false
                     console.log(_data)
                 }
                 this.postDetail= res.data.data;
