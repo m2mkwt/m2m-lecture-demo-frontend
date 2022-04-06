@@ -127,8 +127,8 @@ export default {
                         let _data = res.data.data;
                         if(_data.length) {
                             _data.forEach(function(item,index) {
-                                item.likeStatus = (item.likeFlag === 'Y') ? true:false
-                                console.log(item)
+                                item.likeStatus = (item.likeFlag === 'N') ? true:false
+                                // console.log(item)
                             })
 
                             this.postList = this.postList.concat(_data)
