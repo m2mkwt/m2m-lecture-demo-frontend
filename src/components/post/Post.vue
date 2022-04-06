@@ -83,7 +83,7 @@
                     <!-- top -->
                     <div class="flex items-center justify-between px-4 py-3 border-b">
                         <div class="flex items-center">
-                            <img :src="postDetail.mfilename" class="w-8 h-8 rounded-full mr-4">
+                            <img :src="postDetail.mfilename" class="w-8 h-8 rounded-full mr-4" @error="replaceByDefault">
                             <p class="font-semibold text-sm">{{postDetail.loginId}}</p>
                         </div>
                         <div class="cursor-pointer" v-if="(memberNo != this.$store.memberNo)===false" v-on:click="toggleModal">
@@ -95,7 +95,7 @@
                         <div class="flex px-4 py-3 w-full">
                             <div class="flex w-full items-start">
                                 <div class="w-8 h-8 mr-4">
-                                    <img :src="postDetail.mfilename" class="w-full h-full rounded-full">
+                                    <img :src="postDetail.mfilename" class="w-full h-full rounded-full" @error="replaceByDefault">
                                 </div>
                                 <div class="flex-1 flex flex-col">
                                     <span class="inline font-semibold text-sm">{{postDetail.loginId}}</span>
