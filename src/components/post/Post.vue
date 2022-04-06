@@ -369,7 +369,7 @@ export default {
         }
     },
     mounted() {
-        // this.getCommentsAll()
+        this.getCommentsAll()
         // this.getPostList()
 
     },
