@@ -199,7 +199,7 @@ export default {
             commentList2: [],
             dateFormat: '',
             scrollHeight: 0,
-            content:'',
+            contentDetail:'',
             postDetail:[]
         }
     },
@@ -345,7 +345,7 @@ export default {
 	            axios.post("/api/v1/post/editPost",{
                 memberNo: store.memberNo,
                 postNo : this.postNo,
-                content: this.content
+                content: this.contentDetail
                 }).then((res)=>{
                     console.log(res);
                     alert('게시물이 정상적으로 수정되었습니다.')
