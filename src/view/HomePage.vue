@@ -29,6 +29,7 @@
                                 :like-status="post.likeStatus"
                                 :member-no="post.memberNo"
                                 @childLikeEvent="changeLike"
+                                @cmtCntEvent="changeCmtCnt"
                             ></post>
                 </infinite-scroll>
                         <!-- </div>
@@ -100,6 +101,20 @@ export default {
                 if (item.postNo == postNo) {
                     item.likeCnt = likeCnt
                     item.likeStatus = likeStatus
+                }
+            })
+        },
+
+        changeCmtCnt(postNo,cmtCnt){
+            console.log('postNo :', postNo)
+            console.log('cmtCnt :', cmtCnt)
+            this.postList.forEach(function(item,index) {
+                console.log('item.postNo :', item.postNo)
+
+                if (item.postNo == postNo) {
+                    console.log("변경전 댓글갯수"+item.commentCnt)
+                    item.commentCnt = cmtCnt
+                    console.log("변경된 댓글갯수"+item.commentCnt) 
                 }
             })
         },
