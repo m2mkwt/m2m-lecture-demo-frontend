@@ -293,6 +293,20 @@ export default {
                 this.commentList= res.data.data;
                 this.createConent = ''
                 console.log('list',  this.commentList)
+                axios.get("/api/v1/post/cmtPost",{
+                        params: {
+                            postNo: this.postNo
+                        }
+                    }).then(res => {
+                        console.log("댓글 카운트")
+                        console.log(res)
+                        const cmtCnt = res.data.data
+                        // console.log('좋아요 :', likeCnt)
+                        this.$emit('cmtCntEvent', this.postNo, cmtCnt)
+
+                    }).catch(err => {
+                        console.log(err);
+                    })
                 //this.postNo = res.data.postNo;
             }).catch(err => {
                 console.log(err);
