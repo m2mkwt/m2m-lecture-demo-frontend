@@ -349,8 +349,8 @@ export default {
         submitUpdatedPost() {
             // API 500 Error
             const contentReg = /^(\S{1,}\s?){5,}$/ 
-            let contentValidation = contentReg.test(this.content);
-            if(this.content === '' || contentValidation === false) {
+            let contentValidation = contentReg.test(this.contentDetail);
+            if(this.contentDetail === '' || contentValidation === false) {
                 this.contentValidity = 'invalid'
                 alert("5글자 이상 입력하세요.")
                 this.$refs.content.focus()
