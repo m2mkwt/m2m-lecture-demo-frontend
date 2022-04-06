@@ -83,8 +83,8 @@
                             <!-- top -->
                             <div class="flex items-center justify-between px-4 py-3 border-b">
                                 <div class="flex items-center">
-                                    <img :src="myPostDetailList.mfilename" class="w-8 h-8 rounded-full mr-4">
-                                    <p class="font-semibold text-sm">{{ member.userName }}</p>
+                                    <img :src="myPostDetailList.mfilename" class="w-8 h-8 rounded-full mr-4"  @error="replaceByDefault">
+                                    <p class="font-semibold text-sm">{{ member.loginId }}</p>
                                 </div>
                                 <div class="cursor-pointer" @click="toggleModal">
                                     <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
@@ -105,10 +105,10 @@
                                 <div class="flex px-4 py-3 w-full">
                                     <div class="flex w-full items-start">
                                         <div class="w-8 h-8 mr-4">
-                                            <img :src="myPostDetailList.mfilename" class="w-full h-full rounded-full">
+                                            <img :src="myPostDetailList.mfilename" class="w-full h-full rounded-full"  @error="replaceByDefault">
                                         </div>
                                         <div class="flex-1 flex flex-col">
-                                            <span class="inline font-semibold text-sm">{{ member.userName }}</span>
+                                            <span class="inline font-semibold text-sm">{{ member.loginId }}</span>
                                             <!-- eslint-disable -->
                                             <textarea 
                                                 class="focus:outline-none inline line-clamp-2 text-sm resize-none"
