@@ -40,7 +40,7 @@
                 <span class="font-semibold text-sm">{{ loginId }}</span>
                 {{ content }}                             
             </div>  
-            <button class="text-gray-400 text-sm">더 보기</button>                             
+            <!-- <button class="text-gray-400 text-sm">더 보기</button>                              -->
     </div>
     <!-- comment : list -->
     <div class="px-3">
