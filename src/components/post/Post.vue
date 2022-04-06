@@ -90,7 +90,7 @@
                             <svg color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><circle cx="12" cy="12" r="1.5"></circle><circle cx="6" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle></svg>
                         </div> 
                     </div>
-                    <div class="overflow-y-auto overflow-x-hidden scrollbar-hide" ref="messages">
+                    <div class="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide" ref="messages">
                         <!-- 글 -->
                         <div class="flex px-4 py-3 w-full">
                             <div class="flex w-full items-start">

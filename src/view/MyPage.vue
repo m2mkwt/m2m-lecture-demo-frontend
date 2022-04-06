@@ -79,7 +79,7 @@
                             <img class="h-full w-full" :src="myPostDetailList.pfilename" @error="replaceByDefault">
                         </div>
                         <!-- content -->
-                        <div class="flex-1 flex flex-col">
+                        <div class="flex-1 flex flex-col justify-between">
                             <!-- top -->
                             <div class="flex items-center justify-between px-4 py-3 border-b">
                                 <div class="flex items-center">
@@ -91,7 +91,7 @@
                                 </div> 
                             </div>
                             <!-- content -->
-                            <div class="overflow-y-auto overflow-x-hidden scrollbar-hide">
+                            <div class="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
                                 <!-- 글 -->
                                 <!-- <div class="flex flex-1 px-4 pt-3 border-b">
                                     <div class="flex space-x-4">

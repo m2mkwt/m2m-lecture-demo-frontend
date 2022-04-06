@@ -88,7 +88,7 @@
                   <p>클릭하여 사진을 업로드하세요</p>
                 <!-- </div> -->
               </div>
-              <div v-else class="flex-1 z-50 cursor-pointer flex flex-col justify-center items-center">
+              <div v-else class="flex-1 z-50 bg-black cursor-pointer flex flex-col justify-center items-center">
                 <img class="w-full" :src="postImgName">
               </div>
               <input ref="uploadfile" style="display: none" @change="handleFileChange" type="file" />
