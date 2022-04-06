@@ -89,7 +89,7 @@
                 <!-- </div> -->
               </div>
               <div v-else class="flex-1 z-50 cursor-pointer flex flex-col justify-center items-center">
-                <img class="w-full" :src="imgName">
+                <img class="w-full" :src="postImgName">
               </div>
               <input ref="uploadfile" style="display: none" @change="handleFileChange" type="file" />
               
@@ -152,7 +152,8 @@ export default {
       menuDisplayed: false,
       mediaNo: 0,
       memberNo: store.memberNo,
-      member : {}
+      member : {},
+      postImgName:''
     }
   },
   methods: {
@@ -215,7 +216,7 @@ export default {
           const fileInfo = response.data.data;
           const fileUri = fileInfo.fileUrl + "/" + fileInfo.fileName;
           console.log(fileUri);
-          this.imgName = fileUri;
+          this.postImgName = fileUri;
           this.mediaNo = fileInfo.mediaNo;
           reader.readAsDataURL(img1);
           var that = this;
