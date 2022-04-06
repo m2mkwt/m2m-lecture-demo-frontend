@@ -263,7 +263,7 @@ export default {
         addComment() {
                 console.log('뭘보내주나요?' + 
                 store.memberNo,
-                this.post_no,
+                //this.post_no,
                 this.createConent);
             axios.post ("/api/v1/comment/addComment",{
                 memberNo: store.memberNo,
