@@ -325,6 +325,7 @@ export default {
         .then((res) => {
           console.log(res);
           alert("회원정보 수정 성공");
+          this.$router.go();
         })
         .catch((err) => {
           console.log(err);
@@ -360,6 +361,7 @@ export default {
           reader.onloadend = function () {
             that.imgs.push(fileUri);
           };
+          this.$router.go();
         })
         .catch((error) => {
           alert("이미지 등록이 실패 하였습니다.");
@@ -464,7 +466,7 @@ export default {
       }
     },
     validatePwEditInputField() {
-      if(this.password !== '' && this.passwordConfirm !== '') {
+      if(this.oldPassword != '' && this.newPassword !== '' && this.passwordConfirm !== '') {
         this.pwEditInputFieldValidity = 'valid'
       }else {
         this.pwEditInputFieldValidity = 'invalid'
@@ -483,6 +485,7 @@ export default {
         .then((res) => {
           console.log(res);
           alert("비밀번호 변경 성공");
+          this.$router.go();
         })
         .catch((err) => {
           console.log(err);
