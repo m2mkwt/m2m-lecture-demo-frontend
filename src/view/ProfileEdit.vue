@@ -286,8 +286,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
-          let member = res.data.mvo;
+          let member = res.data.data.mvo;
           this.memberNo = member.memberNo;
           this.mediaNo = member.mediaNo;
           this.oldLoginId = this.loginId = member.loginId;
@@ -296,8 +295,8 @@ export default {
           this.userEmailDomain = member.email.split('@')[1];
           let gender = member.gender;
           userEmailDomain.value = member.email.split('@')[1];
-          if (res.data.filename!="") {
-            this.imgName = res.data.filename;
+          if (res.data.data.filename!="") {
+            this.imgName = res.data.data.filename;
           }
           if (gender == "F")
               this.gender = "여성";
@@ -320,7 +319,6 @@ export default {
         email: this.email,
         gender: temp,
       }
-      console.log(data.token);
       let url = "/api/v1/profile/editProfile";
       axios
         .post(url, data)
