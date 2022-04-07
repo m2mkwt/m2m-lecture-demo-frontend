@@ -431,7 +431,7 @@ export default {
     setup() {
         const dialogActive = ref(false)
         const modalActive = ref(false)
-        const toggleDialog = (index) => {
+        const toggleDialog = () => {
             dialogActive.value = !dialogActive.value
         }
         const toggleModal = () => {
@@ -537,7 +537,6 @@ export default {
                 }
             }).then((res)=>{
                 this.commentList = res.data.data;
-                this.postNo = res.data.postNo;
             }).catch((err) => {
                 console.log(err);
             });            

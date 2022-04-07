@@ -416,7 +416,7 @@ export default {
     setup() {
         const dialogActive = ref(false)
         const modalActive = ref(false)
-        const toggleDialog = (index) => {
+        const toggleDialog = () => {
             dialogActive.value = !dialogActive.value
         } 
         const toggleModal = () => {
