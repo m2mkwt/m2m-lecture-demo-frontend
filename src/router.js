@@ -4,7 +4,7 @@ import LoginForm from './view/LoginForm.vue'
 import MyPage from './view/MyPage.vue'
 import ProfileEdit from './view/ProfileEdit.vue'
 import HomePage from './view/HomePage.vue'
-import Test from './view/Test.vue'
+import AxiosTest from './view/AxiosTest.vue'
 import { store } from './store'
 
 const requireLogin = () => (to, from, next) => {
@@ -66,7 +66,7 @@ const routes = [{
     },
     {
         path: '/test',
-        component: Test,
+        component: AxiosTest,
         name: 'Test'
     }
 ]
