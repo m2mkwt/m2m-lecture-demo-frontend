@@ -34,8 +34,8 @@ const app = createApp({
             this.$store.dispatch('INFO')
         }
     })
-    .use(router)
-    .use(store)
-    .mount('#app');
+    app.use(router)
+    app.use(store)
+    app.mount('#app');
 // axios 전역변수 설정
 // app.config.globalProperties.axios = axios

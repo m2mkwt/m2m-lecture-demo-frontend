@@ -1,20 +1,20 @@
 <template>
     <div class="bg-zinc-50 pt-32 min-h-screen">
-        <form @submit.prevent="loginSubmit" class="flex flex-col max-w-sm mx-auto pt-8 pb-7 mb-3 justify-center items-center bg-white border rounded-sm">
+        <form class="flex flex-col max-w-sm mx-auto pt-8 pb-7 mb-3 justify-center items-center bg-white border rounded-sm" @submit.prevent="loginSubmit">
             <div class="mb-9">
                 <img class="w-44" src="../assets/images/logo.png">
             </div>
             <div class="flex flex-col gap-2 mb-4 text-xs text-gray-400 w-full px-14">
                 <div class="flex items-center">
                     <label class="hidden" for="userLoginName">아이디</label>
-                    <input type="text" v-model="id" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userLoginName" placeholder="아이디">
+                    <input id="userLoginName" v-model="id" type="text" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" placeholder="아이디">
                 </div>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
                     <input id="password" v-model.trim="password" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
                 </div>
                 <div>
-                    <button @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">로그인</button>
+                    <button :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40" @focus="validateInputField">로그인</button>
                 </div>
             </div>
             <div class="mt-6">
@@ -34,9 +34,7 @@
 </template>
 <script>
 import router from '../router.js'
-// import axios from 'axios'
 import { store } from '../store'
-
 export default {
     name: 'Login',
     data: () => ({

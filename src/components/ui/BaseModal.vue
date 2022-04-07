@@ -1,6 +1,6 @@
 <template>
-    <teleport to="body" v-show="modalActive">
-        <div @click="close" v-show="modalActive" class="fixed bg-black opacity-50 inset-0 z-40"></div>
+    <teleport v-show="modalActive" to="body">
+        <div v-show="modalActive" class="fixed bg-black opacity-50 inset-0 z-40" @click="close"></div>
         <div v-show="modalActive" class="absolute inset-0 flex justify-center items-center">
             <slot></slot>
         </div>
@@ -8,7 +8,6 @@
 </template>
 <script>
 export default {
-    //props: ["modalActive"],
     props: {
         modalActive : {
             type: Boolean,

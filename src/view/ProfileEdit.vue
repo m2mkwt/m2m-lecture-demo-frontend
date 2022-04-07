@@ -10,8 +10,6 @@
             <!-- 프로필 편집 -->
             회원정보 수정
           </div>
-          <!-- <div class="py-4 px-7 cursor-pointer">비밀번호 변경</div>
-          <div class="py-4 px-7 cursor-pointer">이메일 및 SMS</div> -->
         </div>
         <!-- content -->
         <div class="flex flex-1 py-6 pr-32">
@@ -25,10 +23,10 @@
               </div>
               <div class="flex-1">
                 <div class="text-xl">{{ userName }}</div>
-                <div @click.prevent.self="this.$refs.uploadfile.click();" class="cursor-pointer text-blue-500 text-sm font-semibold">
+                <div class="cursor-pointer text-blue-500 text-sm font-semibold" @click.prevent.self="$refs.uploadfile.click();">
                   프로필 사진 바꾸기
                 </div>
-                <input ref="uploadfile" style="display:none;" @change="handleFileChange" type="file" />
+                <input ref="uploadfile" style="display:none;" type="file" @change="handleFileChange" />
               </div>
             </div>
             <!-- 2nd row -->
@@ -40,17 +38,17 @@
                 <div>
                   <label class="hidden" for="LoginId">아이디</label>
                   <input
-                    @blur="validateLoginIdInput"
                     id="LoginId"
                     v-model="loginId"
                     :class="{'border-rose-600' : loginIdValidity === 'invalid'}"
                     class="rounded focus:outline-none py-2 pl-3 w-full border text-left"
                     type="text"
                     placeholder="아이디"
+                    @blur="validateLoginIdInput"
                   />
                 </div>
-                <p class="text-rose-600" v-if="loginIdValidity === 'invalid'">아이디를 입력해주세요.</p>
-                <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다.</p>
+                <p v-if="loginIdValidity === 'invalid'" class="text-rose-600">아이디를 입력해주세요.</p>
+                <p v-if="loginIdCheckValidity === 'invalid'" class="text-rose-600">동일한 아이디가 존재합니다.</p>
               </div>
             </div>
             <!-- 3rd row -->
@@ -62,42 +60,34 @@
                 <div>
                   <label class="hidden" for="userName">사용자 이름</label>
                   <input
-                    @blur="validateNameInput"
                     id="userName"
                     v-model="userName"
                     :class="{'border-rose-600' : userNameValidity === 'invalid'}"
                     class="rounded focus:outline-none py-2 pl-3 w-full border text-left"
                     type="text"
+                    @blur="validateNameInput"
                   />
                 </div>
-                <p class="text-rose-600" v-if="userNameValidity === 'invalid'">사용자 이름을 입력해주세요.</p>
+                <p v-if="userNameValidity === 'invalid'" class="text-rose-600">사용자 이름을 입력해주세요.</p>
               </div>
             </div>
             <!-- 4th row -->
-
             <div class="flex space-x-6">
               <div class="w-40 flex justify-end pt-2">
                 <div class="font-semibold">이메일</div>
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <!-- <label class="hidden" for="email">이메일</label>
-                  <input
-                    id="email"
-                    v-model="email"
-                    class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
-                    type="text"
-                  /> -->
                   <label class="hidden" for="userEmailId">이메일 아이디</label>
                   <input
-                    @blur="validateEmailInput"
+                    id="userEmailId"
                     v-model.trim="userEmailId"
                     :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}"
                     class="w-40 border rounded py-2 pl-3 focus:outline-none"
-                    id="userEmailId" type="text" placeholder="이메일">
+                    type="text" placeholder="이메일" @blur="validateEmailInput">
                   <span class="px-1">@</span>
                   <label class="hidden" for="userEmailDomain">이메일 도메인</label>
-                  <select class="border w-40 rounded focus:outline-none py-2 pl-3" v-model="userEmailDomain" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" id="userEmailDomain">
+                  <select id="userEmailDomain" v-model="userEmailDomain" class="border w-40 rounded focus:outline-none py-2 pl-3" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}">
                         <option disabled value="">선택</option>
                         <option value="naver.com">naver.com</option>
                         <option value="gmail.com">gmail.com</option>
@@ -105,7 +95,7 @@
                         <option value="nate.com">nate.com</option>
                     </select>
                 </div>
-                <p class="text-rose-600" v-if="userEmailIdValidity === 'invalid'">이메일을 입력해주세요.</p>
+                <p v-if="userEmailIdValidity === 'invalid'" class="text-rose-600">이메일을 입력해주세요.</p>
               </div>
             </div>
             <!-- 성별 -->
@@ -131,9 +121,9 @@
               <div class="w-40"></div>
               <div class="flex-1 flex justify-between items-center">
                 <button
-                  @focus="validateProfileEditInputField"
                   :class="{'bg-opacity-100' : profileEditInputFieldValidity === 'valid'}"
                   class="bg-blue-500 rounded py-1 px-4 text-white font-semibold"
+                  @focus="validateProfileEditInputField"
                   @click="editProfile"
                 >
                   제출
@@ -158,8 +148,8 @@
                 <div>
                   <label class="hidden" for="oldPassword">기존비밀번호</label>
                   <input
-                    v-model="oldPassword"
                     id="oldPassword"
+                    v-model="oldPassword"
                     class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
                     type="password"
                     placeholder="기존 비밀번호"
@@ -175,16 +165,16 @@
                 <div>
                   <label class="hidden" for="newPassword">신규비밀번호</label>
                   <input
-                    @blur="validatePwInput"
+                    id="newPassword"
                     v-model="newPassword"
                     :class="{'border-rose-600' : userPwValidity === 'invalid'}"
-                    id="newPassword"
                     class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
                     type="password"
                     placeholder="신규 비밀번호"
+                    @blur="validatePwInput"
                   />
                 </div>
-                <p class="text-rose-600" v-if="userPwCheckValidity === 'invalid'">특수문자와 대문자,소문자,숫자,공백을 확인해주세요.</p>
+                <p v-if="userPwCheckValidity === 'invalid'" class="text-rose-600">특수문자와 대문자,소문자,숫자,공백을 확인해주세요.</p>
               </div>
             </div>
             <div class="flex space-x-6">
@@ -195,16 +185,16 @@
                 <div>
                   <label class="hidden" for="confirmPassword">비밀번호확인</label>
                   <input
-                    @blur="validatePwConfirmInput"
+                    id="confirmPassword"
                     v-model="passwordConfirm"
                     :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}"
-                    id="confirmPassword"
                     class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
                     type="password"
                     placeholder="비밀번호 확인"
+                    @blur="validatePwConfirmInput"
                   />
                 </div>
-                <p class="text-rose-600" v-if="userPwConfirmValidity === 'invalid'">비밀번호를 동일하게 입력해주세요.</p>
+                <p v-if="userPwConfirmValidity === 'invalid'" class="text-rose-600">비밀번호를 동일하게 입력해주세요.</p>
               </div>
             </div>
             <!-- 제출 버튼 & 비활성화 -->
@@ -212,16 +202,13 @@
               <div class="w-40"></div>
               <div class="flex-1 flex justify-between items-center">
                 <button
-                  @focus="validatePwEditInputField"
                   :class="{'bg-opacity-100' : pwEditInputFieldValidity === 'valid'}"
                   class="bg-blue-500 rounded py-1 px-4 text-white font-semibold"
+                  @focus="validatePwEditInputField"
                   @click="editPassword"
                 >
                   비밀번호변경
                 </button>
-                <!-- <a class="text-blue-500 text-sm font-semibold" href="#">
-                  계정을 일시적으로 비활성화
-                </a> -->
               </div>
             </div>
           </div>
@@ -254,14 +241,11 @@ export default {
       gender: "",
       userEmailId: '',
       userEmailDomain: '',
-
-
       imgName: "/src/assets/images/avatar.jpg",
       imgs: [],
       imgData: {
         accept: "image/gif, image/jpeg, image/png, image/jpg",
       },
-
       oldPassword: '',
       newPassword: '',
       passwordConfirm: '',
@@ -275,6 +259,9 @@ export default {
       profileEditInputFieldValidity: 'pending',
       pwEditInputFieldValidity: 'pending'
     };
+  },
+  mounted() {
+    this.getProfile();
   },
   methods: {
     getProfile() {
@@ -492,9 +479,6 @@ export default {
           alert("비밀번호 변경 실패");
         });
     },
-  },
-  mounted() {
-    this.getProfile();
   },
 };
 </script>
