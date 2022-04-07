@@ -10,13 +10,14 @@
             <!-- 프로필 편집 -->
             회원정보 수정
           </div>
-          <!-- <div class="py-4 px-7 cursor-pointer">비밀번호 변경</div>
-          <div class="py-4 px-7 cursor-pointer">이메일 및 SMS</div> -->
+          <!-- 메뉴 추가 시 참고 -->
+          <!-- <div class="py-4 px-7 cursor-pointer">비밀번호 변경</div> -->
+          <!-- <div class="py-4 px-7 cursor-pointer">이메일 및 SMS</div> -->
         </div>
         <!-- content -->
         <div class="flex flex-1 py-6 pr-32">
           <div class="space-y-4">
-            <!-- 1st row -->
+            <!-- 1st row : 프로필 사진, 사용자 이름 -->
             <div class="flex space-x-6 items-center">
               <div class="w-40 flex justify-end">
                 <div class="cursor-pointer w-10 h-10">
@@ -31,7 +32,7 @@
                 <input ref="uploadfile" style="display:none;" @change="handleFileChange" type="file" />
               </div>
             </div>
-            <!-- 2nd row -->
+            <!-- 2nd row : 사용자 아이디 -->
             <div class="flex space-x-6">
               <div class="w-40 flex justify-end pt-2">
                 <div class="font-semibold">아이디</div>
@@ -53,7 +54,7 @@
                 <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다.</p>
               </div>
             </div>
-            <!-- 3rd row -->
+            <!-- 3rd row : 사용자 이름 -->
             <div class="flex space-x-6">
               <div class="w-40 flex justify-end pt-2">
                 <div class="font-semibold">사용자 이름</div>
@@ -73,21 +74,13 @@
                 <p class="text-rose-600" v-if="userNameValidity === 'invalid'">사용자 이름을 입력해주세요.</p>
               </div>
             </div>
-            <!-- 4th row -->
-
+            <!-- 4th row : 이메일 -->
             <div class="flex space-x-6">
               <div class="w-40 flex justify-end pt-2">
                 <div class="font-semibold">이메일</div>
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <!-- <label class="hidden" for="email">이메일</label>
-                  <input
-                    id="email"
-                    v-model="email"
-                    class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
-                    type="text"
-                  /> -->
                   <label class="hidden" for="userEmailId">이메일 아이디</label>
                   <input
                     @blur="validateEmailInput"
@@ -97,8 +90,11 @@
                     id="userEmailId" type="text" placeholder="이메일">
                   <span class="px-1">@</span>
                   <label class="hidden" for="userEmailDomain">이메일 도메인</label>
-                  <select class="border w-40 rounded focus:outline-none py-2 pl-3" v-model="userEmailDomain" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" id="userEmailDomain">
-                        <option disabled value="">선택</option>
+                  <select class="border w-40 rounded focus:outline-none py-2 pl-3"
+                    v-model="userEmailDomain"
+                    :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}"
+                    id="userEmailDomain">
+                      <option disabled value="">선택</option>
                         <option value="naver.com">naver.com</option>
                         <option value="gmail.com">gmail.com</option>
                         <option value="daum.net">daum.net</option>
@@ -108,7 +104,7 @@
                 <p class="text-rose-600" v-if="userEmailIdValidity === 'invalid'">이메일을 입력해주세요.</p>
               </div>
             </div>
-            <!-- 성별 -->
+            <!-- 5th row : 성별 -->
             <div class="flex space-x-6">
               <div class="w-40 flex justify-end pt-2">
                 <div class="font-semibold">성별</div>
@@ -116,13 +112,15 @@
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
                   <label class="hidden" for="gender">성별</label>
-                  <input
+                  <select
                     id="gender"
                     v-model="gender"
                     class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
-                    type="text"
-                    placeholder="성별(남성/여성)"
-                  />
+                    >
+                    <option disabled value="">성별을 선택해주세요</option>
+                    <option value="M">남성</option>
+                    <option value="F">여성</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -251,10 +249,12 @@ export default {
       loginId: "",
       userName: "",
       email: "",
-      gender: "",
       userEmailId: '',
       userEmailDomain: '',
-
+      gender: "",
+      oldPassword: '',
+      newPassword: '',
+      passwordConfirm: '',
 
       imgName: "/src/assets/images/avatar.jpg",
       imgs: [],
@@ -262,9 +262,6 @@ export default {
         accept: "image/gif, image/jpeg, image/png, image/jpg",
       },
 
-      oldPassword: '',
-      newPassword: '',
-      passwordConfirm: '',
       userEmailIdValidity: 'pending',
       userNameValidity: 'pending',
       loginIdValidity: 'pending',
@@ -293,31 +290,24 @@ export default {
           this.userName = member.userName;
           this.userEmailId = member.email.split('@')[0];
           this.userEmailDomain = member.email.split('@')[1];
-          let gender = member.gender;
+          this.gender = member.gender;
           userEmailDomain.value = member.email.split('@')[1];
           if (res.data.data.filename!="") {
             this.imgName = res.data.data.filename;
           }
-          if (gender == "F")
-              this.gender = "여성";
-          else
-              this.gender = "남성";
         })
         .catch((err) => {
           console.log(err);
         });
     },
     editProfile() {
-      let temp = "";
-      if (this.gender == "남성") temp = "M";
-      else temp = "F";
-      this.email = this.userEmailId+'@'+this.userEmailDomain;
+      this.email = this.userEmailId + '@' + this.userEmailDomain;
       let data =  {
         memberNo: this.memberNo,
         loginId: this.loginId,
         userName: this.userName,
         email: this.email,
-        gender: temp,
+        gender: this.gender,
       }
       let url = "/api/v1/profile/editProfile";
       axios
@@ -335,8 +325,8 @@ export default {
     handleFileChange(event) {
       let reader = new FileReader();
       let img1 = event.target.files[0];
-      let type = img1.type; //     ，
-      let size = img1.size; //     ，
+      let type = img1.type;
+      let size = img1.size;
       if (this.imgData.accept.indexOf(type) == -1) {
         alert("사진을 찾을수 없습니다！");
         return false;
