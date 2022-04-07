@@ -5,8 +5,7 @@
       <div class="bg-white w-full border flex">
         <!-- aside menu -->
         <div class="w-1/4 border-r hidden md:block">
-          <div
-            class="py-4 px-7 cursor-pointer border-l-2 border-black w-full font-semibold">
+          <div class="py-4 px-7 cursor-pointer border-l-2 border-black w-full font-semibold">
             <!-- 프로필 편집 -->
             회원정보 수정
           </div>
@@ -18,15 +17,26 @@
             <div class="flex space-x-6 items-center">
               <div class="w-40 flex justify-end">
                 <div class="cursor-pointer w-10 h-10">
-                  <img class="rounded-full w-full h-full" :src="imgName" />
+                  <img
+                    class="rounded-full w-full h-full"
+                    :src="imgName"
+                  />
                 </div>
               </div>
               <div class="flex-1">
                 <div class="text-xl">{{ userName }}</div>
-                <div class="cursor-pointer text-blue-500 text-sm font-semibold" @click.prevent.self="$refs.uploadfile.click();">
+                <div
+                  class="cursor-pointer text-blue-500 text-sm font-semibold"
+                  @click.prevent.self="$refs.uploadfile.click();"
+                >
                   프로필 사진 바꾸기
                 </div>
-                <input ref="uploadfile" style="display:none;" type="file" @change="handleFileChange" />
+                <input
+                  ref="uploadfile"
+                  style="display:none;"
+                  type="file"
+                  @change="handleFileChange"
+                />
               </div>
             </div>
             <!-- 2nd row : 사용자 아이디 -->
@@ -36,7 +46,10 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="LoginId">아이디</label>
+                  <label
+                    class="hidden"
+                    for="LoginId"
+                  >아이디</label>
                   <input
                     id="LoginId"
                     v-model="loginId"
@@ -47,8 +60,14 @@
                     @blur="validateLoginIdInput"
                   />
                 </div>
-                <p v-if="loginIdValidity === 'invalid'" class="text-rose-600">아이디를 입력해주세요.</p>
-                <p v-if="loginIdCheckValidity === 'invalid'" class="text-rose-600">동일한 아이디가 존재합니다.</p>
+                <p
+                  v-if="loginIdValidity === 'invalid'"
+                  class="text-rose-600"
+                >아이디를 입력해주세요.</p>
+                <p
+                  v-if="loginIdCheckValidity === 'invalid'"
+                  class="text-rose-600"
+                >동일한 아이디가 존재합니다.</p>
               </div>
             </div>
             <!-- 3rd row : 사용자 이름 -->
@@ -58,7 +77,10 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="userName">사용자 이름</label>
+                  <label
+                    class="hidden"
+                    for="userName"
+                  >사용자 이름</label>
                   <input
                     id="userName"
                     v-model="userName"
@@ -68,7 +90,10 @@
                     @blur="validateNameInput"
                   />
                 </div>
-                <p v-if="userNameValidity === 'invalid'" class="text-rose-600">사용자 이름을 입력해주세요.</p>
+                <p
+                  v-if="userNameValidity === 'invalid'"
+                  class="text-rose-600"
+                >사용자 이름을 입력해주세요.</p>
               </div>
             </div>
             <!-- 4th row : 이메일 -->
@@ -78,25 +103,45 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="userEmailId">이메일 아이디</label>
+                  <label
+                    class="hidden"
+                    for="userEmailId"
+                  >이메일 아이디</label>
                   <input
                     id="userEmailId"
                     v-model.trim="userEmailId"
                     :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}"
                     class="w-40 border rounded py-2 pl-3 focus:outline-none"
-                    type="text" placeholder="이메일" @blur="validateEmailInput">
+                    type="text"
+                    placeholder="이메일"
+                    @blur="validateEmailInput"
+                  >
                   <span class="px-1">@</span>
-                  <label class="hidden" for="userEmailDomain">이메일 도메인</label>
-                  <select id="userEmailDomain" v-model="userEmailDomain" class="border w-40 rounded focus:outline-none py-2 pl-3" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}">
-                        <option disabled value="">선택</option>
+                  <label
+                    class="hidden"
+                    for="userEmailDomain"
+                  >이메일 도메인</label>
+                  <select
+                    id="userEmailDomain"
+                    v-model="userEmailDomain"
+                    class="border w-40 rounded focus:outline-none py-2 pl-3"
+                    :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}"
+                  >
+                    <option
+                      disabled
+                      value=""
+                    >선택</option>
 
-                        <option value="naver.com">naver.com</option>
-                        <option value="gmail.com">gmail.com</option>
-                        <option value="daum.net">daum.net</option>
-                        <option value="nate.com">nate.com</option>
-                    </select>
+                    <option value="naver.com">naver.com</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="daum.net">daum.net</option>
+                    <option value="nate.com">nate.com</option>
+                  </select>
                 </div>
-                <p v-if="userEmailIdValidity === 'invalid'" class="text-rose-600">이메일을 입력해주세요.</p>
+                <p
+                  v-if="userEmailIdValidity === 'invalid'"
+                  class="text-rose-600"
+                >이메일을 입력해주세요.</p>
               </div>
             </div>
             <!-- 5th row : 성별 -->
@@ -106,13 +151,19 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="gender">성별</label>
+                  <label
+                    class="hidden"
+                    for="gender"
+                  >성별</label>
                   <select
                     id="gender"
                     v-model="gender"
                     class="rounded focus:outline-none text-sm font-medium py-2 pl-3 w-full border text-left"
-                    >
-                    <option disabled value="">성별을 선택해주세요</option>
+                  >
+                    <option
+                      disabled
+                      value=""
+                    >성별을 선택해주세요</option>
                     <option value="M">남성</option>
                     <option value="F">여성</option>
                   </select>
@@ -133,7 +184,7 @@
                 </button>
               </div>
             </div>
-            
+
             <div class="flex space-x-6">
               <div class="w-40 flex justify-end pt-2">
                 <div class="font-semibold"></div>
@@ -149,7 +200,10 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="oldPassword">기존비밀번호</label>
+                  <label
+                    class="hidden"
+                    for="oldPassword"
+                  >기존비밀번호</label>
                   <input
                     id="oldPassword"
                     v-model="oldPassword"
@@ -166,7 +220,10 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="newPassword">신규비밀번호</label>
+                  <label
+                    class="hidden"
+                    for="newPassword"
+                  >신규비밀번호</label>
                   <input
                     id="newPassword"
                     v-model="newPassword"
@@ -177,7 +234,10 @@
                     @blur="validatePwInput"
                   />
                 </div>
-                <p v-if="userPwCheckValidity === 'invalid'" class="text-rose-600">특수문자와 대문자,소문자,숫자,공백을 확인해주세요.</p>
+                <p
+                  v-if="userPwCheckValidity === 'invalid'"
+                  class="text-rose-600"
+                >특수문자와 대문자,소문자,숫자,공백을 확인해주세요.</p>
               </div>
             </div>
             <div class="flex space-x-6">
@@ -186,7 +246,10 @@
               </div>
               <div class="flex-1 flex flex-col space-y-3">
                 <div>
-                  <label class="hidden" for="confirmPassword">비밀번호확인</label>
+                  <label
+                    class="hidden"
+                    for="confirmPassword"
+                  >비밀번호확인</label>
                   <input
                     id="confirmPassword"
                     v-model="passwordConfirm"
@@ -197,7 +260,10 @@
                     @blur="validatePwConfirmInput"
                   />
                 </div>
-                <p v-if="userPwConfirmValidity === 'invalid'" class="text-rose-600">비밀번호를 동일하게 입력해주세요.</p>
+                <p
+                  v-if="userPwConfirmValidity === 'invalid'"
+                  class="text-rose-600"
+                >비밀번호를 동일하게 입력해주세요.</p>
               </div>
             </div>
             <!-- 제출 버튼 & 비활성화 -->
@@ -286,7 +352,7 @@ export default {
           this.userEmailId = member.email.split('@')[0];
           this.userEmailDomain = member.email.split('@')[1];
           this.gender = member.gender;
-          userEmailDomain.value = member.email.split('@')[1];
+          this.userEmailDomain.value = member.email.split('@')[1];
           if (res.data.data.filename!="") {
             this.imgName = res.data.data.filename;
           }
@@ -321,7 +387,7 @@ export default {
       let reader = new FileReader();
       let img1 = event.target.files[0];
       let type = img1.type;
-      let size = img1.size;
+      //let size = img1.size;
       if (this.imgData.accept.indexOf(type) == -1) {
         alert("사진을 찾을수 없습니다！");
         return false;
@@ -349,6 +415,7 @@ export default {
           this.$router.go();
         })
         .catch((error) => {
+          console.log(error)
           alert("이미지 등록이 실패 하였습니다.");
         });
     },

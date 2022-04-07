@@ -97,7 +97,7 @@
               role="img"
               viewBox="0 0 24 24"
               width="24"
-              @click="toggleDialog(index)"
+              @click="getPostList()"
             >
               <path
                 d="M20.656 17.008a9.993 9.993 0 10-3.59 3.615L22 22z"
@@ -268,7 +268,7 @@
                     :delete-y-n="comment.deleteYN"
                     :createdt="comment.createdt"
                     :filename="comment.filename"
-                    @removeComment="removeCommentData"
+                    @remove-comment="removeCommentData"
                   ></comment>
                 </div>
               </div>
@@ -405,7 +405,7 @@
 import { ref, watch } from 'vue'
 import BaseDialog from '../ui/BaseDialog.vue'
 import BaseModal from '../ui/BaseModal.vue'
-import Comment from '../comment/Comment.vue'
+import Comment from '../comment/CommentItem.vue'
 import { store } from '../../store'
 import img from '../../assets/images/errorImage.png'
 import axios from 'axios'
@@ -415,23 +415,67 @@ export default {
         Comment,
         BaseModal
     },
-    props: [
-        'loginId',
-        'content',
-        'createdt',
-        'commentCnt',
-        'postNo',
-        'pfilename',
-        'mfilename',
-        'likeCnt',
-        'likeStatus',
-        'memberNo'
+    // props: [
+    //     'loginId',
+    //     'content',
+    //     'createdt',
+    //     'commentCnt',
+    //     'postNo',
+    //     'pfilename',
+    //     'mfilename',
+    //     'likeCnt',
+    //     'likeStatus',
+    //     'memberNo'
         
-    ],
+    // ],
+    props: {
+        loginId: {
+            type: [String],
+            required: true
+        },
+        content: {
+            type: [String],
+            required: true            
+        },
+        createdt: {
+            type: [String],
+            default: '',
+            required: false
+        },
+        commentCnt: {
+            type: [Number],
+            required: true             
+        },
+        postNo: {
+            type: [Number],
+            required: true             
+        },
+        pfilename: {
+            type: [String],
+            required: true  
+        },
+        mfilename: {
+            type: [String],
+            required: true  
+        },
+        likeCnt: {
+            type: [Number],
+            required: true             
+        },
+        likeStatus: {
+            type: [Boolean],
+            required: true
+        },
+        memberNo: {
+            type: [Number],
+            required: true             
+        },
+    },
+    emits: ['childLikeEvent', 'cmtCntEvent'],
     setup() {
         const dialogActive = ref(false)
         const modalActive = ref(false)
-        const toggleDialog = (index) => {
+        const toggleDialog = () => {
             dialogActive.value = !dialogActive.value
         }
         const toggleModal = () => {
@@ -495,7 +539,7 @@ export default {
         replaceByDefault(e) {
             e.target.src = img
         },
-        setFocus(index) {
+        setFocus() {
             this.$refs.modalComment.focus()
         },
         likesUP(delYn) {
@@ -504,7 +548,7 @@ export default {
                 postNo: this.postNo,
                 deleteYn: delYn
             }).then(res => {
-                const likeCnt = res.data.data;
+                //const likeCnt = res.data.data;
                 const likeStatus = (delYn === 'N') ? true : false
 
                 this.postDetail.likeCnt= res.data.data;
@@ -515,7 +559,7 @@ export default {
             })
         },
         likesFromList(delYn) {
-            const likeFlag = (this.likeStatus) ? true: false;
+            //const likeFlag = (this.likeStatus) ? true: false;
             axios.post ("/api/v1/comment/likePost",{
                 postNo: this.postNo,
                 deleteYn: delYn
@@ -537,7 +581,7 @@ export default {
                 }
             }).then((res)=>{
                 this.commentList = res.data.data;
-                this.postNo = res.data.postNo;
+                //this.postNo = res.data.postNo;
             }).catch((err) => {
                 console.log(err);
             });            

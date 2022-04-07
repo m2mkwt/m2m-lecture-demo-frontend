@@ -82,18 +82,64 @@ import { store } from '../../store'
 import img from '../../assets/images/errorImage.png'
 import axios from 'axios'
 export default {
-    props: [
-        'loginId',
-        'commentNo',
-        'memberNo',
-        'postNo',
-        'contentComment',
-        'deleteYN',
-        'createdt',
-        'comment',
-        'filename',
-        'index'
-    ],
+    // props: [
+    //     'loginId',
+    //     'commentNo',
+    //     'memberNo',
+    //     'postNo',
+    //     'contentComment',
+    
+    //     'deleteYN',
+    //     'createdt',
+    //     'comment',
+    //     'filename',
+    //     'index'
+    // ],
+    props: {
+        loginId: {
+            type: [String],
+            required: true
+        },
+        commentNo: {
+            type: [Number],
+            required: true
+        },
+        memberNo: {
+            type: [Number],
+            required: true
+        },
+        postNo: {
+            type: [Number],
+            required: true
+        },
+        contentComment: {
+            type: [String],
+            required: true
+        },
+        deleteYN: {
+            type: [String],
+            default: 'N',
+            required: false
+        },
+        createdt: {
+            type: [String],
+            default: '',
+            required: false
+        },
+        comment: {
+            type: [String],
+            required: true
+        },
+        filename: {
+            type: [String],
+            required: true
+        },
+        index: {
+            type: [Number],
+            required: true
+        }
+    },
+    emits: ['remove-comment'],
     data() {
         return {
             commentList: [],
@@ -114,9 +160,9 @@ export default {
         replaceByDefault(e) {
             e.target.src = img
         },
-        newline() {
-            this.contentComment = `${this.contentComment}\n`;
-        },
+        // newline() {
+        //     this.contentComment = `${this.contentComment}\n`;
+        // },
         updateComment() {
             this.$refs.commentCont.focus()
         },

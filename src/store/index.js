@@ -44,7 +44,7 @@ export const store = createStore({
             commit('LOGOUT')
             return true
         },
-        INFO({ commit }) {
+        INFO() {
             console.log("[store_action] INFO Start!");
             this.loginState = false
             const { bearer } = sessionStorage
@@ -67,7 +67,7 @@ export const store = createStore({
             sessionStorage.memberNo = this.memberNo
             sessionStorage.loginInfo = this.loginInfo
         },
-        LOGOUT(state) {
+        LOGOUT() {
             this.loginState = false
             sessionStorage.clear()
             axios.defaults.headers.common.Authorization = null
