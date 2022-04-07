@@ -24,14 +24,11 @@
                         <div class="md:flex space-x-10 hidden">
                             <div class="flex space-x-2">
                                 <div>게시물</div>
-                                <div class="font-medium">{{ myPostCount }}</div>    <!-- 수정 필요 -->
+                                <div class="font-medium">{{ myPostCount }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="md:hidden pt-8">
-                    <div class="font-medium">Blah blah</div>
-                </div> -->
             </div>
             <!-- responsive 2 -->
             <div class="flex py-2 md:hidden justify-between border-b mb-12">
@@ -44,7 +41,6 @@
             <div class="grid grid-cols-3 gap-7" v-show="myPostCount >= 1">
                 <div @click="getPostList(post_no)" class="cursor-pointer relative" v-for="(myImages,post_no) in myPostList" v-bind:key="post_no">
                     <img class="w-full h-full drop-shadow-lg" :src="myImages.p_filename" @error="replaceByDefault">
-                    <!-- <img class="w-full" src="myImages.fileName"> -->
                     <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
                         <div class="flex items-center justify-center">
                             <svg class="w-5 mr-1" color="#fff" fill="#fff" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 10-3.59 3.615L22 22z" fill="#fff" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
@@ -52,16 +48,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 원본 -->
-                <!-- <div @click="toggleDialog" class="cursor-pointer relative" v-for="feed in 6" :key="feed">
-                    <img class="w-full" src="http://picsum.photos/100">
-                    <div class="opacity-0 hover:opacity-100 ease-in duration-300 absolute inset-0 z-10 flex justify-center items-center text-white font-semibold text-lg bg-black/[.09]">
-                        <div class="flex items-center justify-center">
-                            <svg class="w-5 mr-1" color="#fff" fill="#fff" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 10-3.59 3.615L22 22z" fill="#fff" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
-                            <p>23</p>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             <!-- photo area 게시물이 존재하지 않을 경우 -->
             <div class="h-96 text-center bg-zinc-50 pt-12 pb-14 " v-show="myPostCount === 0">
@@ -93,15 +79,6 @@
                             <!-- content -->
                             <div class="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
                                 <!-- 글 -->
-                                <!-- <div class="flex flex-1 px-4 pt-3 border-b">
-                                    <div class="flex space-x-4">
-                                        <img :src="this.img" class="w-8 h-8 rounded-full">
-                                        <div class="flex flex-col">
-                                            <p class="font-semibold text-sm">{{ member.userName }}</p>
-                                            <p class="text-gray-500 text-xs pt-2">{{myPostDetailList.content}}</p>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="flex px-4 py-3 w-full">
                                     <div class="flex w-full items-start">
                                         <div class="w-8 h-8 mr-4">
@@ -255,8 +232,7 @@ export default {
             this.$refs.comment.focus()
         },
         getMember() {
-            // console.log('회원 정보 조회 api 호출')
-            // console.log('현재 로그인한 user의 memberNo: ' + store.memberNo);
+            console.log('회원 정보 조회 api 호출')
 	        axios.get("/api/v1/mypage/getMember",{
                 params: {
                     memberNo : store.memberNo
@@ -266,7 +242,6 @@ export default {
                 this.member = res.data.data.mvo;
                 if (this.member.mediaNo > 0)
                     this.imgName = res.data.data.imgName;
-                // console.log(member);
 	        }).catch((err) => {
 		        console.log(err);
 	        });
@@ -290,21 +265,6 @@ export default {
                 console.log(err);
             })
         },
-        // * 쿼리 잘못되어있어 주석처리하고 erarchPostList에서 res.data.count 사용
-        // getPostCnt() {
-        //     console.log('내가 작성한 게시물 갯수 조회 api 호출')
-	    //     axios.get("/api/v1/mypage/getPostCnt",{
-        //         params: {
-        //             memberNo : store.memberNo
-        //         }
-        //     }).then((res)=>{
-		//         console.log(res);
-        //         this.myPostCount = res.data.count;
-        //         console.log('내 게시물 갯수: ' + this.myPostCount);
-	    //     }).catch((err) => {
-		//         console.log(err);
-	    //     });
-        // },
         searchPostList() {
             console.log('내가 작성한 게시물 조회 api 호출')
 	        axios.get("/api/v1/mypage/searchPostList",{
@@ -431,10 +391,7 @@ export default {
     },
     mounted() {
         this.getMember(),
-        // this.getPostCnt(),
         this.searchPostList()
-        
-        //this.getPostList()
     }    
 }
 </script>
