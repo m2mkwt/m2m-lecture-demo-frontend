@@ -5,16 +5,11 @@
     <div class="bg-zinc-50 min-h-screen">
         <div class="max-w-4xl mx-auto pt-24">
             <div class="md:flex">
-                <!-- <div class="flex-1 overflow-y-auto scrollbar-hide"> -->
                     <div>
-                        <!-- <div v-if="isLoading">
-                            <base-spinner></base-spinner>
-                        </div>
-                        <div v-if="hasPosts"> -->
                 <infinite-scroll 
-                    @infinite-scroll="infiniteHandler" 
-                    :message="message"
-                    :noResult="noResult">                            
+                    :message="message" 
+                    :no-result="noResult"
+                    @infinite-scroll="infiniteHandler">                            
                             <post
                                 v-for="post in postList"
                                 :key="post.postNo"
@@ -32,20 +27,11 @@
                                 @cmtCntEvent="changeCmtCnt"
                             ></post>
                 </infinite-scroll>
-                        <!-- </div>
-                        <div v-else>
-                            No posts found.
-                        </div> -->
                     </div>
             </div>
         </div>
-        <!-- <div v-for="post in postList" :key="post.postNo">
-            {{post.postNo}}
-        </div> -->
-        <!-- <infinite-scroll @infinite-scroll="infiniteHandler"></infinite-scroll> -->
     </div>
 </template>
-
 <script>
 import TheHeader from '../components/layout/TheHeader.vue'
 import TheFooter from '../components/layout/TheFooter.vue'
@@ -55,6 +41,14 @@ import Post from '../components/post/Post.vue'
 import axios from 'axios'
 import InfiniteScroll from "infinite-loading-vue3";
 export default {
+    components: {
+        TheHeader,
+        TheFooter,
+        BaseDialog,
+        BaseSpinner,
+        InfiniteScroll,
+        Post,
+    },
     data() {
         return {
             isLoading: false,
@@ -69,27 +63,10 @@ export default {
             isRun: false
         }
     },
+    created() {
+        this.infiniteHandler()
+    },
     methods: {
-        // posts() {
-            // this.isLoading = true
-        // this.$store.dispatch('/posts/getSelectAll')
-        //     // this.isLoading = false
-        // },
-        // getSelectAll() {
-        //     axios.get("/api/v1/post/selectPostList").then((res)=>{
-        //         console.log(res);
-        //         console.log(res.data.data)
-        //         console.log(res.data.data.data)
-                
-        //         this.postList = res.data.data;
-        //         console.log('postList: ' + this.postList);
-        //         // commit mutation 
-        //         //this.$store.state.posts = res.data.data;
-        //     }).catch((err) => {
-        //         console.log(err);
-        //     });
-        // },
-
         changeLike(postNo, delYn, likeCnt) {
             console.log('postNo :', postNo)
             console.log('delYn :', delYn)
@@ -131,7 +108,6 @@ export default {
             } else {
                 this.isRun = true
             }
-
             axios.post("/api/v1/post/selectPostList", params)
             .then((res)=>{
                 // console.log('Result List :', res.data.data)
@@ -145,7 +121,6 @@ export default {
                                 item.likeStatus = (item.likeFlag === 'N') ? true:false
                                 // console.log(item)
                             })
-
                             this.postList = this.postList.concat(_data)
                             // $state.loaded()
                             this.page = this.page + 1
@@ -161,7 +136,6 @@ export default {
                             // 끝 지정(No more data)
                             // $state.complete()
                             console.log('END !!!!!!!!')
-
                             this.noResult = true;
                             this.message = "No result found";
                         }
@@ -172,26 +146,6 @@ export default {
                 console.error(err);
             })
         }
-    },
-    computed: {
-        // listPosts() {
-        //     return this.$store.getters['posts/posts']
-        // },
-        // hasPosts() {
-        //     return !this.isLoading && this.$store.getters['posts/hasPosts']
-        // }
-    },
-    components: {
-        TheHeader,
-        TheFooter,
-        BaseDialog,
-        BaseSpinner,
-        InfiniteScroll,
-        Post,
-    },
-    created() {
-        this.infiniteHandler()
-        // this.getSelectAll()
     }    
 }
 </script>

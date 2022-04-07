@@ -1,6 +1,6 @@
 <template>
     <div class="bg-zinc-50 pt-16 min-h-screen">
-        <form @submit.prevent="signupSubmit" class="flex flex-col max-w-sm mx-auto pt-8 pb-7 mb-3 justify-center items-center bg-white border rounded-sm">
+        <form class="flex flex-col max-w-sm mx-auto pt-8 pb-7 mb-3 justify-center items-center bg-white border rounded-sm" @submit.prevent="signupSubmit">
             <div>
                 <img class="w-44" src="../assets/images/logo.png">
             </div>
@@ -11,10 +11,10 @@
             <div class="flex flex-col gap-2 mb-4 text-xs text-gray-400">
                 <div class="flex items-center">
                     <label class="hidden" for="userEmailId">이메일 아이디</label>
-                    <input @blur="validateEmailInput" v-model.trim="userEmailId" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" id="userEmailId" type="text" placeholder="이메일">
+                    <input id="userEmailId" v-model.trim="userEmailId" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" class="bg-gray-50 w-full border rounded py-2 pl-3 focus:outline-none" type="text" placeholder="이메일" @blur="validateEmailInput">
                     <span class="px-1">@</span>
                     <label class="hidden" for="userEmailDomain">이메일 도메인</label>
-                    <select class="bg-gray-50 border w-full rounded focus:outline-none py-2 pl-3" v-model="userEmailDomain" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}" id="userEmailDomain">
+                    <select id="userEmailDomain" v-model="userEmailDomain" class="bg-gray-50 border w-full rounded focus:outline-none py-2 pl-3" :class="{'border-rose-600' : userEmailIdValidity === 'invalid'}">
                         <option disabled value="">선택</option>
                         <option value="naver.com">naver.com</option>
                         <option value="gmail.com">gmail.com</option>
@@ -22,30 +22,30 @@
                         <option value="nate.com">nate.com</option>
                     </select>
                 </div>
-                <p class="text-rose-600" v-if="userEmailIdValidity === 'invalid'">이메일을 입력해주세요.</p>
+                <p v-if="userEmailIdValidity === 'invalid'" class="text-rose-600">이메일을 입력해주세요.</p>
                 <div>
                     <label class="hidden" for="userName">사용자 이름</label>
-                    <input @blur="validateNameInput" id="userName" v-model="userName" :class="{'border-rose-600' : userNameValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="사용자 이름">
+                    <input id="userName" v-model="userName" :class="{'border-rose-600' : userNameValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="사용자 이름" @blur="validateNameInput">
                 </div>
-                <p class="text-rose-600" v-if="userNameValidity === 'invalid'">사용자 이름을 입력해주세요.</p>
+                <p v-if="userNameValidity === 'invalid'" class="text-rose-600">사용자 이름을 입력해주세요.</p>
                 <div>
                     <label class="hidden" for="loginId">아이디</label>
-                    <input @blur="validateLoginIdInput" id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디">
+                    <input id="loginId" v-model="loginId" :class="{'border-rose-600' : loginIdValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="text" placeholder="아이디" @blur="validateLoginIdInput">
                 </div>
-                <p class="text-rose-600" v-if="loginIdValidity === 'invalid'">아이디를 입력해주세요.</p>
-                <p class="text-rose-600" v-if="loginIdCheckValidity === 'invalid'">동일한 아이디가 존재합니다.</p>
+                <p v-if="loginIdValidity === 'invalid'" class="text-rose-600">아이디를 입력해주세요.</p>
+                <p v-if="loginIdCheckValidity === 'invalid'" class="text-rose-600">동일한 아이디가 존재합니다.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호</label>
-                    <input @blur="validatePwInput" id="password" v-model="password" :class="{'border-rose-600' : userPwCheckValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호">
+                    <input id="password" v-model="password" :class="{'border-rose-600' : userPwCheckValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호" @blur="validatePwInput">
                 </div>
-                <p class="text-rose-600" v-if="userPwCheckValidity === 'invalid'">특수문자와 소문자,숫자,공백을 확인해주세요.</p>
+                <p v-if="userPwCheckValidity === 'invalid'" class="text-rose-600">특수문자와 소문자,숫자,공백을 확인해주세요.</p>
                 <div>
                     <label class="hidden" for="password">비밀번호 확인</label>
-                    <input @blur="validatePwConfirmInput" id="passwordConfirm" v-model="passwordConfirm" :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호 확인">
+                    <input id="passwordConfirm" v-model="passwordConfirm" :class="{'border-rose-600' : userPwConfirmValidity === 'invalid'}" class="rounded focus:outline-none bg-gray-50 text-xs py-2 pl-3 w-full border text-left" type="password" placeholder="비밀번호 확인" @blur="validatePwConfirmInput">
                 </div>
-                <p class="text-rose-600" v-if="userPwConfirmValidity === 'invalid'">비밀번호를 동일하게 입력해주세요.</p>
+                <p v-if="userPwConfirmValidity === 'invalid'" class="text-rose-600">비밀번호를 동일하게 입력해주세요.</p>
                 <div>
-                    <button type="submit" @focus="validateInputField" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40">가입</button>
+                    <button type="submit" :class="{'bg-opacity-100' : inputFieldValidity === 'valid'}" class="focus:outline-none bg-blue-500 font-semibold text-sm text-center text-white rounded py-1 mt-2 w-full bg-opacity-40" @focus="validateInputField">가입</button>
                 </div>
             </div>
         </form>  
@@ -81,7 +81,6 @@ export default {
             userPwCheckValidity: 'pending',
             //아이디 수정
             loginIdCheckValidity: 'pending',
-            loginIdValidity: 'pending'
         }
     },
     methods: {
@@ -96,8 +95,7 @@ export default {
             if (this.userEmailDomain==="") {
                     alert("이메일의 도메인을 확인해주세요")
                     this.$router.signupSubmit();
-                    //this.$router.replace('/signup');
-                    
+                    //this.$router.replace('/signup');     
             }
 
             axios.post('/api/v1/member/registMember', { 

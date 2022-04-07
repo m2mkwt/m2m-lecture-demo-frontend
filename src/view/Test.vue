@@ -1,6 +1,6 @@
 <template>
     <table class="border-solid border-2 border-indigo-600">
-        <tr v-for="selectItem in selectList" v-bind:key="selectItem.post_id">
+        <tr v-for="selectItem in selectList" :key="selectItem.post_id">
             <td class="border-solid border-2 border-indigo-600">{{selectItem.postId}}</td>
             <td class="border-solid border-2 border-indigo-600">{{selectItem.memberId}}</td>
             <td class="border-solid border-2 border-indigo-600">{{selectItem.mediaId}}</td>
@@ -19,6 +19,9 @@ export default {
             selectList : []
         };
     },
+    mounted(){
+        this.getSelectAll();
+    },
     methods : {
         getSelectAll() {
             this.axios.get("http://localhost:8090/test/selectAll").then((res)=>{
@@ -30,9 +33,6 @@ export default {
                 console.log(err);
             });
         }
-    },
-    mounted(){
-        this.getSelectAll();
     },
 }
 </script>

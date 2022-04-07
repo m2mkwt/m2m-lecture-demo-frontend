@@ -2,13 +2,8 @@
     <router-view></router-view>
 </template>
 <script>
-import TheHeader from './components/layout/TheHeader.vue'
 import { store } from './store'
-
 export default {
-  components: {
-    TheHeader
-  },
   data() {
     return {
       homeActive: true,
