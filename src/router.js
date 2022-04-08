@@ -26,7 +26,7 @@ const requiresVisitor = () => (to, from, next) => {
 
 const routes = [{
         path: '/',
-        redirect: 'Login',
+        redirect: '/login',
     },
     {
         path: '/main',

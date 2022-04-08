@@ -131,6 +131,7 @@
                       disabled
                       value=""
                     >선택</option>
+
                     <option value="naver.com">naver.com</option>
                     <option value="gmail.com">gmail.com</option>
                     <option value="daum.net">daum.net</option>
@@ -351,6 +352,7 @@ export default {
           this.userEmailId = member.email.split('@')[0];
           this.userEmailDomain = member.email.split('@')[1];
           this.gender = member.gender;
+
           if (res.data.data.filename!="") {
             this.imgName = res.data.data.filename;
           }
@@ -385,6 +387,8 @@ export default {
       let reader = new FileReader();
       let img1 = event.target.files[0];
       let type = img1.type;
+      //let size = img1.size;
+
       if (this.imgData.accept.indexOf(type) == -1) {
         alert("사진을 찾을수 없습니다！");
         return false;

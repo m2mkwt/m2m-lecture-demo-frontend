@@ -1,51 +1,46 @@
 <template>
-<!-- navbar -->
-    <the-header></the-header>
-    <!-- content -->
-    <div class="bg-zinc-50 min-h-screen">
-        <div class="max-w-4xl mx-auto pt-24">
-            <div class="md:flex">
-                    <div>
-                <infinite-scroll 
-                    :message="message" 
-                    :no-result="noResult"
-                    @infinite-scroll="infiniteHandler">                            
-                            <post
-                                v-for="post in postList"
-                                :key="post.postNo"
-                                :post-no="post.postNo"
-                                :login-id="post.loginId"
-                                :content="post.content"
-                                :createdt="post.createdt"
-                                :comment-cnt="post.commentCnt"
-                                :pfilename="post.pfilename"
-                                :mfilename="post.mfilename"
-                                :like-cnt="post.likeCnt"
-                                :like-status="post.likeStatus"
-                                :member-no="post.memberNo"
-                                @childLikeEvent="changeLike"
-                                @cmtCntEvent="changeCmtCnt"
-                            ></post>
-                </infinite-scroll>
-                    </div>
-            </div>
+  <!-- navbar -->
+  <the-header></the-header>
+  <!-- content -->
+  <div class="bg-zinc-50 min-h-screen">
+    <div class="max-w-4xl mx-auto pt-24">
+      <div class="md:flex">
+        <div>
+          <infinite-scroll
+            :message="message"
+            :no-result="noResult"
+            @infinite-scroll="infiniteHandler"
+          >
+            <post
+              v-for="post in postList"
+              :key="post.postNo"
+              :post-no="post.postNo"
+              :login-id="post.loginId"
+              :content="post.content"
+              :createdt="post.createdt"
+              :comment-cnt="post.commentCnt"
+              :pfilename="post.pfilename"
+              :mfilename="post.mfilename"
+              :like-cnt="post.likeCnt"
+              :like-status="post.likeStatus"
+              :member-no="post.memberNo"
+              @child-like-event="changeLike"
+              @cmt-cnt-event="changeCmtCnt"
+            ></post>
+          </infinite-scroll>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import TheHeader from '../components/layout/TheHeader.vue'
-import TheFooter from '../components/layout/TheFooter.vue'
-import BaseDialog from '../components/ui/BaseDialog.vue'
-import BaseSpinner from '../components/ui/BaseSpinner.vue'
-import Post from '../components/post/Post.vue'
+import Post from '../components/post/PostItem.vue'
 import axios from 'axios'
 import InfiniteScroll from "infinite-loading-vue3";
 export default {
     components: {
         TheHeader,
-        TheFooter,
-        BaseDialog,
-        BaseSpinner,
         InfiniteScroll,
         Post,
     },
@@ -71,7 +66,7 @@ export default {
             console.log('postNo :', postNo)
             console.log('delYn :', delYn)
             console.log('likeCnt :', likeCnt)
-            this.postList.forEach(function(item,index) {
+            this.postList.forEach(function(item) {
                 const likeStatus = (delYn === 'N') ? true:false
                 console.log('item.postNo :', item.postNo)
 
@@ -85,7 +80,7 @@ export default {
         changeCmtCnt(postNo,cmtCnt){
             console.log('postNo :', postNo)
             console.log('cmtCnt :', cmtCnt)
-            this.postList.forEach(function(item,index) {
+            this.postList.forEach(function(item) {
                 console.log('item.postNo :', item.postNo)
 
                 if (item.postNo == postNo) {
@@ -117,7 +112,7 @@ export default {
                     if (res.data.data) {
                         let _data = res.data.data;
                         if(_data.length) {
-                            _data.forEach(function(item,index) {
+                            _data.forEach(function(item) {
                                 item.likeStatus = (item.likeFlag === 'N') ? true:false
                                 // console.log(item)
                             })
