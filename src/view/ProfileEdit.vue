@@ -352,7 +352,7 @@ export default {
           this.userEmailId = member.email.split('@')[0];
           this.userEmailDomain = member.email.split('@')[1];
           this.gender = member.gender;
-          this.userEmailDomain.value = member.email.split('@')[1];
+
           if (res.data.data.filename!="") {
             this.imgName = res.data.data.filename;
           }
@@ -388,6 +388,7 @@ export default {
       let img1 = event.target.files[0];
       let type = img1.type;
       //let size = img1.size;
+
       if (this.imgData.accept.indexOf(type) == -1) {
         alert("사진을 찾을수 없습니다！");
         return false;
@@ -415,7 +416,7 @@ export default {
           this.$router.go();
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           alert("이미지 등록이 실패 하였습니다.");
         });
     },
