@@ -176,7 +176,7 @@ export default {
                 alert('댓글이 정상적으로 수정되었습니다.')
                 this.$refs.commentCont.blur()
                 this.commentList = res.data.data;
-                this.contentComment = ''
+                //this.contentComment = ''
                 console.log('list',  this.commentList)
                 //this.postNo = res.data.postNo;
             }).catch(err => {
